@@ -38,15 +38,17 @@ transform ripos:
 init python:
     def live2d_there(characterFold):
         return renpy.loadable(f"Live2D/{characterFold}/{characterFold}.model3.json")
-    def Live2Ds(*args, charFold, gend, fallback = Placeholder(base = gend,text="No Live2D"),**kwargs)
-        if renpy.has_live2d() and live2dthere(charFold):
+    def Live2Ds(*args, charFold, fallback = Placeholder(base = "girl", text="No Live2D"),**kwargs):
+        if renpy.has_live2d() and live2d_there(charFold):
             return Live2D(*args,**kwargs)
         else:
             return fallback
-image bg_room = Placeholder("bg",,,"room")
-image playerf = Live2Ds("Live2D/Playerf", "Playerf", "girl",  base=.6,aliases={"idle":"m01","avf":"bibac"})
-image playerm = Live2Ds("Live2D/Playerm", "Playerm", "boy", base=.6,aliases={"idle":"m01","avf":"bibac"})
-image dmp = Live2Ds("Live2D/dmpc", "dmpc", "girl", base=.6,aliases={"idle":"m01","avf":"bibac"})
+image bg_room = Placeholder("bg",text = "room")
+#image player = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
+image playerf = Live2Ds("Live2D/Playerf", charFold = "Playerf", fallback = Placeholder(base = "girl", text = "Player"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
+image playerm = Live2Ds("Live2D/Playerm", charFold = "Playerm", fallback = Placeholder(base = "boy", text = "Player"), base=.6,aliases={"idle":"m01","avf":"bibac"})
+image dmp = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
+# Bibac means biblically accurate, aka Avatar form, and as such is only necessary for the player and dmpc
 default dmpcFavor = 0.0
 default r1Love = 0.0
 default r2Love = 0.0
@@ -66,7 +68,8 @@ label start:
     # images directory to show it.
 
     scene bg_room
-    play music "audio/Main_BGM.wav"
+    # play music "audio/Main_BGM.wav"
+    play music "Main_BGM.ogg"
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
@@ -117,26 +120,35 @@ label start:
         "No":
             jump start
 label cselect:
-    #show playerf idle at lefpos
-    #show playerm idle at ripos
+    show playerf idle at lefpos
+    show playerm idle at ripos
+    $ fem = True
     menu:
         "Which player character do you prefer?"
         "1(Left)":
-            image player = playerf
-            # Bibac means biblically accurate, aka Avatar form, and as such is only necessary for the player and dmpc
+            $ fem = True
+            
         "2(Right)":
-            image player = playerm
+            $ fem = False
+    image player = ConditionSwitch("fem == True", "playerf", "True", "playerm")
     jump begin
 label begin:
     scene bg_classroom
-    #show player idle at lefpos
-    #show dmp idle at ripos
+    if (live2d_there("Playerm") or live2d_there("Playerf")):
+        show player idle at lefpos
+    else:
+        show player at lefpos
+    if (live2d_there("dmp")):
+        show dmp idle at ripos
+    else:
+        show dmp at ripos
+    
     dmpc "Hi there, [pname]!"
     dmpc "Welcome to the Laventhyrian Institute for Secondary Education! This is the leading institution for the education of the citizens of Laventhyria."
     dmpc "It is primarily attended by the Laventhyrian nobility. In some exceptional cases, those without a noble background have been admitted, but that is exceedingly rare."
     dmpc "But enough about the school! I'm [dname]. It's very nice to meet you, [pname]! "
     menu:
-        "Likewise":
+        "Likewise.":
             dmpc "Short and to the point, I see! I'm sure you'll fit right in here!"
         "I, too, am eager to begin my studies at this institution.":
             dmpc "Wow, a bit formal for talking to a fellow student, huh? I suppose we did just meet, though, so it's only understandable."
@@ -152,7 +164,7 @@ label begin:
                 "Black stripe?":
                     dmpc "Black stripe asexual. It means that I don't feel any sexual attraction at all."
                     dmpc "As for aegoromantic, it means that I like to experience romance vicariously (so like through books) but I don't feel any romantic attraction in real life, nor do I have any interest in engaging in a romantic relationship."
-                    dmpc "I think there're some people who're aegoromantice and feel some romantic attraction, but since I'm not one of them, I can't quite speak on their experiences."
+                    dmpc "I think there're some people who're aegoromantic and feel some romantic attraction, but since I'm not one of them, I can't quite speak on their experiences."
                     dmpc "Aroace covers experiencing little to no romantic and sexual attraction, but since both aromanticism and asexuality are spectra with people who experience differing levels of various kinds attraction in different situations, I like to clarify."
             $ aroaceRouteStarted = true
             jump aroaceRoute
