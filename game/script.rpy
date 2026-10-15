@@ -43,7 +43,7 @@ init python:
             return Live2D(*args,**kwargs)
         else:
             return fallback
-
+image bg_room = Placeholder("bg",,,"room")
 image playerf = Live2Ds("Live2D/Playerf", "Playerf", "girl",  base=.6,aliases={"idle":"m01","avf":"bibac"})
 image playerm = Live2Ds("Live2D/Playerm", "Playerm", "boy", base=.6,aliases={"idle":"m01","avf":"bibac"})
 image dmp = Live2Ds("Live2D/dmpc", "dmpc", "girl", base=.6,aliases={"idle":"m01","avf":"bibac"})
