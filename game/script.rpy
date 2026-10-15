@@ -35,9 +35,18 @@ transform lefpos:
 transform ripos:
     xalign 1.0
     yalign 0.125
-#image playerf = Live2D("Live2D/Playerf",base=.6,aliases={"idle":"m01":"bibac"})
-#image playerm = Live2D("Live2D/playerm",base=.6,aliases={"idle":"m01":"bibac"})
-#image dmp = Live2D("Live2D/dmpc",base=.6,aliases={"idle":"m01":bibac})
+init python:
+    def live2d_there(characterFold):
+        return renpy.loadable(f"Live2D/{characterFold}/{characterFold}.model3.json")
+    def Live2Ds(*args, charFold, gend, fallback = Placeholder(base = gend,text="No Live2D"),**kwargs)
+        if renpy.has_live2d() and live2dthere(charFold):
+            return Live2D(*args,**kwargs)
+        else:
+            return fallback
+
+image playerf = Live2Ds("Live2D/Playerf", "Playerf", "girl",  base=.6,aliases={"idle":"m01","avf":"bibac"})
+image playerm = Live2Ds("Live2D/Playerm", "Playerm", "boy", base=.6,aliases={"idle":"m01","avf":"bibac"})
+image dmp = Live2Ds("Live2D/dmpc", "dmpc", "girl", base=.6,aliases={"idle":"m01","avf":"bibac"})
 default dmpcFavor = 0.0
 default r1Love = 0.0
 default r2Love = 0.0
@@ -113,12 +122,10 @@ label cselect:
     menu:
         "Which player character do you prefer?"
         "1(Left)":
-            pass
-            #image player = Live2D("Live2D/Playerf",base=.6,aliases={"idle":"m01":"bibac"})
+            image player = playerf
             # Bibac means biblically accurate, aka Avatar form, and as such is only necessary for the player and dmpc
         "2(Right)":
-            #image player = Live2D("Live2D/Playerm",base=.6,aliases={"idle":"m01":"bibac"})
-            pass
+            image player = playerm
     jump begin
 label begin:
     scene bg_classroom
@@ -149,7 +156,7 @@ label begin:
                     dmpc "Aroace covers experiencing little to no romantic and sexual attraction, but since both aromanticism and asexuality are spectra with people who experience differing levels of various kinds attraction in different situations, I like to clarify."
             $ aroaceRouteStarted = true
             jump aroaceRoute
-        jump classes
+    jump classes
 label aroaceRoute:
     if aroaceRouteStarted:
         dmpc "People being openly aroace and accepted for it hasn't been around that long in Laventhyria, sadly. It was only within the last couple centuries that people began to actually allow us to be ourselves."
@@ -158,21 +165,24 @@ label aroaceRoute:
         dmpc "But then..."
         if gbRouteStarted:
             dmpc "As a young person was being forced to be wed, a voice came from far above."
+            scene bg_city with dis
+            g "This person is one of my chosen. If you continue to act against my and their wishes, I shall ensure that the consequences will be painful."
+
 
         else:
             dmpc "Oh, sorry, I must be boring you with all my rambling. I can just get like that sometimes, especially when it's something that I'm super interested in or passionate about."
             menu:
-                "Oh, no, it's fine."
-                dmpc "No, really, you don't have to be so kind!"
-                dmpcFavor += 0.01
-                "Yeah, I was getting a bit bored."
-                dmpc "Jeez, I know I said it, but you don't have to be that blunt about it!"
-                dmpcFavor -= 0.1
-                "I actually found it really interesting!"
-                dmpc "Wait, really? You don't have to lie to me if you didn't!"
-                dmpc "Hmm... I find that your heart aligns with these words."
-                dmpc "I have to resume the tour for now, but if you want to hear about it another time, come talk to me during break time! If you want, I can tell you all about the history of aroace people here!"
-                dmpcFavor += 0.1
+                "Oh, no, it's fine.":
+                    dmpc "No, really, you don't have to be so kind!"
+                    $ dmpcFavor += 0.01
+                "Yeah, I was getting a bit bored.":
+                    dmpc "Jeez, I know I said it, but you don't have to be that blunt about it!"
+                    $ dmpcFavor -= 0.1
+                "I actually found it really interesting!":
+                    dmpc "Wait, really? You don't have to lie to me if you didn't!"
+                    dmpc "Hmm... I find that your heart aligns with these words."
+                    dmpc "I have to resume the tour for now, but if you want to hear about it another time, come talk to me during break time! If you want, I can tell you all about the history of aroace people here!"
+                    $ dmpcFavor += 0.1
             jump classes
 label classes:
     dmpc "Anyway, this school's a boarding school"
