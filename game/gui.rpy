@@ -58,6 +58,7 @@ define gui.interface_text_color = '#ffffff'
 
 ## The font used for in-game text.
 define gui.text_font = "DejaVuSans.ttf"
+define gui.alt_font = "fonts/NotoSerifDisplay-VariableFont_wdth,wght.ttf"
 
 ## The font used for character names.
 define gui.name_text_font = "DejaVuSans.ttf"

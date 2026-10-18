@@ -48,7 +48,19 @@ image bg_room = Placeholder("bg",text = "room")
 image playerf = Live2Ds("Live2D/Playerf", charFold = "Playerf", fallback = Placeholder(base = "girl", text = "Player"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
 image playerm = Live2Ds("Live2D/Playerm", charFold = "Playerm", fallback = Placeholder(base = "boy", text = "Player"), base=.6,aliases={"idle":"m01","avf":"bibac"})
 image dmp = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
+image alf = Live2Ds("Live2D/alf", charFold = "alf", fallback = Placeholder(base = "girl", text = "Alva"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
+image alm = Live2Ds("Live2D/alm", charFold = "alm", fallback = Placeholder(base = "boy", text = "Alva"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
+image gwf = Live2Ds("Live2D/gwf", charFold = "gwf", fallback = Placeholder(base = "girl", text = "Gwynedd"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
+image gwm = Live2Ds("Live2D/gwm", charFold = "gwm", fallback = Placeholder(base = "boy", text = "Gwynedd"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
+image hof = Live2Ds("Live2D/hof", charFold = "hof", fallback = Placeholder(base = "girl", text = "Hoshi"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
+image hom = Live2Ds("Live2D/hom", charFold = "hom", fallback = Placeholder(base = "boy", text = "Hoshi"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
 # Bibac means biblically accurate, aka Avatar form, and as such is only necessary for the player and dmpc
+define als = renpy.random.random()*2
+define gws = renpy.random.random()*2
+define hos = renpy.random.random()*2
+image al = ConditionSwitch("als > 1", "alf", "True", "alm")
+image gw = ConditionSwitch("gws > 1", "gwf", "True", "gwm")
+image ho = ConditionSwitch("hos > 1", "hof", "True", "hom")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
 default dmpcFavor = 0.0
@@ -212,16 +224,14 @@ label classes:
     dmpc "Yeah! Back to the explanation!"
     dmpc "I'm guessing the common people aren't particularly happy about how the nobles get to live it up in this palace off their taxes."
     dmpc "Technically, anyone can attend nowadays, but it's pretty rare to see a commoner here.\nBasically, there's a system where the next class is chosen every year by a random wheel. Five hundred seats."
-    dmpc "So in theory, you might think that everyone has an equal shot at attending, right? Well, that's where donations come in. See, if someone donates sufficient money to the school, that grants their child or children of choice a seat. From the five hundred, of course."
-    dmpc "Every ten years, the monarchs and upper nobility conduct a census of the assets held by houses, noble and common, across Laventhyria. If a noble house's net worth falls below ten million levants, ₷10,000,000, their noble holdings and status are revoked and they become commoners."
-    dmpc "Meanwhile, if a common house's assets rise above ₷100,000,000, they are made into a noble house and granted lands from royal land holdings."
-    dmpc "It's a pretty good way for the monarchy to keep the nobles and wealthy commoners alike in check and in their service, don't you think? Nobles mustn't grow excessively indulgent or complacent, or they may fall below the threshold and lose their status." 
-    dmpc "Meanwhile, wealthy commoners who could threaten the status quo become nobility and must enforce it to keep their lands. Plus, there's a nice gift of land to gain their alleigance. All tied up nicely, don't you think?"
-    dmpc "Of course, I doubt the commoners are too happy with that."
-    dmpc "Come to think of it, I think I've heard rumors about some kind of insurgence within Laventhyria. Some kind of 'Revolutionary Pirate Order', which goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
+    dmpc "So in theory, you might think that everyone has an equal shot at attending, right? Well, that's where donations come in."
+    dmpc "See, if someone donates sufficient money, about a hundred thousand levants, or {font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}\u20B7{/font}100,000, to the school, that grants their child or children of choice a seat. From the five hundred, of course."
+    dmpc "And even then, any children that they haven't chosen still have a shot at a seat. So they say it's super exclusive and all, but really, it's a noble children's romping ground. At least, that's what the newspapers that try to rile up the commoners say."
+    dmpc "Come to think of it, I think I've heard rumors about some kind of insurgence within Laventhyria. Some kind of 'Revolutionary Pirate Order' that goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
     dmpc "Oh, whoops, I've gotten myself sidetracked again! Hey, if you feel like I'm getting sidetracked, you can tell me and I'll get back on task! Of course, if you want to listen to me yap, that's all fine and dandy too!"
     play sound "Achievement.ogg"
-    show taskinator with dis at genpos
+    show taskinator at genpos
+    with dis
     if (live2d_there("Playerm") or live2d_there("Playerf")):
         hide player idle with dis
     else:
@@ -234,25 +244,44 @@ label classes:
     "When someone goes off on a ramble, you can get them back on task with this! Be warned, though. If you use it too much, they'll think you don't care about them and like you less in turn."
     hide taskinator with dis
     if (live2d_there("Playerm") or live2d_there("Playerf")):
-        show player idle with dis at leftpos
+        show player idle at lefpos
+        with dis
     else:
-        show player with dis at leftpos
+        show player at lefpos
+        with dis
     if (live2d_there("dmp")):
-        show dmp idle with dis at ripos
+        show dmp idle at ripos
+        with dis
     else:
-        show dmp with dis at ripos
+        show dmp at ripos
+        with dis
     dmpc "Hey! Hello?"
     dmpc "Ah, you're back!"
     dmpc "What even happened?"
     menu:
         "I saw this bright light...":
-            pass
+            dmpc "What a bizarre occurence..."
         "A divine intervention...?":
-            pass
+            if (live2d_there("dmp")):
+                show dmp excited at ripos
+                with dis
+            dmpc "DID YOU SEE THE GARLIC-"
+            if (live2d_there("dmp")):
+                show dmp excited at ripos
+                with dis
+            dmpc "I apologize for my earlier lack of composure."
         "I heard this weird sound...":
-            pass
+            dmpc "Is there a g-ghost around here?"
         "I got this strange item...":
             dmpc "Are you sure you're not hallucinating? I don't see anything here..."
+    dmpc "Bizarre hauntings aside, I think I still have a bit to tell you!"
+    dmpc "Since our school building is the old palace of the Skorgmiloquis monarchs, we have plenty of rooms available. At least a hundred, I think. That, along with the demands of nobles for greater attention to their kids, has led to the school having a class size of ten."
+    dmpc "During break periods, however, you may wander the school as you please. This, too, was a demand from the nobles, as they felt the school needed to be more enriching for their children."
+    dmpc "The rooftop's locked because some kid decided to walk up there and lean over the balcony, and then a noble kid without a shred of sense pushed them off the railing 'as a practical joke'."
+    dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid just happened to be a commoner."
+    dmpc "What a world we live in, right?"
+    dmpc "Well, anyway, it's locked and they've put up giant wire to stop any more people from falling to their deaths, and it's locked normally. A little-known secret, however, is that the lock's so old and broken that if you poke it right it'll open up."
+    
 
 
 

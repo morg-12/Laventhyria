@@ -1,0 +1,12 @@
+For lore to be used later
+dmpc "Every ten years, the monarchs and upper nobility conduct a census of the assets held by houses, noble and common, across Laventhyria. If a noble house's net worth falls below ten million levants, ₷10,000,000, their noble holdings and status are revoked and they become commoners."
+dmpc "Meanwhile, if a common house's assets rise above ₷100,000,000, they are made into a noble house and granted lands from royal land holdings."
+dmpc "It's a pretty good way for the monarchy to keep the nobles and wealthy commoners alike in check and in their service, don't you think? Nobles mustn't grow excessively indulgent or complacent, or they may fall below the threshold and lose their status." 
+dmpc "Meanwhile, wealthy commoners who could threaten the status quo become nobility and must enforce it to keep their lands. Plus, there's a nice gift of land to gain their alleigance. All tied up nicely, don't you think?"
+dmpc "Of course, I doubt the commoners are too happy with that." 
+Lore topic: Monarchy and the noble census
+Should be redistributed across the game, rather than infodumped.
+Skorgmiloquis monarchs:
+The Skorgmiloquis regime was the old monarchy that ruled over what is now Laventhyria. Though they were popular when they came to power, long wars, high taxes, tariffs, conscription, and demanding excessive tribute of their vassals turned the nobility and the common people alike against them.
+The Levant family was a wealthy merchant house at the time. In the revolt against the house of Skorg-Miloquis and their regime, the Levants ended their trade with loyalists to the house and increased trading with the revolutionaries, securing them a seat at the Assembly after the regime's fall.
+They suggested that the new land be called Levanthyria, 
