@@ -1,5 +1,4 @@
 ﻿# The script of the game goes in this file.
-
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 $ config.menu_include_disabled = true
@@ -70,13 +69,16 @@ default r3Love = 0.0
 default gbFavor = 0.0
 init python:
 
-    Class Char(object):
-        image ima = None
+    class Char:
+        ima  = None
         taskNum = 0
         genChooser = 0
         aff = 0.0
-        def __init__(self, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass):
+        idNum = ""
+        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass):
             self.name = name
+            self.idNum = idNum
+            # Used as a unique identification number to differentiate between models of the same name
             self.filepath = filepath
             self.gen = gen
             # gen is a string that is "boy" or "girl"
@@ -97,11 +99,11 @@ init python:
                     charm = Live2Ds(filem, charFold = foldm, fallback = Placeholder(base = "boy", text = self.name),base=self.bass,aliases = self.alia)
                     charf = Live2Ds(filef, charFold = foldf, fallback = Placeholder(base = "girl", text = self.name),base=self.bass,aliases = self.alia)
                     genChooser = renpy.random.random()*2
-                    self.ima = ConditionSwitch("self.genChooser > 1", "charf","True", "charm")
+                    self.ima = ConditionSwitch("self.genChooser > 1", charf,"True", charm)
                 else:
                     self.ima = Live2Ds(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia)
-                else:
-                    self.ima = self.filepath
+            else:
+                self.ima = self.filepath
         def taskHandler() -> str:
             response = ""
             match self.taskNum:
@@ -124,9 +126,9 @@ init python:
         def show(self,aliWanted,pos,wi,hasTrans):
             if (self.isL2D and live2d_there(self.folder)):
                 nam = self.name + " " + aliWanted
-                renpy.show(nam, at_list = [pos],what = self.ima)
+                renpy.show(nam, at_list = [pos],what = self.ima,tag="char_"+self.idNum)
             else:
-                renpy.show(self.name, at_list = [pos],what=self.ima)
+                renpy.show(self.name, at_list = [pos],what=self.ima,tag="char_"+self.idNum)
             if(hasTrans):
                 renpy.with_statement(wi)
         def hide(self,wi,hasTrans):
@@ -136,6 +138,7 @@ init python:
                 
 define false = False
 define true = True
+define none = None
 default aroaceRouteStarted = false
 default gbRouteStarted = false
 
@@ -154,15 +157,15 @@ label start:
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
-    $ dmp = Char("girl",dname,"Live2D/dmpc","dmpc",True, False,True,.6)
-    $ al = Char("", "Alva", "Live2D/al","al",True, True,False,.6)
-    $ gw = Char("","Gwynedd","Live2D/gw","gw",True,True,False,.6)
-    $ ho = Char("","Hoshi","Live2D/ho","ho",True,True,False,.6)
-    $ gb = Char("","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6)
+    $ dmp = Char("001","girl",dname,"Live2D/dmpc","dmpc",True, False,True,.6)
+    $ al = Char("002","", "Alva", "Live2D/al","al",True, True,False,.6)
+    $ gw = Char("003","","Gwynedd","Live2D/gw","gw",True,True,False,.6)
+    $ ho = Char("004","","Hoshi","Live2D/ho","ho",True,True,False,.6)
+    $ gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6)
     $ pname = renpy.input("What would you like to name your character?")
     $ p = Character(pname)
-    $ playerf = Char("girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6)
-    $ playerm = Char("boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6)
+    $ playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6)
+    $ playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6)
     
     menu: 
         "What pronouns would you like to use for your character?"
@@ -209,8 +212,11 @@ label start:
         "No":
             jump start
 label cselect:
-    $ playerf.show("idle",lefpos,dis,True)
+    $ playerf.show("idle",lefpos,dis,true)
+    "This is the first of the player character options."
     $ playerm.show("idle",ripos,dis,true)
+    "This is the second."
+    $ playerm.hide(dis, true)
     menu:
         "Which player character do you prefer?"
         "1(Left)":
@@ -223,21 +229,26 @@ label begin:
     image bg_hallway = Placeholder("bg","Hallway")
     # placeholder for until the hallway asset is made.
     scene bg_hallway
-    $ player.show("idle",lefpos,dis,True)
-    $ dmp.show("idle",ripos,dis,True)
+    $ player.hide(dis,true)
+    $ dmp.show("idle",genpos,dis,True)
     
     dmpc "Hi there, [pname]!"
     dmpc "Welcome to the Laventhyrian Institute for Secondary Education! This is the leading institution for the education of the citizens of Laventhyria."
     dmpc "It is primarily attended by the Laventhyrian nobility. In some exceptional cases, those without a noble background have been admitted, but that is exceedingly rare."
     dmpc "But enough about the school! I'm [dname]. It's very nice to meet you, [pname]! "
+    $ dmp.show("idle",ripos,dis,True)
     menu:
         "Likewise.":
+            $ dmp.show("idle",genpos,dis,True)
             dmpc "Short and to the point, I see! I'm sure you'll fit right in here!"
         "I, too, am eager to begin my studies at this institution.":
+            $ dmp.show("idle",genpos,dis,True)
             dmpc "Wow, a bit formal for talking to a fellow student, huh? I suppose we did just meet, though, so it's only understandable."
             dmpc "Not to worry, though! I'm sure you'll be feeling a bit more comfortable soon enough."
         "It is as nice to meet you as it is to see you, and I am sure many would agree.":
+            $ dmp.show("idle",genpos,dis,True)
             dmpc "Quite the charmer, aren't we? Unfortunately for you, I'm aromantic and asexual, or what they would call aroace. Well, more specifically, I'm aegoromantic and black stripe asexual."
+            $ dmp.show("idle",ripos,dis,True)
             menu:
                 "Aego-what now?":
                     dmpc "Aegoromantic. It means that I like experiencing romance vicariously (so like through books and stuff), but I don't feel any romantic attraction in real life, nor do I have any interest in engaging in a romantic relationship."
@@ -250,8 +261,9 @@ label begin:
                     dmpc "I think there're some people who're aegoromantic and feel some romantic attraction, but since I'm not one of them, I can't quite speak on their experiences."
                     dmpc "Aroace covers experiencing little to no romantic and sexual attraction, but since both aromanticism and asexuality are spectra with people who experience differing levels of various kinds attraction in different situations, I like to clarify."
             $ aroaceRouteStarted = true
+            $ dmp.show("idle",genpos,dis,True)
             jump aroaceRoute
-    jump classes
+    jump schooltour
 label aroaceRoute:
     if aroaceRouteStarted:
         dmpc "People being openly aroace and accepted for it hasn't been around that long in Laventhyria, sadly. It was only within the last couple centuries that people began to actually allow us to be ourselves."
@@ -264,10 +276,9 @@ label aroaceRoute:
             # placeholder for until the city asset is finished
             scene bg_city with dis
             g "This person is one of my chosen. If you continue to act against my and their wishes, I shall ensure that the consequences will be painful."
-
-
         else:
             dmpc "Oh, sorry, I must be boring you with all my rambling. I can just get like that sometimes, especially when it's something that I'm super interested in or passionate about."
+            $ dmp.show("idle",ripos,dis,True)
             menu:
                 "Oh, no, it's fine.":
                     dmpc "No, really, you don't have to be so kind!"
@@ -280,8 +291,9 @@ label aroaceRoute:
                     dmpc "Hmm... I find that your heart aligns with these words."
                     dmpc "I have to resume the tour for now, but if you want to hear about it another time, come talk to me during break time! If you want, I can tell you all about the history of aroace people here!"
                     $ dmp.aff += 0.1
-            jump classes
-label classes:
+            jump schooltour
+label schooltour:
+    $ dmp.show("idle",genpos,dis,True)
     dmpc "Anyway, this school's a boarding school, so you'll be living here. However, you will be granted your own room, as is tradition."
     dmpc "You know, since this school was originally made for noble children and they would often demand their own rooms, and the school's funded by the government and nobility, so the school can afford it."
     dmpc "Oh, yeah! I tend to refer to this school as 'the school' when I'm talking. Less annoyingly long than 'The Laventhyrian Institute for Secondary Education'. Just wanted to clarify that."
@@ -297,43 +309,28 @@ label classes:
     play sound "Achievement.ogg"
     show taskinator at genpos
     with dis
-    $ player.hide(dis,True)
-    $ player.hide(dis,True)
+    $ dmp.hide(dis,True)
     "Unlocked Taskbringer!"
     "When someone goes off on a ramble, you can get them back on task with this! Be warned, though. If you use it too much, they'll think you don't care about them and like you less in turn."
     hide taskinator with dis
-    $ player.show()
-    if (live2d_there("Playerm") or live2d_there("Playerf")):
-        show player.ima idle at lefpos
-        with dis
-    else:
-        show player.ima at lefpos
-        with dis
-    if (live2d_there("dmp")):
-        show dmp.ima idle at ripos
-        with dis
-    else:
-        show dmp.ima at ripos
-        with dis
+    $ dmp.show("idle",genpos,dis,true)
     dmpc "Hey! Hello?"
     dmpc "Ah, you're back!"
     dmpc "What even happened?"
+    $ dmp.show("idle",ripos,dis,True)
     menu:
         "I saw this bright light...":
             dmpc "What a bizarre occurence..."
         "A divine intervention...?":
-            if (live2d_there("dmp")):
-                show dmp.ima excited at ripos
-                with dis
+            $dmp.show("excited",genpos,dis,true)
             dmpc "DID YOU SEE THE GARLIC-"
-            if (live2d_there("dmp")):
-                show dmp.ima idle at ripos
-                with dis
+            $ dmp.show("idle",genpos, dis, True)
             dmpc "I apologize for my earlier lack of composure."
         "I heard this weird sound...":
             dmpc "Is there a g-ghost around here?"
         "I got this strange item...":
             dmpc "Are you sure you're not hallucinating? I don't see anything here..."
+    $ dmp.show("idle",genpos,dis,True)
     dmpc "Bizarre hauntings aside, I think I still have a bit to tell you!"
     dmpc "Since our school building is the old palace of the Skorgmiloquis monarchs, we have plenty of rooms available. At least a hundred, I think. That, along with the demands of nobles for greater attention to their kids, has led to the school having a class size of ten."
     dmpc "During break periods, however, you may wander the school as you please. This, too, was a demand from the nobles, as they felt the school needed to be more enriching for their children."
@@ -342,7 +339,7 @@ label classes:
     menu:
         "Would you like to use the Taskbringer?"
         "Yes":
-            $ taskHandler()
+            $ dmp.taskHandler()
         "No":
             dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
             dmpc "What a world we live in, right?"
@@ -351,4 +348,7 @@ label classes:
     dmpc "So if you wanna do something {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}in secret{/font}, that's the place ~"
     dmpc "You didn't hear that from me, though!"
     dmpc "Well, I think that's about it for the tour, so feel free to go back to your room and sle-"
-    dmpc "Wait, I just realized "
+    dmpc "Wait, I just realized that you don't know the school's scheduling yet!"
+    dmpc "Oh, how could I forget? Well, the school runs on a quarter system for each year, meaning that you'll be learning over the course of four four-week periods."
+    dmpc "It's a bit intense, but that's just life, huh? After all, you {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}are{/font} at probably the most prestigious school in the nation, so it makes sense that it might be a bit on the intense side."
+    
