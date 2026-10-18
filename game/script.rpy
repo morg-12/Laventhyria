@@ -49,11 +49,14 @@ image playerf = Live2Ds("Live2D/Playerf", charFold = "Playerf", fallback = Place
 image playerm = Live2Ds("Live2D/Playerm", charFold = "Playerm", fallback = Placeholder(base = "boy", text = "Player"), base=.6,aliases={"idle":"m01","avf":"bibac"})
 image dmp = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
 # Bibac means biblically accurate, aka Avatar form, and as such is only necessary for the player and dmpc
+image taskinator = "images/Taskbringer.png"
+image gbr = "images/Garlic_Bread.png"
 default dmpcFavor = 0.0
 default r1Love = 0.0
 default r2Love = 0.0
 default r3Love = 0.0
 default gbFavor = 0.0
+default taskUses = 0
 define false = False
 define true = True
 default aroaceRouteStarted = false
@@ -69,6 +72,7 @@ label start:
 
     scene bg_room
     # play music "audio/Main_BGM.wav"
+    
     play music "Main_BGM.ogg"
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
@@ -133,7 +137,9 @@ label cselect:
     image player = ConditionSwitch("fem == True", "playerf", "True", "playerm")
     jump begin
 label begin:
-    scene bg_classroom
+    image bg_hallway = Placeholder("bg","Hallway")
+    # placeholder for until the hallway asset is made.
+    scene bg_hallway
     if (live2d_there("Playerm") or live2d_there("Playerf")):
         show player idle at lefpos
     else:
@@ -177,6 +183,8 @@ label aroaceRoute:
         dmpc "But then..."
         if gbRouteStarted:
             dmpc "As a young person was being forced to be wed, a voice came from far above."
+            image bg_city = Placeholder("bg", "city")
+            # placeholder for until the city asset is finished
             scene bg_city with dis
             g "This person is one of my chosen. If you continue to act against my and their wishes, I shall ensure that the consequences will be painful."
 
@@ -197,7 +205,56 @@ label aroaceRoute:
                     $ dmpcFavor += 0.1
             jump classes
 label classes:
-    dmpc "Anyway, this school's a boarding school"
+    dmpc "Anyway, this school's a boarding school, so you'll be living here. However, you will be granted your own room, as is tradition."
+    dmpc "You know, since this school was originally made for noble children and they would often demand their own rooms, and the school's funded by the government and nobility, so the school can afford it."
+    dmpc "Oh, yeah! I tend to refer to this school as 'the school' when I'm talking. Less annoyingly long than 'The Laventhyrian Institute for Secondary Education'. Just wanted to clarify that."
+    dmpc "Sooooo..."
+    dmpc "Yeah! Back to the explanation!"
+    dmpc "I'm guessing the common people aren't particularly happy about how the nobles get to live it up in this palace off their taxes."
+    dmpc "Technically, anyone can attend nowadays, but it's pretty rare to see a commoner here.\nBasically, there's a system where the next class is chosen every year by a random wheel. Five hundred seats."
+    dmpc "So in theory, you might think that everyone has an equal shot at attending, right? Well, that's where donations come in. See, if someone donates sufficient money to the school, that grants their child or children of choice a seat. From the five hundred, of course."
+    dmpc "Every ten years, the monarchs and upper nobility conduct a census of the assets held by houses, noble and common, across Laventhyria. If a noble house's net worth falls below ten million levants, ₷10,000,000, their noble holdings and status are revoked and they become commoners."
+    dmpc "Meanwhile, if a common house's assets rise above ₷100,000,000, they are made into a noble house and granted lands from royal land holdings."
+    dmpc "It's a pretty good way for the monarchy to keep the nobles and wealthy commoners alike in check and in their service, don't you think? Nobles mustn't grow excessively indulgent or complacent, or they may fall below the threshold and lose their status." 
+    dmpc "Meanwhile, wealthy commoners who could threaten the status quo become nobility and must enforce it to keep their lands. Plus, there's a nice gift of land to gain their alleigance. All tied up nicely, don't you think?"
+    dmpc "Of course, I doubt the commoners are too happy with that."
+    dmpc "Come to think of it, I think I've heard rumors about some kind of insurgence within Laventhyria. Some kind of 'Revolutionary Pirate Order', which goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
+    dmpc "Oh, whoops, I've gotten myself sidetracked again! Hey, if you feel like I'm getting sidetracked, you can tell me and I'll get back on task! Of course, if you want to listen to me yap, that's all fine and dandy too!"
+    play sound "Achievement.ogg"
+    show taskinator with dis at genpos
+    if (live2d_there("Playerm") or live2d_there("Playerf")):
+        hide player idle with dis
+    else:
+        hide player with dis
+    if (live2d_there("dmp")):
+        hide dmp idle with dis
+    else:
+        hide dmp with dis
+    "Unlocked Taskbringer!"
+    "When someone goes off on a ramble, you can get them back on task with this! Be warned, though. If you use it too much, they'll think you don't care about them and like you less in turn."
+    hide taskinator with dis
+    if (live2d_there("Playerm") or live2d_there("Playerf")):
+        show player idle with dis at leftpos
+    else:
+        show player with dis at leftpos
+    if (live2d_there("dmp")):
+        show dmp idle with dis at ripos
+    else:
+        show dmp with dis at ripos
+    dmpc "Hey! Hello?"
+    dmpc "Ah, you're back!"
+    dmpc "What even happened?"
+    menu:
+        "I saw this bright light...":
+            pass
+        "A divine intervention...?":
+            pass
+        "I heard this weird sound...":
+            pass
+        "I got this strange item...":
+            dmpc "Are you sure you're not hallucinating? I don't see anything here..."
+
+
 
     
     
