@@ -68,7 +68,35 @@ default r1Love = 0.0
 default r2Love = 0.0
 default r3Love = 0.0
 default gbFavor = 0.0
-default taskUses = 0
+init python:
+
+    Class Char(object):
+        image ima = None
+        taskNum = 0
+        genChooser = 0
+        def __init__(self, gen, name, filepath, folder, isGenChangeable, canBib, bass):
+            self.name = name
+            self.filepath = filepath
+            self.gen = gen
+            # gen is a string that is "boy" or "girl"
+            self.folder = folder
+            self.bass = bass
+            # usually .6, but can be customized
+            self.alia = {"idle":"m01","scared":"m02"}
+            if (canBib):
+                self.alia["avf"]="bibac"
+            if (isGenChangeable):
+                filem = filepath+"m"
+                filef = filepath+"f"
+                foldm = folder+"m"
+                foldf = folder+"f"
+                charm = Live2Ds(filem, charFold = foldm, fallback = Placeholder(base = "boy", text = self.name),base=self.bass,aliases = self.alia)
+                charf = Live2Ds(filef, charFold = foldf, fallback = Placeholder(base = "girl", text = self.name),base=self.bass,aliases = self.alia)
+                genChooser = renpy.random.random()*2
+                self.ima = ConditionSwitch("self.genChooser > 1", "charf","True", "charm")
+            else:
+                self.ima = Live2dS(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia)
+                
 define false = False
 define true = True
 default aroaceRouteStarted = false
@@ -277,15 +305,19 @@ label classes:
     dmpc "Bizarre hauntings aside, I think I still have a bit to tell you!"
     dmpc "Since our school building is the old palace of the Skorgmiloquis monarchs, we have plenty of rooms available. At least a hundred, I think. That, along with the demands of nobles for greater attention to their kids, has led to the school having a class size of ten."
     dmpc "During break periods, however, you may wander the school as you please. This, too, was a demand from the nobles, as they felt the school needed to be more enriching for their children."
-    dmpc "The rooftop's locked because some kid decided to walk up there and lean over the balcony, and then a noble kid without a shred of sense pushed them off the railing 'as a practical joke'."
-    dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid just happened to be a commoner."
-    dmpc "What a world we live in, right?"
-    dmpc "Well, anyway, it's locked and they've put up giant wire to stop any more people from falling to their deaths, and it's locked normally. A little-known secret, however, is that the lock's so old and broken that if you poke it right it'll open up."
+    dmpc "The rooftop's locked."
+    dmpc "It's apparently because some kid decided to walk up there and lean over the balcony, and then a noble kid without a shred of sense pushed them off the railing 'as a practical joke'."
+    menu:
+        "Would you like to use the Taskbringer?"
+        "Yes":
+            dmpc "Oh! Thanks for bringing me back there. I might've gone off on a whole rant or something and you would've just had to listen to me {font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}keep on talking foreeeever!{/font}"
+
+        "No":
+            dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
+            dmpc "What a world we live in, right?"
     
-
-
-
-    
-    
-
-
+    dmpc "Well, anyway, it's locked and they've put up giant wire to stop any more people from falling to their deaths. A little-known secret, however, is that the lock's so old and broken that if you poke it right it'll open up."
+    dmpc "So if you wanna do something {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}in secret{/font}, that's the place ~"
+    dmpc "You didn't hear that from me, though!"
+    dmpc "Well, I think that's about it for the tour, so feel free to go back to your room and sle-"
+    dmpc "Wait, I just realized "
