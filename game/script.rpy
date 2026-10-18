@@ -20,6 +20,10 @@ default p1adj = ""
 default p1pos = ""
 default p1flex = ""
 default p1genterm = ""
+default term = 0
+default day = 0
+default termDay = 0
+default noEep = 0
 #default pronoun2sub = ""
 #default pronoun2obj = ""
 #default pronoun2adj = ""
@@ -104,7 +108,7 @@ init python:
                     self.ima = Live2Ds(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia)
             else:
                 self.ima = self.filepath
-        def taskHandler() -> str:
+        def taskHandler(self) -> str:
             response = ""
             match self.taskNum:
                 case 0:
@@ -157,15 +161,15 @@ label start:
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
-    $ dmp = Char("001","girl",dname,"Live2D/dmpc","dmpc",True, False,True,.6)
-    $ al = Char("002","", "Alva", "Live2D/al","al",True, True,False,.6)
-    $ gw = Char("003","","Gwynedd","Live2D/gw","gw",True,True,False,.6)
-    $ ho = Char("004","","Hoshi","Live2D/ho","ho",True,True,False,.6)
-    $ gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6)
+    default dmp = Char("001","girl",dname,"Live2D/dmpc","dmpc",True, False,True,.6)
+    default al = Char("002","", "Alva", "Live2D/al","al",True, True,False,.6)
+    default gw = Char("003","","Gwynedd","Live2D/gw","gw",True,True,False,.6)
+    default ho = Char("004","","Hoshi","Live2D/ho","ho",True,True,False,.6)
+    default gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6)
     $ pname = renpy.input("What would you like to name your character?")
     $ p = Character(pname)
-    $ playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6)
-    $ playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6)
+    default playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6)
+    default playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6)
     
     menu: 
         "What pronouns would you like to use for your character?"
@@ -339,7 +343,7 @@ label schooltour:
     menu:
         "Would you like to use the Taskbringer?"
         "Yes":
-            $ dmp.taskHandler()
+            $ dmpc(dmp.taskHandler())
         "No":
             dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
             dmpc "What a world we live in, right?"
@@ -349,6 +353,68 @@ label schooltour:
     dmpc "You didn't hear that from me, though!"
     dmpc "Well, I think that's about it for the tour, so feel free to go back to your room and sle-"
     dmpc "Wait, I just realized that you don't know the school's scheduling yet!"
-    dmpc "Oh, how could I forget? Well, the school runs on a quarter system for each year, meaning that you'll be learning over the course of four four-week periods."
+    dmpc "Oh, how could I forget? Well, the school has four quarters for each year, meaning that you'll be learning over the course of four four-week periods."
     dmpc "It's a bit intense, but that's just life, huh? After all, you {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}are{/font} at probably the most prestigious school in the nation, so it makes sense that it might be a bit on the intense side."
-    
+    dmpc "So we'll be doing that, but you do also get time to hang out with your classmates!"
+    $ dmp.show("excited",genpos, dis, True)
+    dmpc "Like, for exampleeeee, me!"
+    $ dmp.show("idle",genpos, dis, True)
+    "Not too excited, are you?"
+    $ dmp.show("pout",genpos, dis, true)
+    menu:
+        "I am, though!":
+            dmpc "Wait, really?"
+            $ dmp.show("excited",genpos,dis,True)
+            dmpc "Yay! I'm super excited to be in the same class as you too!"
+            $ dmp.aff += 0.1
+        "It's just class placement, isn't it? You're a fun person, but I'm not sure if I care too much who's in my classes as long as I can learn well.":
+            dmpc "Hmph."
+            $ dmp.show("idle",genpos,dis,True)
+            dmpc "Well, I suppose that's only fair. Come to think of it, if I was in the same position, I'd probably say the same thing."
+        "Oh, nooooo, I'm sooooooo excited that you're in my class.":
+            dmpc "Rude."
+            dmpc "You know, if you keep talking to me like this, maybe I just won't talk to you anymore. How about that?"
+            $ dmp.aff -= 0.1
+    dmpc "Come on now! Off you go! Your journey through Laventhyria awaits!"
+    jump bedroom
+label bedroom:
+    image bg_bedroom = Placeholder("bg","Bedroom")
+    scene bg_bedroom
+    if (day>1):
+        menu:
+            "Another day has drawn to an end. What would you like to do now?"
+            "Sleep":
+                jump expression ("class_" + str(day)) 
+                with fade
+            "Stay up":
+                with fade
+                scene expression "/images/staying_up_late.png"
+                "You stay up until the morning doing who knows what."
+                "You're very tired."
+                "You might make some mistakes tomorrow, but at least you got that last book in, right?"
+                $ noEep += 1
+                jump expression ("class_" + str(day))
+                with fade
+    else:
+        menu:
+            "The day has drawn to an end. What would you like to do now?"
+            "Sleep":
+                $ day += 1
+                jump expression ("class_" + str(day))
+                with fade
+            "Stay up":
+                with Fade(0.5,1.0,0.5,color="#000000")
+                scene expression "/images/staying_up_late.png"
+                $ day += 1
+                "You stay up until the morning doing who knows what."
+                "You're very tired."
+                "You might make some mistakes tomorrow, but at least you got that last book in, right?"
+                $ noEep += 1
+                jump expression ("class_" + str(day))
+                with fade
+label class_1:
+    image bg_classroom = Placeholder("bg","Classroom")
+    scene bg_classroom
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Day One{/font}"
+    $ player.show("idle",genpos,dis,True)
