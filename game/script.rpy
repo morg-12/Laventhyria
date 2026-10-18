@@ -36,7 +36,7 @@ transform ripos:
     xalign 1.0
     yalign 0.125
 init python:
-    def live2d_there(characterFold):
+    def live2d_there(characterFold) -> bool:
         return renpy.loadable(f"Live2D/{characterFold}/{characterFold}.model3.json")
     def Live2Ds(*args, charFold, fallback = Placeholder(base = "girl", text="No Live2D"),**kwargs):
         if renpy.has_live2d() and live2d_there(charFold):
@@ -45,9 +45,9 @@ init python:
             return fallback
 image bg_room = Placeholder("bg",text = "room")
 #image player = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
-image playerf = Live2Ds("Live2D/Playerf", charFold = "Playerf", fallback = Placeholder(base = "girl", text = "Player"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-image playerm = Live2Ds("Live2D/Playerm", charFold = "Playerm", fallback = Placeholder(base = "boy", text = "Player"), base=.6,aliases={"idle":"m01","avf":"bibac"})
-image dmp = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
+#image playerf = Live2Ds("Live2D/Playerf", charFold = "Playerf", fallback = Placeholder(base = "girl", text = "Player"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
+#image playerm = Live2Ds("Live2D/Playerm", charFold = "Playerm", fallback = Placeholder(base = "boy", text = "Player"), base=.6,aliases={"idle":"m01","avf":"bibac"})
+#image dmp = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
 image alf = Live2Ds("Live2D/alf", charFold = "alf", fallback = Placeholder(base = "girl", text = "Alva"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
 image alm = Live2Ds("Live2D/alm", charFold = "alm", fallback = Placeholder(base = "boy", text = "Alva"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
 image gwf = Live2Ds("Live2D/gwf", charFold = "gwf", fallback = Placeholder(base = "girl", text = "Gwynedd"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
@@ -74,7 +74,8 @@ init python:
         image ima = None
         taskNum = 0
         genChooser = 0
-        def __init__(self, gen, name, filepath, folder, isGenChangeable, canBib, bass):
+        aff = 0.0
+        def __init__(self, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass):
             self.name = name
             self.filepath = filepath
             self.gen = gen
@@ -82,20 +83,56 @@ init python:
             self.folder = folder
             self.bass = bass
             # usually .6, but can be customized
-            self.alia = {"idle":"m01","scared":"m02"}
-            if (canBib):
-                self.alia["avf"]="bibac"
-            if (isGenChangeable):
-                filem = filepath+"m"
-                filef = filepath+"f"
-                foldm = folder+"m"
-                foldf = folder+"f"
-                charm = Live2Ds(filem, charFold = foldm, fallback = Placeholder(base = "boy", text = self.name),base=self.bass,aliases = self.alia)
-                charf = Live2Ds(filef, charFold = foldf, fallback = Placeholder(base = "girl", text = self.name),base=self.bass,aliases = self.alia)
-                genChooser = renpy.random.random()*2
-                self.ima = ConditionSwitch("self.genChooser > 1", "charf","True", "charm")
+            self.alia = {"idle":"m01","scared":"m02","excited":"m03","pout":"m04"}
+            self.isL2D = isL2D
+
+            if (isL2D):
+                if (canBib):
+                    self.alia["avf"]="bibac"
+                if (isGenChangeable):
+                    filem = filepath+"m"
+                    filef = filepath+"f"
+                    foldm = folder+"m"
+                    foldf = folder+"f"
+                    charm = Live2Ds(filem, charFold = foldm, fallback = Placeholder(base = "boy", text = self.name),base=self.bass,aliases = self.alia)
+                    charf = Live2Ds(filef, charFold = foldf, fallback = Placeholder(base = "girl", text = self.name),base=self.bass,aliases = self.alia)
+                    genChooser = renpy.random.random()*2
+                    self.ima = ConditionSwitch("self.genChooser > 1", "charf","True", "charm")
+                else:
+                    self.ima = Live2Ds(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia)
+                else:
+                    self.ima = self.filepath
+        def taskHandler() -> str:
+            response = ""
+            match self.taskNum:
+                case 0:
+                    response = "Oh! Thanks for bringing me back there. I might've gone off on a whole rant or something and you would've just had to listen to me {font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}keep on talking foreeeever!{/font}"
+                case 1:
+                    response = "Whoopsies! I did it again, didn't I? Silly me. Thanks for helping me keep myself in check!"
+                case 2:
+                    response = "I did it again, huh? Thanks, I guess..."
+                case 3:
+                    self.show("pout",genpos,"",False)
+                    self.aff -= .01
+                    response = "I'm starting to think you don't care about anything I'm saying..."
+                case n if n>=4:
+                    self.show("pout",genpos,"",False)
+                    self.aff -= .02*(1+0.1*n)**(n-3)
+                    response =  "Yeah, you definitely don't care about what I'm saying!"
+            self.taskNum += 1
+            return response
+        def show(self,aliWanted,pos,wi,hasTrans):
+            if (self.isL2D and live2d_there(self.folder)):
+                nam = self.name + " " + aliWanted
+                renpy.show(nam, at_list = [pos],what = self.ima)
             else:
-                self.ima = Live2dS(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia)
+                renpy.show(self.name, at_list = [pos],what=self.ima)
+            if(hasTrans):
+                renpy.with_statement(wi)
+        def hide(self,wi,hasTrans):
+            renpy.hide(self.name)
+            if(hasTrans):
+                renpy.with_statement(wi)
                 
 define false = False
 define true = True
@@ -117,8 +154,16 @@ label start:
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
+    $ dmp = Char("girl",dname,"Live2D/dmpc","dmpc",True, False,True,.6)
+    $ al = Char("", "Alva", "Live2D/al","al",True, True,False,.6)
+    $ gw = Char("","Gwynedd","Live2D/gw","gw",True,True,False,.6)
+    $ ho = Char("","Hoshi","Live2D/ho","ho",True,True,False,.6)
+    $ gb = Char("","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6)
     $ pname = renpy.input("What would you like to name your character?")
     $ p = Character(pname)
+    $ playerf = Char("girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6)
+    $ playerm = Char("boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6)
+    
     menu: 
         "What pronouns would you like to use for your character?"
         "She/her": 
@@ -164,30 +209,22 @@ label start:
         "No":
             jump start
 label cselect:
-    show playerf idle at lefpos
-    show playerm idle at ripos
-    $ fem = True
+    $ playerf.show("idle",lefpos,dis,True)
+    $ playerm.show("idle",ripos,dis,true)
     menu:
         "Which player character do you prefer?"
         "1(Left)":
-            $ fem = True
+            $ player = playerf
             
         "2(Right)":
-            $ fem = False
-    image player = ConditionSwitch("fem == True", "playerf", "True", "playerm")
+            $ player = playerm
     jump begin
 label begin:
     image bg_hallway = Placeholder("bg","Hallway")
     # placeholder for until the hallway asset is made.
     scene bg_hallway
-    if (live2d_there("Playerm") or live2d_there("Playerf")):
-        show player idle at lefpos
-    else:
-        show player at lefpos
-    if (live2d_there("dmp")):
-        show dmp idle at ripos
-    else:
-        show dmp at ripos
+    $ player.show("idle",lefpos,dis,True)
+    $ dmp.show("idle",ripos,dis,True)
     
     dmpc "Hi there, [pname]!"
     dmpc "Welcome to the Laventhyrian Institute for Secondary Education! This is the leading institution for the education of the citizens of Laventhyria."
@@ -234,15 +271,15 @@ label aroaceRoute:
             menu:
                 "Oh, no, it's fine.":
                     dmpc "No, really, you don't have to be so kind!"
-                    $ dmpcFavor += 0.01
+                    $ dmp.aff += 0.01
                 "Yeah, I was getting a bit bored.":
                     dmpc "Jeez, I know I said it, but you don't have to be that blunt about it!"
-                    $ dmpcFavor -= 0.1
+                    $ dmp.aff -= 0.1
                 "I actually found it really interesting!":
                     dmpc "Wait, really? You don't have to lie to me if you didn't!"
                     dmpc "Hmm... I find that your heart aligns with these words."
                     dmpc "I have to resume the tour for now, but if you want to hear about it another time, come talk to me during break time! If you want, I can tell you all about the history of aroace people here!"
-                    $ dmpcFavor += 0.1
+                    $ dmp.aff += 0.1
             jump classes
 label classes:
     dmpc "Anyway, this school's a boarding school, so you'll be living here. However, you will be granted your own room, as is tradition."
@@ -260,28 +297,23 @@ label classes:
     play sound "Achievement.ogg"
     show taskinator at genpos
     with dis
-    if (live2d_there("Playerm") or live2d_there("Playerf")):
-        hide player idle with dis
-    else:
-        hide player with dis
-    if (live2d_there("dmp")):
-        hide dmp idle with dis
-    else:
-        hide dmp with dis
+    $ player.hide(dis,True)
+    $ player.hide(dis,True)
     "Unlocked Taskbringer!"
     "When someone goes off on a ramble, you can get them back on task with this! Be warned, though. If you use it too much, they'll think you don't care about them and like you less in turn."
     hide taskinator with dis
+    $ player.show()
     if (live2d_there("Playerm") or live2d_there("Playerf")):
-        show player idle at lefpos
+        show player.ima idle at lefpos
         with dis
     else:
-        show player at lefpos
+        show player.ima at lefpos
         with dis
     if (live2d_there("dmp")):
-        show dmp idle at ripos
+        show dmp.ima idle at ripos
         with dis
     else:
-        show dmp at ripos
+        show dmp.ima at ripos
         with dis
     dmpc "Hey! Hello?"
     dmpc "Ah, you're back!"
@@ -291,11 +323,11 @@ label classes:
             dmpc "What a bizarre occurence..."
         "A divine intervention...?":
             if (live2d_there("dmp")):
-                show dmp excited at ripos
+                show dmp.ima excited at ripos
                 with dis
             dmpc "DID YOU SEE THE GARLIC-"
             if (live2d_there("dmp")):
-                show dmp excited at ripos
+                show dmp.ima idle at ripos
                 with dis
             dmpc "I apologize for my earlier lack of composure."
         "I heard this weird sound...":
@@ -310,8 +342,7 @@ label classes:
     menu:
         "Would you like to use the Taskbringer?"
         "Yes":
-            dmpc "Oh! Thanks for bringing me back there. I might've gone off on a whole rant or something and you would've just had to listen to me {font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}keep on talking foreeeever!{/font}"
-
+            $ taskHandler()
         "No":
             dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
             dmpc "What a world we live in, right?"
