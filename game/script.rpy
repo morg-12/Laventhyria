@@ -13,7 +13,7 @@ define r3 = Character("Hoshi")
 define unk = Character("???")
 define t = Character("Teacher")
 define dis = Dissolve(.5)
-default pname = ""
+default pname = "Insert player name here."
 default p1sub = ""
 default p1obj = ""
 default p1adj = ""
@@ -47,30 +47,8 @@ init python:
         else:
             return fallback
 image bg_room = Placeholder("bg",text = "room")
-#image player = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
-#image playerf = Live2Ds("Live2D/Playerf", charFold = "Playerf", fallback = Placeholder(base = "girl", text = "Player"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-#image playerm = Live2Ds("Live2D/Playerm", charFold = "Playerm", fallback = Placeholder(base = "boy", text = "Player"), base=.6,aliases={"idle":"m01","avf":"bibac"})
-#image dmp = Live2Ds("Live2D/dmpc", charFold = "dmpc", fallback = Placeholder(base = "girl",text = "Lily"), base=.6,aliases={"idle":"m01","avf":"bibac"})
-image alf = Live2Ds("Live2D/alf", charFold = "alf", fallback = Placeholder(base = "girl", text = "Alva"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-image alm = Live2Ds("Live2D/alm", charFold = "alm", fallback = Placeholder(base = "boy", text = "Alva"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-image gwf = Live2Ds("Live2D/gwf", charFold = "gwf", fallback = Placeholder(base = "girl", text = "Gwynedd"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-image gwm = Live2Ds("Live2D/gwm", charFold = "gwm", fallback = Placeholder(base = "boy", text = "Gwynedd"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-image hof = Live2Ds("Live2D/hof", charFold = "hof", fallback = Placeholder(base = "girl", text = "Hoshi"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-image hom = Live2Ds("Live2D/hom", charFold = "hom", fallback = Placeholder(base = "boy", text = "Hoshi"),  base=.6,aliases={"idle":"m01","avf":"bibac"})
-# Bibac means biblically accurate, aka Avatar form, and as such is only necessary for the player and dmpc
-define als = renpy.random.random()*2
-define gws = renpy.random.random()*2
-define hos = renpy.random.random()*2
-image al = ConditionSwitch("als > 1", "alf", "True", "alm")
-image gw = ConditionSwitch("gws > 1", "gwf", "True", "gwm")
-image ho = ConditionSwitch("hos > 1", "hof", "True", "hom")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
-default dmpcFavor = 0.0
-default r1Love = 0.0
-default r2Love = 0.0
-default r3Love = 0.0
-default gbFavor = 0.0
 init python:
 
     class Char:
@@ -79,6 +57,7 @@ init python:
         genChooser = 0
         aff = 0.0
         idNum = ""
+        name = " "
         def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass):
             self.name = name
             self.idNum = idNum
@@ -221,6 +200,7 @@ label cselect:
     $ playerm.show("idle",ripos,dis,true)
     "This is the second."
     $ playerm.hide(dis, true)
+    default player = Char("000","bg",pname,"Live2D/Player","Player",True,False,True,.6)
     menu:
         "Which player character do you prefer?"
         "1(Left)":
@@ -418,3 +398,31 @@ label class_1:
     "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
     "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Day One{/font}"
     $ player.show("idle",genpos,dis,True)
+    p "It's the first day of school."
+    p "And from what it sounds like, this one is pretty hardcore."
+    if (noEep=1):
+        p "I was up all night last night, and I'm not sure how well I can make it through..."
+    menu:
+        "I'm so excited for class, though!":
+            p "That's right!"
+            p "I was up all night thinking about how excited I was to meet my classmates and start my classes!"
+        "I've been dreading this...":
+            p "I was up all night worrying about how it'll go. Will they like me? What kind of people are they?"
+            p "I mean, I guess I know that Lily'll be here."
+            default word = ""
+            python:
+                match dmp.aff:
+                    case 0.2:
+                        word = "comforting."
+                    case 0.11:
+                        word = "calming."
+                    case 0.01:
+                        word = "something, I guess?"
+                    case 0:
+                        word = "okay."
+                    case -0.09:
+                        word = "irritating."
+                    case -0.2:
+                        word = "annoying."
+            $ renpy.say(p,"That's "+word)
+            
