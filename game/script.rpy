@@ -23,7 +23,8 @@ default p1genterm = ""
 default term = 0
 default day = 0
 default termDay = 0
-default noEep = 0
+default noEep = 0.0
+default eepNum = 0.0
 #default pronoun2sub = ""
 #default pronoun2obj = ""
 #default pronoun2adj = ""
@@ -41,11 +42,14 @@ transform ripos:
 init python:
     def live2d_there(characterFold) -> bool:
         return renpy.loadable(f"Live2D/{characterFold}/{characterFold}.model3.json")
-    def Live2Ds(*args, charFold, fallback = Placeholder(base = "girl", text="No Live2D"),**kwargs):
+    def Live2Ds(*args, charFold, fallback = Placeholder(base = "girl", text="No Live2D"), fallback1 = Image(""),**kwargs):
         if renpy.has_live2d() and live2d_there(charFold):
             return Live2D(*args,**kwargs)
         else:
-            return fallback
+            if (fallback1 != Image("")):
+                return fallback1
+            else:
+                return fallback
 image bg_room = Placeholder("bg",text = "room")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
@@ -58,7 +62,7 @@ init python:
         aff = 0.0
         idNum = ""
         name = " "
-        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass):
+        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, customFallback = "noFall"):
             self.name = name
             self.idNum = idNum
             # Used as a unique identification number to differentiate between models of the same name
@@ -70,7 +74,7 @@ init python:
             # usually .6, but can be customized
             self.alia = {"idle":"m01","scared":"m02","excited":"m03","pout":"m04"}
             self.isL2D = isL2D
-
+            self.customFallback = customFallback
             if (isL2D):
                 if (canBib):
                     self.alia["avf"]="bibac"
@@ -84,7 +88,7 @@ init python:
                     genChooser = renpy.random.random()*2
                     self.ima = ConditionSwitch("self.genChooser > 1", charf,"True", charm)
                 else:
-                    self.ima = Live2Ds(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia)
+                    self.ima = Live2Ds(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia, )
             else:
                 self.ima = self.filepath
         def taskHandler(self) -> str:
@@ -147,7 +151,10 @@ label start:
     default gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6)
     $ pname = renpy.input("What would you like to name your character?")
     $ p = Character(pname)
-    default playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6)
+    default playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6, customFallback = "playerf.png")
+    default fb = Transform("playerf.png", zoom = 0.6)
+    $ playerf.ima = fb
+    # temporary means by which to add a custom placeholder until I can figure out how I can do that.
     default playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6)
     
     menu: 
@@ -364,6 +371,8 @@ label bedroom:
         menu:
             "Another day has drawn to an end. What would you like to do now?"
             "Sleep":
+                if (noEep >0):
+                    $ noEep -= 0.5
                 jump expression ("class_" + str(day)) 
                 with fade
             "Stay up":
@@ -432,11 +441,12 @@ label class_1:
     scene bg_classroom
     t "All right, settle down now, class."
     t "I hope that we'll have a productive session today."
+    t "You may call me 'Your Lordship'."
     t "Today, we'll be talking about Systems of Linear equations."
     $ player.show("idle",genpos,dis,true)
     p "Hey, I think I remember that from my classes last year!"
     p "Maybe this won't be so bad."
-    scene
+    scene bg_classroom
     t "Now, I know what many of you are probably thinking."
     t "'This isn't so bad!' 'Maybe I won't have to study!' 'This is a free class!'"
     with vpunch
@@ -451,7 +461,7 @@ label class_1:
     $ player.show("idle",genpos,dis,true)
     p "WOW. Hardcore was an understatement."
     p "I don't think we'll be seeing any slackers in this class, that's for sure."
-    scene
+    scene bg_classroom
     t "Phew. I got a bit heated there. Now, let's begin our lesson. Oh, and we'll also be talking about some elementary row operations. You probably don't know what that is yet, but you will."
     t "So, I'm sure you all know what linear equations are, right?"
     t "Well, if you don't, linear equations have the form a₁x₁+a₂x₂+...+aₙxₙ=b, where a₁,...,aₙ and b are coefficients, x₁,...,xₙ are variables or unknowns, and n is the dimension, or the number of variables."
@@ -460,6 +470,7 @@ label class_1:
     t "Now, then, how many dimensions do you think 3x₁ + 2x₂ + x₃ = 6 is in?"
     $ renpy.say(t, f"Ah, the keen-eyed looking {p1genterm} in the front!")
     default ansRight = false
+    default ansExp = false
     menu: 
         "One!":
             $ ansRight = false
@@ -468,8 +479,31 @@ label class_1:
         "Three!":
             $ ansRight = true
         "3!":
-            $ ansRight = false
+            $ eepNum = renpy.random.random()
+            if(eepNum < 0.01*(2)**noEep and noEep != 0):
+                p "Three!"
+                p "{i}Curses! I messed up and said it wrong!{/i}"
+                t "Your answer is..."
+                $ ansRight = true
+                t "{size=+20}Correct!"
+            else:
+                $ ansRight = false
+                t "This one was a bit of a trick question, so I must apologize."
+                t "It does feel good seeing people fall for it, though."
+                t "Now, this isn't quite in my job description, but I'll tell you it anyway. When you put an exclamation mark after an integer, like I did with 3!, it's called a factorial and means that you multiply the integer with all the integers that come before it."
+                t "So like here, 3! = 3*2*1=6, so that's why you're wrong."
+                t "Your mind was certainly in the right place, though! Heehee!"
+                $ ansExp = true
         "N!":
             $ ansRight = false
     if (ansRight):
         t "Excellent work, young...?"
+        $ renpy.say(p,f"{pname}, Your Lordship.")
+        t "Such respect! I like that in a pupil."
+    elif (ansExp):
+        t "Teehee! Thanks for amusing me, young..."
+        $ renpy.say(p,f"{pname}, Your Lordship.")
+        t "Such respect! I like that in a pupil."
+    else:
+        t "That's not right, but I can see you were trying pretty hard there."
+        t ""

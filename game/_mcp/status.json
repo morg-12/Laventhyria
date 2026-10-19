@@ -1,1 +1,1 @@
-{"action": "heartbeat", "status": "ok", "label": "_after_load", "scene": null, "time": 1792375434.9668632}
+{"action": "heartbeat", "status": "ok", "label": "cselect", "scene": "['bg_room', 'char_006']", "time": 1792380689.987096}
