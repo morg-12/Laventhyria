@@ -477,7 +477,15 @@ label class_1:
         "Two!":
             $ ansRight = false
         "Three!":
-            $ ansRight = true
+            $ eepNum = renpy.random.random()
+            if(eepNum < 0.01*(2)**noEep and noEep != 0):
+                p "3!"
+                p "{i}Curses! I messed up and said it wrong!{/i}"
+                t "Your answer is..."
+                $ ansRight = true
+                t "{size=+20}Wrong!"
+            else:
+                $ ansRight = true
         "3!":
             $ eepNum = renpy.random.random()
             if(eepNum < 0.01*(2)**noEep and noEep != 0):
@@ -506,3 +514,7 @@ label class_1:
         t "Such respect! I like that in a pupil."
     else:
         t "That's not right, but I can see you were trying pretty hard there."
+        t "The number of variables can tell you the dimension of a linear expression. For example, if there's three variables, it's going to have three dimensions, like here."
+    t "Now, when you have a set of one or more linear equations, you've got a linear system of equations!"
+    t "The solutions of a system of linear equations are pretty important. Now, you may be wondering how we describe those solutions, or even what they are."
+    t "The set of solutions for a linear system is the set of all possible values of x₁,x₂,x₃,...,xₙ that satisfy all of the equations. Not just one, not just two, not just n-1, alllll of them."
