@@ -506,4 +506,3 @@ label class_1:
         t "Such respect! I like that in a pupil."
     else:
         t "That's not right, but I can see you were trying pretty hard there."
-        t ""
