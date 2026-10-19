@@ -400,7 +400,7 @@ label class_1:
     $ player.show("idle",genpos,dis,True)
     p "It's the first day of school."
     p "And from what it sounds like, this one is pretty hardcore."
-    if (noEep=1):
+    if (noEep==1):
         p "I was up all night last night, and I'm not sure how well I can make it through..."
     menu:
         "I'm so excited for class, though!":
@@ -409,20 +409,67 @@ label class_1:
         "I've been dreading this...":
             p "I was up all night worrying about how it'll go. Will they like me? What kind of people are they?"
             p "I mean, I guess I know that Lily'll be here."
-            default word = ""
-            python:
-                match dmp.aff:
-                    case 0.2:
-                        word = "comforting."
-                    case 0.11:
-                        word = "calming."
-                    case 0.01:
-                        word = "something, I guess?"
-                    case 0:
-                        word = "okay."
-                    case -0.09:
-                        word = "irritating."
-                    case -0.2:
-                        word = "annoying."
+            default word = "something."
+            if (dmp.aff == 0.2):
+                $ word = "comforting."
+            elif (dmp.aff >= 0.11):
+                $ word = "calming."
+            elif (dmp.aff >= 0.01):
+                $ word = "something, I guess?"
+            elif (dmp.aff >= 0):
+                $ word = "okay."
+            elif (dmp.aff >= -0.09):
+                $ word = "irritating."
+            elif (dmp.aff >= -0.2):
+                $ word = "annoying."
             $ renpy.say(p,"That's "+word)
-            
+    play sound "Bell.ogg"
+    p "Oh, the bell's rung!"
+    p "Regardless of my doubts and my worries, I should give it my all!"
+    p "O-or at least the best I can..."
+    p "H-hopefully that's enough..."
+    $ player.hide(dis,true)
+    scene bg_classroom
+    t "All right, settle down now, class."
+    t "I hope that we'll have a productive session today."
+    t "Today, we'll be talking about Systems of Linear equations."
+    $ player.show("idle",genpos,dis,true)
+    p "Hey, I think I remember that from my classes last year!"
+    p "Maybe this won't be so bad."
+    scene
+    t "Now, I know what many of you are probably thinking."
+    t "'This isn't so bad!' 'Maybe I won't have to study!' 'This is a free class!'"
+    with vpunch
+    t "Well, allow me to correct those misjudgements of yours right now."
+    t "This is my classroom. In here, I am the lord. You may be the heir to the throne, but for all I care, you're just another sniveling noble brat who needs an education."
+    t "Now, I will say that I'm not a monster. If you put in a good effort and you're struggling, I'll help you out."
+    t "But if you goof around and your grade drops, well, ya f***ed around and ya found out."
+    t "Some of you may fail my class. If you've put in a good effort, I'll give ya remedial work so ya don't fail."
+    with vpunch
+    t "BUT!"
+    t "If you are one of those DETESTABLE vermin who think they can get away with doing nothing and you fail? That's it. Get out of my classroom, get out of my hallway, AND GET YOUR SORRY LITTLE BEHIND OUT OF THIS SCHOOL!"
+    $ player.show("idle",genpos,dis,true)
+    p "WOW. Hardcore was an understatement."
+    p "I don't think we'll be seeing any slackers in this class, that's for sure."
+    scene
+    t "Phew. I got a bit heated there. Now, let's begin our lesson. Oh, and we'll also be talking about some elementary row operations. You probably don't know what that is yet, but you will."
+    t "So, I'm sure you all know what linear equations are, right?"
+    t "Well, if you don't, linear equations have the form a₁x₁+a₂x₂+...+aₙxₙ=b, where a₁,...,aₙ and b are coefficients, x₁,...,xₙ are variables or unknowns, and n is the dimension, or the number of variables."
+    t "So, here's some examples of linear equations to help it stick a bit better in your heads."
+    t "2x₁+4x₂=4 is a line in two dimensions, as the keen-eyed among you might be able to tell from how the highest subscript is 2."
+    t "Now, then, how many dimensions do you think 3x₁ + 2x₂ + x₃ = 6 is in?"
+    $ renpy.say(t, f"Ah, the keen-eyed looking {p1genterm} in the front!")
+    default ansRight = false
+    menu: 
+        "One!":
+            $ ansRight = false
+        "Two!":
+            $ ansRight = false
+        "Three!":
+            $ ansRight = true
+        "3!":
+            $ ansRight = false
+        "N!":
+            $ ansRight = false
+    if (ansRight):
+        t "Excellent work, young...?"
