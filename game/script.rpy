@@ -442,27 +442,7 @@ label class_1:
     t "All right, settle down now, class."
     t "I hope that we'll have a productive session today."
     t "You may call me 'Your Lordship'."
-    t "Today, we'll be talking about Systems of Linear equations."
-    $ player.show("idle",genpos,dis,true)
-    p "Hey, I think I remember that from my classes last year!"
-    p "Maybe this won't be so bad."
-    scene bg_classroom
-    t "Now, I know what many of you are probably thinking."
-    t "'This isn't so bad!' 'Maybe I won't have to study!' 'This is a free class!'"
-    with vpunch
-    t "Well, allow me to correct those misjudgements of yours right now."
-    t "This is my classroom. In here, I am the lord. You may be the heir to the throne, but for all I care, you're just another sniveling noble brat who needs an education."
-    t "Now, I will say that I'm not a monster. If you put in a good effort and you're struggling, I'll help you out."
-    t "But if you goof around and your grade drops, well, ya f***ed around and ya found out."
-    t "Some of you may fail my class. If you've put in a good effort, I'll give ya remedial work so ya don't fail."
-    with vpunch
-    t "BUT!"
-    t "If you are one of those DETESTABLE vermin who think they can get away with doing nothing and you fail? That's it. Get out of my classroom, get out of my hallway, AND GET YOUR SORRY LITTLE BEHIND OUT OF THIS SCHOOL!"
-    $ player.show("idle",genpos,dis,true)
-    p "WOW. Hardcore was an understatement."
-    p "I don't think we'll be seeing any slackers in this class, that's for sure."
-    scene bg_classroom
-    t "Phew. I got a bit heated there. Now, let's begin our lesson. Oh, and we'll also be talking about some elementary row operations. You probably don't know what that is yet, but you will."
+    t "Today, we'll be talking about Systems of Linear equations. Oh, and we'll also be talking about some elementary row operations. You probably don't know what that is yet, but you will."
     t "So, I'm sure you all know what linear equations are, right?"
     t "Well, if you don't, linear equations have the form a₁x₁+a₂x₂+...+aₙxₙ=b, where a₁,...,aₙ and b are coefficients, x₁,...,xₙ are variables or unknowns, and n is the dimension, or the number of variables."
     t "So, here's some examples of linear equations to help it stick a bit better in your heads."
@@ -518,3 +498,11 @@ label class_1:
     t "Now, when you have a set of one or more linear equations, you've got a linear system of equations!"
     t "The solutions of a system of linear equations are pretty important. Now, you may be wondering how we describe those solutions, or even what they are."
     t "The set of solutions for a linear system is the set of all possible values of x₁,x₂,x₃,...,xₙ that satisfy all of the equations. Not just one, not just two, not just n-1, alllll of them."
+    t "For any system of linear equations, regardless of the dimension or the number of equations, there's only three possible solution cases. There's either one unique solution, infinite solutions, or no solutions."
+    t "We can use these things called Elementary Row Operations to find the solution set for a system."
+    t "The first is called Replacement/Addition. In this operation, you add a multiple of one row to another. Another is Interchange, where you interchange two rows. Finally, there's Scaling, where you multiply a row by a nonzero scalar."
+    t "An important thing to remember is that conducting row operations does not change the solution set."
+    show image "/images/math/row_operations_1.png.png" at genpos
+    t "Let's go through an example. R₁ is the linear equation x₁-2x₂+x₃=0, R₂ is 2x₂-8x₃=8, and R₃ is 5x₁-5x₃=10. We can start by adding R₂ to R₁, or R₁+R₂→R₁. This eliminates the x₂ term in R₁."
+    show image "/images/math/row_operations_2.png.png" at genpos
+    t "Next, we can divide R₂ by two, R₂/2→R₂, which makes the new value of R₂ x₂-4x₃=4. This'll make it a bit easier to deal with later. We can then subtract 5R₁ from R₃ to eliminate the x₁ term."
