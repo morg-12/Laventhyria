@@ -27,6 +27,8 @@ default day = 0
 default termDay = 0
 default noEep = 0.0
 default eepNum = 0.0
+transform dying:
+    matrixcolor SaturationMatrix(0.0)
 #default pronoun2sub = ""
 #default pronoun2obj = ""
 #default pronoun2adj = ""
@@ -55,6 +57,8 @@ init python:
 image bg_room = Placeholder("bg",text = "room")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
+define fonty = "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
+define fontyit = "NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf"
 init python:
 
     class Char:
@@ -157,7 +161,7 @@ label start:
     default playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6,2, customFallback = "playerf.png")
     default fb = Transform("playerf.png", zoom = 0.6)
     $ playerf.ima = fb
-    # temporary means by which to add a custom placeholder until I can figure out how I can do that.
+    # temporary means by which to add a custom placeholder until I can figure out how to do that.
     default playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6,0)
     
     menu: 
@@ -798,15 +802,56 @@ label alvaBreak1:
                     r1 "Okay, then! Let's go!"
                     r1 "Skorgmiloquis, or officially the Imperial Realm of the House of Skorg-Miloquis and its subsidiaries, was the nation that ruled over this area, where Laventhyria is now."
                     r1 "Well, the Levants have been very expansionist since they made the new nobility system, so it's actually more of just the central part of modern Laventhyria."
+                    scene bg_map
+                    with dis
+                    $ al.show("idle",ripos,None,false)
                     r1 "Regardless, Skorgmiloquis ruled over those lands. It was formed about 1120 years ago, when the heirs to the House of Skorg, which ruled over much of the northern regions, including the modern day county of Skorg, and the House of Miloquis, which ruled over the south, married."
                     r1 "Prior to this, Skorg and Miloquis had been constantly at war, each aiming to rule over all of Hyria, so their people were overjoyed that the endless war had ended."
+                    scene bg_map_preMar
+                    with dis
+                    $ al.show("idle",ripos,None,false)
                     r1 "However, the new Skorg-Miloquis monarchs soon found that it was rather difficult to rule over all of this land by themselves."
                     r1 "As such, they selected for themselves trusted houses to govern fairly and justly over the various regions of this new nation."
+                    r1 "These are what later became known as the noble houses."
+                    r1 "With this, the monarchy could set its sights beyond Hyria, and its people were all for it."
+                    scene bg_map_expand
+                    with dis
+                    $ al.show("idle",ripos,None,false)
+                    r1 "It managed to expand into the surrounding areas."
+                    r1 "However, over the next couple centuries, the nation faced a number of challenges."
+                    r1 "Skorgmiloquis fell under threat from the nations surrounding it, meaning that it was, in essence, perpetually at war."
+                    r1 "Eventually, the people's fervor dwindled, especially since these were defensive wars, and they began to grow tired."
+                    r1 "Over the years, many of the houses selected as nobility grew self-interested, not bothering themselves with the lives of their people as much as their own."
+                    r1 "The endless warfare and the growing prodigality of the imperial house began to put a strain on the nation's coffers. As such, they opted to increase taxation and request greater tribute of their noble vassals."
+                    r1 "As one might expect-"
+                    play sound "Bell.ogg"
+                    scene bg_classroom
+                    with dis
+                    $ al.show("idle",genpos,None,false)
+                    r1 "Looks like our time to speak for today has sadly concluded. If you wish to continue hearing about this, please come talk to me again tomorrow!"
+                    r1 "But not during class time, or the teacher will have your head!"
+                    $ al.aff += 0.1
                 "No":
                     r1 "Fair enough. If you do end up wanting to hear it later, though, just come back to me and ask!"
                     jump break_1
         "What do you think of the Levants?":
-            pass
+            r1 "Hmm..."
+            r1 "Oh, would you like a candy?"
+            p "Sure!"
+            r1 "Okay, it's fine if you don't know the answer to my question, but..."
+            menu:
+                r1 "When the pearly fluid fell, what did the people who planted the bombshell found by the belle in a well deal in?"
+                "What in the-":
+                    r1 "Okay, good, you're not a government agent. Can't be too careful these days, what with the Revolutionary Pirates and the government being on higher alert as a result..."
+                    p "What does that even mean, though?"
+                    r1 "It's an obscure poem from the Skorgmiloquis days. At one time, it was well known, but eventually, the regime decided to use it as an identifier for their secret agents."
+                    r1 "If you knew the answer, it's almost certain that you're a government agent trying to tell what side I'm on. That, or you somehow managed to find a copy of the ancient poem the government's kept under total lockdown for about a millennium at this point."
+                "I think I know.":
+                    default keyAnswer = renpy.input("What is the answer?")
+                    if (keyAnswer == ("They dealt in the eggshell of the shelled gazelle.".lower()) or keyAnswer == ("The bombshell found by the belle in a well was planted by a cartel who dealt in the eggshell of the shelled gazelle.".lower())):
+                        jump spy
+                    else:
+                        r1 "Ah, phew! I thought you were one of those government agents, with how you had an answer almost the moment I asked."
         "We could go up to the rooftop?":
             pass
         "I don't know...":
@@ -817,3 +862,26 @@ label alvaBreak1:
             r1 "Fine. Whatever. See if I care."
             $ al.aff -= 0.1
             jump break_1
+label spy:
+    r1 "Ah, so you're a government agent, I see? You seem a bit young for the ol' trencher, but I suppose in these times, nobody's too young to serve their nation."
+    r1 "At least, I'm guessing that's what they told you when they recruited you?"
+    with vpunch
+    r1 "Well, let me tell you something, [pname], if that's even your real name."
+    r1 "You're serving one hell of a corrupt institution."
+    r1 "And I will take great joy in taking you out of it."
+    with dying
+    $ al.hide(dis,true)
+    scene bg_classroom
+    $ player.show("scared",genpos,dis,True)
+    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf} I can't breathe...{/font}"
+    r1 "Acts fast, right? I call this one Azumarine. You aren't the only ones who can use this."
+    with fade
+    scene expression "/images/staying_up_late.png"
+    "It all fades to black."
+    "You died."
+    menu:
+        "Would you like to go back to talking with Alva, or to the break period in general?"
+        "Talking with Alva":
+            jump expression ("alvaBreak"+str(day))
+        "Break Period":
+            jump expression ("break_"+str(day))
