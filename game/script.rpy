@@ -63,8 +63,8 @@ init python:
         aff = 0.0
         idNum = ""
         name = " "
-        genChooser = renpy.random.random()*2
-        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, customFallback = "noFall",):
+        genChooser = 120983736720298382937289
+        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, customFallback = "noFall"):
             self.name = name
             self.idNum = idNum
             # Used as a unique identification number to differentiate between models of the same name
@@ -77,7 +77,7 @@ init python:
             self.alia = {"idle":"m01","scared":"m02","excited":"m03","pout":"m04","embarassed":"m05"}
             self.isL2D = isL2D
             self.customFallback = customFallback
-            self.genChooser = renpy.random.random()*2
+            self.genChooser = genChooser
             if (isL2D):
                 if (canBib):
                     self.alia["avf"]="bibac"
@@ -124,7 +124,8 @@ init python:
         def hide(self,wi,hasTrans):
         # seems to be kind of broken, probably best to add a scene after every instance of this to make sure it actually does what's intended.
             renpy.hide(self.name)
-            renpy.say(p,str(self.genChooser))
+            # renpy.say(p,str(self.genChooser)) 
+            # Used for testing if genChooser was working properly
             if(hasTrans):
                 renpy.with_statement(wi,always=True)
 define none = None
@@ -297,7 +298,7 @@ label schooltour:
     dmpc "So in theory, you might think that everyone has an equal shot at attending, right? Well, that's where donations come in."
     dmpc "See, if someone donates sufficient money, about a hundred thousand levants, or {font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}\u20B7{/font}100,000, to the school, that grants their child or children of choice a seat. From the five hundred, of course."
     dmpc "And even then, any children that they haven't chosen still have a shot at a seat. So they say it's super exclusive and all, but really, it's a noble children's romping ground. At least, that's what the newspapers that try to rile up the commoners say."
-    dmpc "Come to think of it, I think I've heard rumors about some kind of insurgence within Laventhyria. Some kind of 'Revolutionary Pirate Order' that goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
+    dmpc "Come to think of it, I think I've heard rumors about some kind of insurrection within Laventhyria. Some kind of 'Revolutionary Pirate Order' that goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
     dmpc "Oh, whoops, I've gotten myself sidetracked again! Hey, if you feel like I'm getting sidetracked, you can tell me and I'll get back on task! Of course, if you want to listen to me yap, that's all fine and dandy too!"
     play sound "Achievement.ogg"
     scene bg_hallway
@@ -750,8 +751,69 @@ label break_1:
             "aaa"
             #jump hallBreak1
 label alvaBreak1:
-    $ al.show(idle,genpos,dis,True)
+    $ al.show("idle",genpos,dis,True)
     if(al.aff < 0.0):
         r1 "Ah, it's you. The one who called me weird. [pname.capitalize()], right?"
     else:
-        r1 "Hello again, [pname]. A good day to you once again."
+        r1 "Hello, [pname]. A good day to you once again."
+    r1 "I guess, since you're here, you probably want to talk to me."
+    r1 ""
+    r1 "Do you have any ideas about what we could talk about?"
+    menu:
+        "I hear there's some kind of revolutionary movement within Laventhyria.":
+            r1 "Ah, right. They call themselves the Revolutionary Pirates, right?"
+            r1 "I think this country could use a revolution."
+            r1 "The Levants certainly have been doing quite a bit to antagonize the common people."
+            menu:
+                "Would you like to use the Taskbringer?"
+                "Yes":
+                    $ renpy.say(r1,al.taskHandler())
+                    r1 "I thought I was on task here, though..."
+                    $ al.aff -= 0.01
+                "No":
+                    r1 "You know, taxing them more, increasing prices on literally everything for them, sending them into war first for every single war of expansion they do..."
+                    r1 "The Levants are pretty good at appeasing the nobles, and they've basically got the wealthy commoners begging for their attention, but that does come at the expense of the poorer ones."
+                    r1 "After all, it's very rare that an actually new house joins the nobility. Usually it's just a fallen noble house that's managed to get its act back together."
+                    r1 "As such, seeing the rich people playing a game of musical chairs while they rot in poverty's probably not the best."
+            r1 "I don't quite agree with their ways, though..."
+            r1 "The pirates, I mean."
+            r1 "What good does destroying buildings even do? It just makes them look like a terrorist group..."
+            r1 "I am also worried about what will happen if they succeed. If they're so anti-noble buildings, what'll happen to the nobles themselves? Will they just have them all tried by a kangaroo court and executed on the spot?"
+            r1 "What's more, I'm a bit skeptical of any revolution. After all, even if they do succeed, who's to say that whoever backed them won't come along and take full control?"
+            r1 "It's happened before, after all."
+            menu:
+                "What do you mean, it's happened before?":
+                    r1 "Why, with-"
+                    play sound "Bell.ogg"
+                    r1 "Ah, curses, it's time for bed."
+                    r1 "Come back and talk to me tomorrow during break and I'll tell you what I meant."
+                    r1 "And thanks for talking with me!"
+                    $ al.aff += 0.1
+        "What happened with the fall of Skorgmiloquis?":
+            r1 "Ah, yes, Skorgmiloquis."
+            r1 "This one's a bit of a long story, so I might not get through all of it today."
+            menu:
+                r1 "That okay with you?"
+                "Yes":
+                    r1 "Okay, then! Let's go!"
+                    r1 "Skorgmiloquis, or officially the Imperial Realm of the House of Skorg-Miloquis and its subsidiaries, was the nation that ruled over this area, where Laventhyria is now."
+                    r1 "Well, the Levants have been very expansionist since they made the new nobility system, so it's actually more of just the central part of modern Laventhyria."
+                    r1 "Regardless, Skorgmiloquis ruled over those lands. It was formed about 1120 years ago, when the heirs to the House of Skorg, which ruled over much of the northern regions, including the modern day county of Skorg, and the House of Miloquis, which ruled over the south, married."
+                    r1 "Prior to this, Skorg and Miloquis had been constantly at war, each aiming to rule over all of Hyria, so their people were overjoyed that the endless war had ended."
+                    r1 "However, the new Skorg-Miloquis monarchs soon found that it was rather difficult to rule over all of this land by themselves."
+                    r1 "As such, they selected for themselves trusted houses to govern fairly and justly over the various regions of this new nation."
+                "No":
+                    r1 "Fair enough. If you do end up wanting to hear it later, though, just come back to me and ask!"
+                    jump break_1
+        "What do you think of the Levants?":
+            pass
+        "We could go up to the rooftop?":
+            pass
+        "I don't know...":
+            r1 "Then again, I suppose it's not undesirable to just sit together in silence."
+        "Never mind.":
+            r1 "Seriously? You come over to talk to me, then end it off immediately with 'Never mind.'?"
+            $ al.show("pout",genpos,dis,True)
+            r1 "Fine. Whatever. See if I care."
+            $ al.aff -= 0.1
+            jump break_1
