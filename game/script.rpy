@@ -504,5 +504,17 @@ label class_1:
     t "An important thing to remember is that conducting row operations does not change the solution set."
     show image "/images/math/row_operations_1.png.png" at genpos
     t "Let's go through an example. R₁ is the linear equation x₁-2x₂+x₃=0, R₂ is 2x₂-8x₃=8, and R₃ is 5x₁-5x₃=10. We can start by adding R₂ to R₁, or R₁+R₂→R₁. This eliminates the x₂ term in R₁."
+    scene bg_classroom
     show image "/images/math/row_operations_2.png.png" at genpos
-    t "Next, we can divide R₂ by two, R₂/2→R₂, which makes the new value of R₂ x₂-4x₃=4. This'll make it a bit easier to deal with later. We can then subtract 5R₁ from R₃ to eliminate the x₁ term."
+    t "Next, we can divide R₂ by two, R₂/2→R₂, which makes the new value of R₂ x₂-4x₃=4. This'll make it a bit easier to deal with later. We can then subtract 5R₁ from R₃ to eliminate the x₁ term. This leaves the third row as 10x₂-10x₃=10."
+    t "You may notice that R₂ and R₃ both only have x₂ and x₃ terms. This means that we can use replacement to have just one variable. Since R₃ has 10x₂ and R₂ has x₂, it's easier to eliminate x₂ by subtracting 10R₂ from R₃."
+    scene bg_classroom
+    show image "/images/math/row_operations_3.png.png" at genpos
+    t "Subtracting 10x₂-40x₃=40 from 10x₂-10x₃=10 leaves us with 30x₃=-30, which simplifies to x₃=-1. We can now substitute this into the other equations. Substituting it into R₁ results in x₁+7=8, which means that x₁=1. Substituting it into R₂ results in x₂+4=4, so x₂=0."
+    t "This means that the solution set for the system R₁: x₁-2x₂+x₃=0, R₂: 2x₂-8x₃=8, R₃: 5x₁-5x₃=10 is the point (1,0,-1)."
+    scene bg_classroom
+    t "It's a bit awkward to keep writing x₁, x₂, and x₃, right? Fortunately, these can be rewritten as augmented matrices. For example, {image=/images/math/lineq1.png} can be written as the augmented matrix {image=/images/math/augmatrix1.png}. The vertical line is basically a reminder that the columns before it are the coefficients to x₁, x₂, and x₃."
+    t "Now, here's a couple of important terms. A linear system is consistent if it has ≥1 solution. It could have one particular solution or it could have infinitely many, but as long as it has solutions, it's consistent." 
+    t "Two matrices are row equivalent if a sequence of row operations can transform one into the other. An important thing about row equivalence is that if the augmented matrices of two linear systems are row equivalent, they have the same solution set."
+    t "Now, here's something to hopefully get it to stick a bit better."
+    t "Suppose that "
