@@ -330,7 +330,7 @@ label schooltour:
     menu:
         "Would you like to use the Taskbringer?"
         "Yes":
-            $ dmpc(dmp.taskHandler())
+            $ renpy.say(dmpc,dmp.taskHandler())
         "No":
             dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
             dmpc "What a world we live in, right?"
@@ -432,6 +432,7 @@ label class_1:
             elif (dmp.aff >= -0.2):
                 $ word = "annoying."
             $ renpy.say(p,"That's "+word)
+            p "That's [word]."
     play sound "Bell.ogg"
     p "Oh, the bell's rung!"
     p "Regardless of my doubts and my worries, I should give it my all!"
@@ -517,4 +518,52 @@ label class_1:
     t "Now, here's a couple of important terms. A linear system is consistent if it has ≥1 solution. It could have one particular solution or it could have infinitely many, but as long as it has solutions, it's consistent." 
     t "Two matrices are row equivalent if a sequence of row operations can transform one into the other. An important thing about row equivalence is that if the augmented matrices of two linear systems are row equivalent, they have the same solution set."
     t "Now, here's something to hopefully get it to stick a bit better."
-    t "Suppose that "
+    t "Suppose that A={image=/images/math/matrix1.png}, B={image=/images/math/matrix2.png}, C={image=/images/math/matrix3.png}, and {image=/images/math/vec1.png}. Are A and B row equivalent? What about A and C? Are the augmented matrices (A|b⃗) and (C|b⃗) consistent?"
+    t "I'll give you some time to work on this, so move forward when you have an answer for both."
+    menu:
+        "Have you finished?"
+        "Yes":
+            pass
+    t "Well, to answer the first part, we need to think about what row operations we could use to make them the same. For A and B, if we subtract row 2 of A from row 1, that leaves us with B. However, there's no way that we can make the second row have two 0s with the rows we have."
+    t "As such, A and B are row equivalent, while A and C are not."
+    t "For the question about (A|b⃗) and (C|b⃗), it's a bit easier to think of these as a linear system. In A, the two equations are x₁+x₂=1 and x₂=1. We can find a solution from these. If x₂=1 and x₁+x₂=1, then the solution is (0,1). Since it has a solution, this augmented matrix is consistent."
+    t "For (C|b⃗), we get x₁+x₂=1 and 0x₁+0x₂=1. Since 0 is not equal to 1, there are no solutions. As such, this augmented matrix is not consistent."
+    t "Okay, we've finished all of our course content for today, so it's time for the break!"
+    scene bg_classroom
+    $ dmp.show(idle, genpos, dis, True)
+    dmpc "Hi again, [pname]! It's nice to be able to talk to you again!"
+    menu:
+        "Nice to see you too, [dname]!":
+            $ dmp.aff += 0.1
+            dmpc "Thanks!"
+        "Ah, it's that one annoying person who can't stop talking.":
+            $ dmp.aff -= 0.1
+            dmpc "I see you haven't changed at all since our last meeting. What, have you never heard of acting like a decent person to people?"
+    dmpc "I wanted to introduce you to some of our classmates! Here's Alva, Gwynedd, and Hoshi! You should go introduce yourself to them!"
+    menu:
+        "Who do you want to introduce yourself to first?"
+        "Alva":
+            $ dmp.hide(dis, True)
+            $ al.show(idle,genpos,dis,True)
+            r1 "Hello there, [pname]. It's very nice to meet you."
+            r1 "My name is Alva Miloquis, and my family's holdings are in the county of Skorg."
+            p "So you're..."
+            r1 "Yeah, those Miloquises. Formerly the House of Skorg-Miloquis itself."
+            menu:
+                "Would you like to use the Taskbringer?"
+                "Yes":
+                    $ renpy.say(r1,al.taskHandler())
+                "No":
+                    r1 "This was my family's palace back in the day. I mean, it hasn't been for a loooooong time now."
+                    r1 "Heck, we're lucky to have escaped with our lives, much less with a county our own and all that."
+                    r1 "I'm actually kind of surprised that we've managed to remain nobility under the new system, but I guess we're not quite as indulgent as we were back in the old days."
+                    r1 "Not like we're a branch of the Levants and can get bailed out of any financial crisis we find ourselves in or anything."  
+            p "Huh."
+            menu: 
+                p "That's..."
+                "Interesting.":
+                    r1 "I suppose it would be for an outsider."
+                "Pretty cool!":
+                    r1 "Really? I suppose being from a royal family, even a deposed one whose name is spat upon across the country, is pretty cool."
+                    $ al.aff += 0.1
+                ""
