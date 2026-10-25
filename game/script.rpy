@@ -540,30 +540,96 @@ label class_1:
             $ dmp.aff -= 0.1
             dmpc "I see you haven't changed at all since our last meeting. What, have you never heard of acting like a decent person to people?"
     dmpc "I wanted to introduce you to some of our classmates! Here's Alva, Gwynedd, and Hoshi! You should go introduce yourself to them!"
+    default meetNum=0
     menu:
         "Who do you want to introduce yourself to first?"
         "Alva":
-            $ dmp.hide(dis, True)
-            $ al.show(idle,genpos,dis,True)
-            r1 "Hello there, [pname]. It's very nice to meet you."
-            r1 "My name is Alva Miloquis, and my family's holdings are in the county of Skorg."
-            p "So you're..."
-            r1 "Yeah, those Miloquises. Formerly the House of Skorg-Miloquis itself."
-            menu:
-                "Would you like to use the Taskbringer?"
-                "Yes":
-                    $ renpy.say(r1,al.taskHandler())
-                "No":
-                    r1 "This was my family's palace back in the day. I mean, it hasn't been for a loooooong time now."
-                    r1 "Heck, we're lucky to have escaped with our lives, much less with a county our own and all that."
-                    r1 "I'm actually kind of surprised that we've managed to remain nobility under the new system, but I guess we're not quite as indulgent as we were back in the old days."
-                    r1 "Not like we're a branch of the Levants and can get bailed out of any financial crisis we find ourselves in or anything."  
-            p "Huh."
-            menu: 
-                p "That's..."
-                "Interesting.":
-                    r1 "I suppose it would be for an outsider."
-                "Pretty cool!":
-                    r1 "Really? I suppose being from a royal family, even a deposed one whose name is spat upon across the country, is pretty cool."
-                    $ al.aff += 0.1
-                ""
+            $ meetNum+=1
+                jump alva1
+        "Gwynedd":
+            $ meetNum +=1
+                jump gwy1
+        "Hoshi":
+            $ meetNum += 1
+                jump ho1
+        "Nobody":
+            dmp "Are you sure?"
+            dmp "Well, I suppose if you don't want to speak with any of them now, you can talk to them during other breaks..."
+            $ dmp.aff -= 0.01
+            $ al.aff, gw.aff, ho.aff -= 0.1
+                jump break_1
+label alva1:
+    $ dmp.hide(dis, True)
+    $ al.show(idle,genpos,dis,True)
+    r1 "Hello there, [pname]. It's very nice to meet you."
+    r1 "My name is Alva Miloquis, and my family's holdings are in the county of Skorg."
+    p "So you're..."
+    r1 "Yeah, those Miloquises. Formerly the House of Skorg-Miloquis itself."
+    menu:
+        "Would you like to use the Taskbringer?"
+        "Yes":
+            $ renpy.say(r1,al.taskHandler())
+        "No":
+            r1 "This was my family's palace back in the day. I mean, it hasn't been for a loooooong time now."
+            r1 "Heck, we're lucky to have escaped with our lives, much less with a county our own and all that."
+            r1 "I'm actually kind of surprised that we've managed to remain nobility under the new system, but I guess we're not quite as indulgent as we were back in the old days."
+            r1 "Not like we're a branch of the Levants and can get bailed out of any financial crisis we find ourselves in or anything."  
+    p "Huh."
+    menu: 
+        p "That's..."
+        "Interesting.":
+            r1 "I suppose it would be for an outsider."
+        "Pretty cool!":
+            r1 "Really? I suppose being from a royal family, even a deposed one whose name is spat upon across the country, is pretty cool."
+            $ al.aff += 0.1
+        "Kinda weird...":
+            r1 "I suppose it is a bit weird to be from a deposed royal family, huh?"
+            $ al.aff -= 0.1
+    r1 "Well, it was quite nice to meet you, but I'm afraid I must be taking my leave now."
+    $ al.hide(dis,true)
+    jump expression ("talkChoice"+str(meetNum))
+label gwy1:
+    $ dmp.hide(dis,True)
+    $ gw.show(idl,genpos,dis,True)
+    r2 "Hiya there, [pname]! I'm very glad to meet you!"
+    r2 "My name's Gwynedd, and I'm one of those rare commoners who managed to get in off the big wheel of names."
+    r2 "I do find it preeeetty unfair how they advertise it as '500 people get to go to this excluuuuuusive school! It could be any of you!' and then behind- no, not even behind our backs, in broad daylight, they sell off those spots to nobles."
+    menu:
+        "Would you like to use the Taskbringer?"
+        "Yes":
+            $ renpy.say(r2,gw.taskHandler())
+        "No":
+            r2 "To be honest, I'm quite tired of this whole separation between nobles and commoners. Like, it's not even about 'bloodlines' or whatever they used to justify it with anymore."
+            r2 "It's literally all about the money, and often, the only commoners who rise up and become nobles are either the merchants or the fallen nobles who got their act back together."
+            r2 "So it really is just a bunch of 'rich people trade places with other rich people and the poor stay where they are'."
+            r2 "I have heard rumors about some kind of 'People's Revolution' movement that's trying to cause some real change in here, and I'm kinda for it."
+            r2 "Now, I don't think that destroying the nobility's buildings like those Revolutionary Pirates or whoever are will cause something to change, but I guess it does send a message to the nobility that the common people have had enough."
+            r2 "I am scared that the nobles'll take it out on the rest of us commoners, though..."
+    r2 "Sooooooo... Yeah! Basically, I'm one of those 'rare common specimens' who sometimes manage to get into the school. Ugh, I hate that term, though."
+    menu: 
+        "It does seem rather annoying.":
+            r2 "It is! I mean, I suppose a noble might not fully understand how much, but it's basically just another way of othering me."
+            r2 "Hehe, they're poor! Hehe, they're a commoner! Oh, look, it's that common specimen in the halls!"
+            r2 "It's quite tiring, honestly."
+            $ gw.aff += 0.1
+        "It does seem rather fitting, though...":
+            r2 "Really? After all of that conversation, you say something like that to me?"
+            r2 "I suppose you're just like all the other nobles, after all..."
+            r2 "Well, thanks for showing your true colors early. At least now, I know who to avoid."
+            $ gw.aff -= 0.2
+            r2 "Hopefully I never see you again, you scum of the earth."
+            jump expression ("talkChoice"+str(meetNum))
+        "What does that even mean?":
+            r2 "I think I just explained it..."
+            r2 "Well, I suppose I can do it again. See, basically, there's that wheel that decides if you get to go, right? But a lot of the slots get bought up by nobles beforehand, so there's often only a couple spots left for anybody else."
+            r2 "Add in the fact that nobles who weren't bought in can still get in, and there's not too many seats for us commoners, even though there's a lot more of us than there are nobles. As such, it's a bit of a rare sight to see one of us here, which is why I'm called that."
+            " "
+            r2 "Ohhhhh, you meant it as in it's weird and stuff, not literally asking."
+            r2 "Sorry, I do get a bit confused sometimes."
+    r2 "Well, it was quite fun talking with you, but I have to go now!"
+    $ gw.hide(dis,True)
+    jump expression ("talkChoice"+str(meetNum))
+label ho1:
+    
+label talkChoice1:
+    $ meetNum += 1
