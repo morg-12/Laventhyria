@@ -72,7 +72,7 @@ init python:
             self.folder = folder
             self.bass = bass
             # usually .6, but can be customized
-            self.alia = {"idle":"m01","scared":"m02","excited":"m03","pout":"m04"}
+            self.alia = {"idle":"m01","scared":"m02","excited":"m03","pout":"m04","embarassed":"m05"}
             self.isL2D = isL2D
             self.customFallback = customFallback
             if (isL2D):
@@ -530,7 +530,7 @@ label class_1:
     t "For (C|b⃗), we get x₁+x₂=1 and 0x₁+0x₂=1. Since 0 is not equal to 1, there are no solutions. As such, this augmented matrix is not consistent."
     t "Okay, we've finished all of our course content for today, so it's time for the break!"
     scene bg_classroom
-    $ dmp.show(idle, genpos, dis, True)
+    $ dmp.show("idle", genpos, dis, True)
     dmpc "Hi again, [pname]! It's nice to be able to talk to you again!"
     menu:
         "Nice to see you too, [dname]!":
@@ -541,6 +541,10 @@ label class_1:
             dmpc "I see you haven't changed at all since our last meeting. What, have you never heard of acting like a decent person to people?"
     dmpc "I wanted to introduce you to some of our classmates! Here's Alva, Gwynedd, and Hoshi! You should go introduce yourself to them!"
     default meetNum=0
+    default cameFromBreak = False
+    default alTalk = false
+    default gwTalk = false
+    default hoTalk = false
     menu:
         "Who do you want to introduce yourself to first?"
         "Alva":
@@ -557,10 +561,11 @@ label class_1:
             dmp "Well, I suppose if you don't want to speak with any of them now, you can talk to them during other breaks..."
             $ dmp.aff -= 0.01
             $ al.aff, gw.aff, ho.aff -= 0.1
-                jump break_1
+            $ cameFromBreak = True
+            jump break_1
 label alva1:
     $ dmp.hide(dis, True)
-    $ al.show(idle,genpos,dis,True)
+    $ al.show("idle",genpos,dis,True)
     r1 "Hello there, [pname]. It's very nice to meet you."
     r1 "My name is Alva Miloquis, and my family's holdings are in the county of Skorg."
     p "So you're..."
@@ -585,12 +590,15 @@ label alva1:
         "Kinda weird...":
             r1 "I suppose it is a bit weird to be from a deposed royal family, huh?"
             $ al.aff -= 0.1
+    if(cameFromBreak):
+        jump expression ("break_"+str(day))
     r1 "Well, it was quite nice to meet you, but I'm afraid I must be taking my leave now."
     $ al.hide(dis,true)
+    $ alTalk = true
     jump expression ("talkChoice"+str(meetNum))
 label gwy1:
     $ dmp.hide(dis,True)
-    $ gw.show(idl,genpos,dis,True)
+    $ gw.show("idle",genpos,dis,True)
     r2 "Hiya there, [pname]! I'm very glad to meet you!"
     r2 "My name's Gwynedd, and I'm one of those rare commoners who managed to get in off the big wheel of names."
     r2 "I do find it preeeetty unfair how they advertise it as '500 people get to go to this excluuuuuusive school! It could be any of you!' and then behind- no, not even behind our backs, in broad daylight, they sell off those spots to nobles."
@@ -626,10 +634,74 @@ label gwy1:
             " "
             r2 "Ohhhhh, you meant it as in it's weird and stuff, not literally asking."
             r2 "Sorry, I do get a bit confused sometimes."
+    if(cameFromBreak):
+        jump expression ("break_"+str(day))
     r2 "Well, it was quite fun talking with you, but I have to go now!"
     $ gw.hide(dis,True)
+    $ gwTalk = true
     jump expression ("talkChoice"+str(meetNum))
 label ho1:
-    
+    r3 "Hello, [pname]. My name's Hoshi."
+    r3 "My family only recently became nobility, so I'm still getting used to it."
+    r3 "I'm sorry for being a bit nervous. It's just that it's all very intimidating."
+    menu:
+        "Would you like to use the Taskbringer?"
+        "Yes":
+            $ renpy.say(r2,gw.taskHandler())
+        "No":
+            r3 "A couple of my realllly old relatives (although they're not technically considered part of our family due to the distance) recently passed and left us with some pretty sizable inheritances that were enough to get our net worth above the nobility threshold, and the census last year made us nobility."
+            r3 "It's still a bit shocking, though. After all, we were a, well, still a well-to-do common family, but now we have our own land and our own manor and all that stuff."
+            r3 " "
+            r3 "Um..."
+            r3 " "
+    r3 "Sorry for being so nervous and awkward..."
+    menu: 
+        "No, it's fine!":
+            r3 "Oh, really? Thanks..."
+            $ ho.aff += 0.1
+        "I actually think it's quite cute!":
+            if(cameFromBreak):
+                r3 "That's very nice of you to say, but I'm not sure if I can trust it..."
+            else:
+                r3 "Cute? Me? Cute? Nervousness? Cute? Cute?"
+                $ ho.show("embarassed",genpos,dis,True)
+                "They seem to be struggling to process your statement."
+                r3 "U-um... T-thanks..."
+                $ ho.aff += 0.2
+        "You're about as annoying as [dname]...":
+            if (dmp.aff >=0):
+                r3 "So I'm not annoying? Thanks, I guess?"
+            else:
+                r3 "Okay, then..."
+                r3 "I'll just shut up, then..."
+                ho.aff -= 0.1
+    if(cameFromBreak):
+        jump expression ("break_"+str(day))
+    r3 "I did have fun talking with you, and I hope I wasn't too annoying..."
+    r3 "I think I have to go now, though..."
+    $ ho.hide(dis,True)
+    $ hoTalk = true
+    jump expression ("talkChoice"+str(meetNum))
 label talkChoice1:
     $ meetNum += 1
+    menu:
+        "Who would you like to speak to next?"
+        "Alva" if not alTalk:
+            jump alva1
+        "Gwynedd" if not gwTalk:
+            jump gwy1
+        "Hoshi" if not hoTalk:
+            jump ho1
+label talkChoice2:
+    $ meetNum += 1
+    menu:
+        "Who would you like to speak to last?"
+        "Alva" if not alTalk:
+            jump alva1
+        "Gwynedd" if not gwTalk:
+            jump gwy1
+        "Hoshi" if not hoTalk:
+            jump ho1
+label talkChoice3:
+    $ dmp.show("idle",genpos,dis,True)
+    dmpc "You talked to all of them!"
