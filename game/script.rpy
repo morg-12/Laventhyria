@@ -1,7 +1,9 @@
 ﻿# The script of the game goes in this file.
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
-$ config.menu_include_disabled = true
+define false = False
+define true = True
+define config.menu_include_disabled = true
 default p = Character("[pname]")
 define g = Character("Garlic Bread")
 default dmpc = Character("[dname]", color = "#eec2ff")
@@ -58,11 +60,11 @@ init python:
     class Char:
         ima  = None
         taskNum = 0
-        genChooser = 0
         aff = 0.0
         idNum = ""
         name = " "
-        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, customFallback = "noFall"):
+        genChooser = renpy.random.random()*2
+        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, customFallback = "noFall",):
             self.name = name
             self.idNum = idNum
             # Used as a unique identification number to differentiate between models of the same name
@@ -75,6 +77,7 @@ init python:
             self.alia = {"idle":"m01","scared":"m02","excited":"m03","pout":"m04","embarassed":"m05"}
             self.isL2D = isL2D
             self.customFallback = customFallback
+            self.genChooser = renpy.random.random()*2
             if (isL2D):
                 if (canBib):
                     self.alia["avf"]="bibac"
@@ -85,8 +88,8 @@ init python:
                     foldf = folder+"f"
                     charm = Live2Ds(filem, charFold = foldm, fallback = Placeholder(base = "boy", text = self.name),base=self.bass,aliases = self.alia)
                     charf = Live2Ds(filef, charFold = foldf, fallback = Placeholder(base = "girl", text = self.name),base=self.bass,aliases = self.alia)
-                    genChooser = renpy.random.random()*2
-                    self.ima = ConditionSwitch("self.genChooser > 1", charf,"True", charm)
+                    self.genChooser = renpy.random.random()*2
+                    self.ima = ConditionSwitch(self.genChooser > 1, charf,True, charm)
                 else:
                     self.ima = Live2Ds(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia, )
             else:
@@ -119,12 +122,11 @@ init python:
             if(hasTrans):
                 renpy.with_statement(wi)
         def hide(self,wi,hasTrans):
+        # seems to be kind of broken, probably best to add a scene after every instance of this to make sure it actually does what's intended.
             renpy.hide(self.name)
+            renpy.say(p,str(self.genChooser))
             if(hasTrans):
-                renpy.with_statement(wi)
-                
-define false = False
-define true = True
+                renpy.with_statement(wi,always=True)
 define none = None
 default aroaceRouteStarted = false
 default gbRouteStarted = false
@@ -144,18 +146,18 @@ label start:
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
     # directory.
-    default dmp = Char("001","girl",dname,"Live2D/dmpc","dmpc",True, False,True,.6)
-    default al = Char("002","", "Alva", "Live2D/al","al",True, True,False,.6)
-    default gw = Char("003","","Gwynedd","Live2D/gw","gw",True,True,False,.6)
-    default ho = Char("004","","Hoshi","Live2D/ho","ho",True,True,False,.6)
-    default gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6)
+    default dmp = Char("001","girl",dname,"Live2D/dmpc","dmpc",True, False,True,.6,2)
+    default al = Char("002","", "Alva", "Live2D/al","al",True, True,False,.6,renpy.random.random()*2)
+    default gw = Char("003","","Gwynedd","Live2D/gw","gw",True,True,False,.6,renpy.random.random()*2)
+    default ho = Char("004","","Hoshi","Live2D/ho","ho",True,True,False,.6,renpy.random.random()*2)
+    default gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6,-1)
     $ pname = renpy.input("What would you like to name your character?")
     $ p = Character(pname)
-    default playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6, customFallback = "playerf.png")
+    default playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6,2, customFallback = "playerf.png")
     default fb = Transform("playerf.png", zoom = 0.6)
     $ playerf.ima = fb
     # temporary means by which to add a custom placeholder until I can figure out how I can do that.
-    default playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6)
+    default playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6,0)
     
     menu: 
         "What pronouns would you like to use for your character?"
@@ -207,7 +209,7 @@ label cselect:
     $ playerm.show("idle",ripos,dis,true)
     "This is the second."
     $ playerm.hide(dis, true)
-    default player = Char("000","bg",pname,"Live2D/Player","Player",True,False,True,.6)
+    default player = Char("000","bg",pname,"Live2D/Player","Player",True,False,True,.6,2)
     menu:
         "Which player character do you prefer?"
         "1(Left)":
@@ -298,6 +300,7 @@ label schooltour:
     dmpc "Come to think of it, I think I've heard rumors about some kind of insurgence within Laventhyria. Some kind of 'Revolutionary Pirate Order' that goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
     dmpc "Oh, whoops, I've gotten myself sidetracked again! Hey, if you feel like I'm getting sidetracked, you can tell me and I'll get back on task! Of course, if you want to listen to me yap, that's all fine and dandy too!"
     play sound "Achievement.ogg"
+    scene bg_hallway
     show taskinator at genpos
     with dis
     $ dmp.hide(dis,True)
@@ -346,7 +349,7 @@ label schooltour:
     $ dmp.show("excited",genpos, dis, True)
     dmpc "Like, for exampleeeee, me!"
     $ dmp.show("idle",genpos, dis, True)
-    "Not too excited, are you?"
+    dmpc "Not too excited, are you?"
     $ dmp.show("pout",genpos, dis, true)
     menu:
         "I am, though!":
@@ -421,18 +424,17 @@ label class_1:
             default word = "something."
             if (dmp.aff == 0.2):
                 $ word = "comforting."
-            elif (dmp.aff >= 0.11):
+            elif (dmp.aff >= 0.10):
                 $ word = "calming."
             elif (dmp.aff >= 0.01):
                 $ word = "something, I guess?"
             elif (dmp.aff >= 0):
                 $ word = "okay."
-            elif (dmp.aff >= -0.09):
+            elif (dmp.aff >= -0.1):
                 $ word = "irritating."
             elif (dmp.aff >= -0.2):
                 $ word = "annoying."
-            $ renpy.say(p,"That's "+word)
-            p "That's [word]."
+            p "That's [word]"
     play sound "Bell.ogg"
     p "Oh, the bell's rung!"
     p "Regardless of my doubts and my worries, I should give it my all!"
@@ -504,13 +506,16 @@ label class_1:
     t "The first is called Replacement/Addition. In this operation, you add a multiple of one row to another. Another is Interchange, where you interchange two rows. Finally, there's Scaling, where you multiply a row by a nonzero scalar."
     t "An important thing to remember is that conducting row operations does not change the solution set."
     show image "/images/math/row_operations_1.png.png" at genpos
+    with dis
     t "Let's go through an example. R₁ is the linear equation x₁-2x₂+x₃=0, R₂ is 2x₂-8x₃=8, and R₃ is 5x₁-5x₃=10. We can start by adding R₂ to R₁, or R₁+R₂→R₁. This eliminates the x₂ term in R₁."
     scene bg_classroom
     show image "/images/math/row_operations_2.png.png" at genpos
+    with dis
     t "Next, we can divide R₂ by two, R₂/2→R₂, which makes the new value of R₂ x₂-4x₃=4. This'll make it a bit easier to deal with later. We can then subtract 5R₁ from R₃ to eliminate the x₁ term. This leaves the third row as 10x₂-10x₃=10."
     t "You may notice that R₂ and R₃ both only have x₂ and x₃ terms. This means that we can use replacement to have just one variable. Since R₃ has 10x₂ and R₂ has x₂, it's easier to eliminate x₂ by subtracting 10R₂ from R₃."
     scene bg_classroom
     show image "/images/math/row_operations_3.png.png" at genpos
+    with dis
     t "Subtracting 10x₂-40x₃=40 from 10x₂-10x₃=10 leaves us with 30x₃=-30, which simplifies to x₃=-1. We can now substitute this into the other equations. Substituting it into R₁ results in x₁+7=8, which means that x₁=1. Substituting it into R₂ results in x₂+4=4, so x₂=0."
     t "This means that the solution set for the system R₁: x₁-2x₂+x₃=0, R₂: 2x₂-8x₃=8, R₃: 5x₁-5x₃=10 is the point (1,0,-1)."
     scene bg_classroom
@@ -518,10 +523,10 @@ label class_1:
     t "Now, here's a couple of important terms. A linear system is consistent if it has ≥1 solution. It could have one particular solution or it could have infinitely many, but as long as it has solutions, it's consistent." 
     t "Two matrices are row equivalent if a sequence of row operations can transform one into the other. An important thing about row equivalence is that if the augmented matrices of two linear systems are row equivalent, they have the same solution set."
     t "Now, here's something to hopefully get it to stick a bit better."
-    t "Suppose that A={image=/images/math/matrix1.png}, B={image=/images/math/matrix2.png}, C={image=/images/math/matrix3.png}, and {image=/images/math/vec1.png}. Are A and B row equivalent? What about A and C? Are the augmented matrices (A|b⃗) and (C|b⃗) consistent?"
+    t "Suppose that A={image=/images/math/matrix1.png}, B={image=/images/math/matrix2.png}, C={image=/images/math/matrix3.png}, and {image=/images/math/vec1.png}. Are A and B row equivalent? What about A and C? Are the augmented matrices \n(A|b⃗) and (C|b⃗) consistent?"
     t "I'll give you some time to work on this, so move forward when you have an answer for both."
     menu:
-        "Have you finished?"
+        t "Have you finished?"
         "Yes":
             pass
     t "Well, to answer the first part, we need to think about what row operations we could use to make them the same. For A and B, if we subtract row 2 of A from row 1, that leaves us with B. However, there's no way that we can make the second row have two 0s with the rows we have."
@@ -549,22 +554,27 @@ label class_1:
         "Who do you want to introduce yourself to first?"
         "Alva":
             $ meetNum+=1
-                jump alva1
+            jump alva1
         "Gwynedd":
             $ meetNum +=1
-                jump gwy1
+            jump gwy1
         "Hoshi":
             $ meetNum += 1
-                jump ho1
+            jump ho1
         "Nobody":
-            dmp "Are you sure?"
-            dmp "Well, I suppose if you don't want to speak with any of them now, you can talk to them during other breaks..."
+            dmpc "Are you sure?"
+            dmpc "Well, I suppose if you don't want to speak with any of them now, you can talk to them during other breaks..."
             $ dmp.aff -= 0.01
-            $ al.aff, gw.aff, ho.aff -= 0.1
+            $ al.aff -= 0.1
+            $ gw.aff -= 0.1 
+            $ ho.aff -= 0.1
             $ cameFromBreak = True
+            scene bg_classroom
             jump break_1
 label alva1:
     $ dmp.hide(dis, True)
+    $ alTalk = true
+    scene bg_classroom
     $ al.show("idle",genpos,dis,True)
     r1 "Hello there, [pname]. It's very nice to meet you."
     r1 "My name is Alva Miloquis, and my family's holdings are in the county of Skorg."
@@ -594,10 +604,11 @@ label alva1:
         jump expression ("break_"+str(day))
     r1 "Well, it was quite nice to meet you, but I'm afraid I must be taking my leave now."
     $ al.hide(dis,true)
-    $ alTalk = true
     jump expression ("talkChoice"+str(meetNum))
 label gwy1:
     $ dmp.hide(dis,True)
+    scene bg_classroom
+    $ gwTalk = true
     $ gw.show("idle",genpos,dis,True)
     r2 "Hiya there, [pname]! I'm very glad to meet you!"
     r2 "My name's Gwynedd, and I'm one of those rare commoners who managed to get in off the big wheel of names."
@@ -638,16 +649,18 @@ label gwy1:
         jump expression ("break_"+str(day))
     r2 "Well, it was quite fun talking with you, but I have to go now!"
     $ gw.hide(dis,True)
-    $ gwTalk = true
     jump expression ("talkChoice"+str(meetNum))
 label ho1:
+    scene bg_classroom
+    $ ho.show("idle",genpos,dis,True)
+    $ hoTalk = True
     r3 "Hello, [pname]. My name's Hoshi."
     r3 "My family only recently became nobility, so I'm still getting used to it."
     r3 "I'm sorry for being a bit nervous. It's just that it's all very intimidating."
     menu:
         "Would you like to use the Taskbringer?"
         "Yes":
-            $ renpy.say(r2,gw.taskHandler())
+            $ renpy.say(r3,ho.taskHandler())
         "No":
             r3 "A couple of my realllly old relatives (although they're not technically considered part of our family due to the distance) recently passed and left us with some pretty sizable inheritances that were enough to get our net worth above the nobility threshold, and the census last year made us nobility."
             r3 "It's still a bit shocking, though. After all, we were a, well, still a well-to-do common family, but now we have our own land and our own manor and all that stuff."
@@ -674,12 +687,13 @@ label ho1:
             else:
                 r3 "Okay, then..."
                 r3 "I'll just shut up, then..."
-                ho.aff -= 0.1
+                $ ho.aff -= 0.1
     if(cameFromBreak):
         jump expression ("break_"+str(day))
     r3 "I did have fun talking with you, and I hope I wasn't too annoying..."
     r3 "I think I have to go now, though..."
     $ ho.hide(dis,True)
+    scene bg_classroom
     $ hoTalk = true
     jump expression ("talkChoice"+str(meetNum))
 label talkChoice1:
@@ -703,5 +717,41 @@ label talkChoice2:
         "Hoshi" if not hoTalk:
             jump ho1
 label talkChoice3:
+    scene bg_classroom
     $ dmp.show("idle",genpos,dis,True)
     dmpc "You talked to all of them!"
+    dmpc "It's probably a bit annoying to be asked to talk to three people you don't know before you can actually go off and enjoy your break, so I'm glad you did it."
+    dmpc "Well, I suppose you can go off and do your fun break time stuff now!"
+    $ dmp.hide(dis,True)
+    scene bg_classroom
+    jump break_1
+label break_1:
+    menu:
+        "What would you like to do during your break?"
+        "Talk to Alva":
+            if not alTalk:
+                jump alva1
+            jump alvaBreak1
+        "Talk to Gwynedd":
+            if not gwTalk:
+                jump gwy1
+            #jump gwyBreak1
+        "Talk to Hoshi":
+            if not hoTalk:
+                jump ho1
+            #jump hoBreak1
+        "Talk to Lily":
+            "aaaaa"
+            #jump dmpBreak1
+        "Go up to the rooftop":
+            "aaaa"
+            #jump roofBreak1
+        "Go into the hallway":
+            "aaa"
+            #jump hallBreak1
+label alvaBreak1:
+    $ al.show(idle,genpos,dis,True)
+    if(al.aff < 0.0):
+        r1 "Ah, it's you. The one who called me weird. [pname.capitalize()], right?"
+    else:
+        r1 "Hello again, [pname]. A good day to you once again."
