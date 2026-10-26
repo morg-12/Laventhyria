@@ -27,8 +27,9 @@ default day = 0
 default termDay = 0
 default noEep = 0.0
 default eepNum = 0.0
+default keyAnswer = ""
 transform dying:
-    matrixcolor SaturationMatrix(0.0)
+    linear 1.0 matrixcolor SaturationMatrix(0.0)
 #default pronoun2sub = ""
 #default pronoun2obj = ""
 #default pronoun2adj = ""
@@ -68,6 +69,7 @@ init python:
         idNum = ""
         name = " "
         genChooser = 120983736720298382937289
+        roofWith = True
         def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, customFallback = "noFall"):
             self.name = name
             self.idNum = idNum
@@ -740,20 +742,17 @@ label break_1:
         "Talk to Gwynedd":
             if not gwTalk:
                 jump gwy1
-            #jump gwyBreak1
+            jump gwyBreak1
         "Talk to Hoshi":
             if not hoTalk:
                 jump ho1
-            #jump hoBreak1
+            jump hoBreak1
         "Talk to Lily":
-            "aaaaa"
-            #jump dmpBreak1
+            jump dmpBreak1
         "Go up to the rooftop":
-            "aaaa"
-            #jump roofBreak1
+            jump roofBreak1
         "Go into the hallway":
-            "aaa"
-            #jump hallBreak1
+            jump hallBreak1
 label alvaBreak1:
     $ al.show("idle",genpos,dis,True)
     if(al.aff < 0.0):
@@ -831,8 +830,11 @@ label alvaBreak1:
                     r1 "Looks like our time to speak for today has sadly concluded. If you wish to continue hearing about this, please come talk to me again tomorrow!"
                     r1 "But not during class time, or the teacher will have your head!"
                     $ al.aff += 0.1
+                    jump bedroom
                 "No":
                     r1 "Fair enough. If you do end up wanting to hear it later, though, just come back to me and ask!"
+                    $ alva.hide(dis,true)
+                    scene bg_classroom
                     jump break_1
         "What do you think of the Levants?":
             r1 "Hmm..."
@@ -844,16 +846,68 @@ label alvaBreak1:
                 "What in the-":
                     r1 "Okay, good, you're not a government agent. Can't be too careful these days, what with the Revolutionary Pirates and the government being on higher alert as a result..."
                     p "What does that even mean, though?"
-                    r1 "It's an obscure poem from the Skorgmiloquis days. At one time, it was well known, but eventually, the regime decided to use it as an identifier for their secret agents."
-                    r1 "If you knew the answer, it's almost certain that you're a government agent trying to tell what side I'm on. That, or you somehow managed to find a copy of the ancient poem the government's kept under total lockdown for about a millennium at this point."
+                    r1 "It's an obscure poem from the Skorgmiloquis days. At one time, it was well known, but eventually, the regime decided to use it as a code phrase for their secret agents."
+                    r1 "If you know the answer, it's almost certain that you're a government agent trying to tell what side I'm on. That, or you somehow managed to find a copy of the ancient poem the government's kept under total lockdown for about a millennium at this point."
+                    $ keyAnswer = ""
+                    # Resets keyAnswer in case its value is actually the code
                 "I think I know.":
-                    default keyAnswer = renpy.input("What is the answer?")
-                    if (keyAnswer == ("They dealt in the eggshell of the shelled gazelle.".lower()) or keyAnswer == ("The bombshell found by the belle in a well was planted by a cartel who dealt in the eggshell of the shelled gazelle.".lower())):
+                    $ keyAnswer = renpy.input("What is the answer?")
+                    $ keyAnswer = keyAnswer.lower().strip()
+                    $ renpy.say(p,keyAnswer)
+                    if (keyAnswer == ("they dealt in the eggshell of the shelled gazelle") or keyAnswer == ("they dealt in the shell of the shelled gazelle") or keyAnswer == ("the bombshell found by the belle in a well was planted by a cartel who dealt in the eggshell of the shelled gazelle")):
                         jump spy
                     else:
                         r1 "Ah, phew! I thought you were one of those government agents, with how you had an answer almost the moment I asked."
+                        p "What does that even mean, though?"
+                        r1 "It's an obscure poem from the Skorgmiloquis days. At one time, it was well known, but eventually, the regime decided to use it as a code phrase for their secret agents."
+                        r1 "If you knew the answer, it's almost certain that you're a government agent trying to tell what side I'm on. That, or you somehow managed to find a copy of the ancient poem the government's kept under total lockdown for about a millennium at this point."
+            r1 "Well, since you're not a government agent, I suppose I can tell you."
+            r1 "To be quite honest, I'm not exactly the biggest fan of the Levants. Not just because they took my family's lands, either."
+            r1 "For one, they've always been more focused on their own profits than those of the nation. They also tend to pander too hard to the nobles."
+            r1 "It makes them look bad to the commoners, or at least the poor ones. The people are, after all, the backbone of the nation, and they need to remember that."
+            r1 "I also don't really like how they took power after Skorgmiloquis' fall, but that's another story."
+            r1 "I think that's about all my opinions on them."
+            r1 "Thanks for listening to me ramble on about my opinions."
+            $ al.aff += 0.1
+            jump bedroom
         "We could go up to the rooftop?":
-            pass
+            r1 "Isn't it off limits?"
+            p "Well, it is, but from what I've heard, the lock's pretty old and rusty."
+            r1 "Hmm..."
+            r1 "I don't know..."
+            r1 "What if we get caught?"
+            menu:
+                "We won't! They barely ever check up there, anyway.":
+                    r1 "If you say so, but if we get in trouble, I'm pinning it all on you."
+                    scene bg_rooftop
+                    $ al.show(idle,lefpos,dis,True)
+                    $ player.show(idle,ripos,dis,True)
+                    r1 "Huh, you're right! It really was that easy."
+                    p "Yup! There's a pretty nice view up here, too!"
+                    "The two of you lay down on the floor and stare up at the sky."
+                    r1 "It really is a pretty sky, huh?"
+                    p "Sure is!"
+                    r1 "I wonder what it would look like at night..."
+                    p "So do I..."
+                    ""
+                    r1 "Maybe we should come up here sometime at night?"
+                    p "Ah, acting a bit daring, are we?"
+                    r1 "No, it's just..."
+                    r1 "Well..."
+                    r1 "It could be a nice experience, right?"
+                    menu:
+                        "It could be fun to bring along some of the others, too, right?":
+                            r1 ""
+                            r1 "Oh, right!"
+                            r1 "Yeah, we could bring them..."
+                        "True.":
+                            r1 "Maybe sometime, I'll invite you up here!"
+                            p "Maybe!"
+                    $ al.aff += 0.2
+                    jump bedroom
+                "I guess you're right...":
+                    r1 "It's a bit disappointing, I suppose, but it's probably better to be safe."
+                    jump break_1
         "I don't know...":
             r1 "Then again, I suppose it's not undesirable to just sit together in silence."
         "Never mind.":
@@ -863,25 +917,80 @@ label alvaBreak1:
             $ al.aff -= 0.1
             jump break_1
 label spy:
-    r1 "Ah, so you're a government agent, I see? You seem a bit young for the ol' trencher, but I suppose in these times, nobody's too young to serve their nation."
+    r1 "Ah, so you're a government agent, then? You seem a bit young for the ol' trencher, but I suppose in these times, nobody's too young to serve their nation."
     r1 "At least, I'm guessing that's what they told you when they recruited you?"
     with vpunch
     r1 "Well, let me tell you something, [pname], if that's even your real name."
     r1 "You're serving one hell of a corrupt institution."
     r1 "And I will take great joy in taking you out of it."
-    with dying
+    camera at dying
     $ al.hide(dis,true)
     scene bg_classroom
     $ player.show("scared",genpos,dis,True)
     p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf} I can't breathe...{/font}"
-    r1 "Acts fast, right? I call this one Azumarine. You aren't the only ones who can use this."
+    r1 "Acts fast, right? I call this one Azumarine. Your bosses aren't the only ones who have this on hand."
     with fade
     scene expression "/images/staying_up_late.png"
     "It all fades to black."
     "You died."
+    camera
     menu:
         "Would you like to go back to talking with Alva, or to the break period in general?"
         "Talking with Alva":
+            scene bg_classroom
             jump expression ("alvaBreak"+str(day))
         "Break Period":
+            scene bg_classroom
             jump expression ("break_"+str(day))
+label gwyBreak1:
+    $ gw.show("idle",genpos,dis,True)
+    if (gw.aff < 0.0):
+        r2 "Hello again. Scum of the Earth, was it? Oh, wait, no, your name was [pname]. I had almost forgotten because of your behavior."
+    else:
+        r2 "Hiya there again, [pname]! How're you doing?"
+        menu:
+            "Great!":
+                r2 "That's great to hear!"
+            "Good!":
+                r2 "Yay!"
+            "Good...":
+                r2 "Are you sure you're doing okay?"
+            "Terrible :c":
+                r2 "Oh, that's not good..."
+                r2 "Hopefully I can help you feel a bit better..."
+    r2 "So, you wanted to talk to me, so what should we talk about?"
+    r2 "Or I guess if you wanted to go somewhere, we could go there!"
+    menu:
+        "What's going on with those 'Revolutionary Pirates'?":
+            r2 "Ah, the revolutionaries."
+            r2 "Way I see it, they're some of the common folk who decided they had enough of the nobles trying to push us down."
+            r2 "Their ways of doing stuff are a bit destructive, but they do seem to avoid causing any harm to civilians."
+            r2 "I think I've said it before, but I feel like this country needs a revolution."
+            r2 "It feels to me like the monarchs and their noble cronies have gotten a bit too comfortable in the idea that the common people will just let them walk all over us."
+            r2 "We might need to teach them a little lesson about who we are."
+            r2 "Oh, sorry, I think I got a bit intense there!"
+            r2 "This kinda stuff does tend to get me pretty fired up."
+            r2 "As much as I like the way the Pirates do things, I don't think all of the commoners (I'm not a big fan of the word, but the common people is a bit of a mouthful to keep saying) would agree."
+            r2 "After all, not all of us are the biggest fans of destruction, and some (I'm guessing the older ones in particular) are probably going to be driven away from the idea of revolution by that."
+            r2 "More dialogue to be added later."
+            jump bedroom
+label hoBreak1:
+    "The dialogue for this section is not yet complete. Please proceed to the bedroom."
+    jump bedroom
+label dmpBreak1:
+    "The dialogue for this section is not yet complete. Please proceed to the bedroom."
+    jump bedroom
+label roofBreak1:
+    "The dialogue for this section is not yet complete. Please proceed to the bedroom."
+    jump bedroom
+label hallBreak1:
+    "The dialogue for this section is not yet complete. Please proceed to the bedroom."
+    jump bedroom
+label class_2:
+    scene bg_classroom
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Day One{/font}"
+    $ player.show("idle",genpos,dis,True)
+    p "Yesterday was pretty fun."
+    p "I wonder what we're learning about today."
+    play sound "Bell.ogg"
