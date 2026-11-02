@@ -6,7 +6,8 @@ define true = True
 define config.menu_include_disabled = true
 default p = Character("[pname]")
 define g = Character("Garlic Bread")
-default dmpc = Character("[dname]", color = "#eec2ff")
+default dmpcolor = "#eec2ff"
+default dmpc = Character("[dname]", color = dmpcolor)
 # It's defaulted so it can change to be Avatar of the Garlic Bread and the color can change to #733b40 when it does that.
 default dname = "Lily"
 define r1 = Character("Alva")
@@ -137,6 +138,58 @@ init python:
             # Used for testing if genChooser was working properly
             if(hasTrans):
                 renpy.with_statement(wi,always=True)
+        def affOut(self) -> str:
+            self.show("idle",genpos,dis,true)
+            wor = "interesting."
+            if (self.aff >= 2.0):
+                wor = "irresistible."
+            elif (self.aff >= 1.8):
+                wor = "enchanting."
+            elif (self.aff >= 1.6):
+                word = "captivating."
+            elif (self.aff >= 1.4):
+                wor = "winsome."
+            elif (self.aff >= 1.2):
+                wor = "charming."
+            elif (self.aff >= 1.0):
+                wor = "cute."
+            elif (self.aff >= 0.8):
+                wor = "lovely."
+            elif (self.aff >= 0.6):
+                wor = "appealing."
+            elif (self.aff >= 0.4):
+                wor = "endearing."
+            elif (self.aff >= 0.2):
+                wor = "pleasing."
+            elif (self.aff >= 0.1):
+                wor = "intriguing."
+            elif (self.aff > -0.05):
+                pass
+            elif (self.aff >= -0.1):
+                wor = "a bit of a nuisance."
+            elif (self.aff >= -0.2):
+                wor = "a right nuisance."
+            elif (self.aff >= -0.4):
+                wor = "bothersome."
+            elif (self.aff >= -0.6):
+                wor = "an honourable nuisance."
+            elif (self.aff >= -0.8):
+                wor = "disturbing."
+            elif (self.aff >= -1.0):
+                wor = "annoying."
+            elif (self.aff >= -1.2):
+                wor = "a proper annoyance."
+            elif (self.aff >= -1.4):
+                wor = "contemptible."
+            elif (self.aff >= -1.6):
+                wor = "despicable."
+            elif (self.aff >= -1.8):
+                wor = "reprehensible."
+            elif (self.aff >= -2.0):
+                wor = "repulsive."
+            else:
+                wor = "The Right Honourable Lord Nuisance of the City of London (How did you even manage to get them to hate you this much???)."
+            return wor
 define none = None
 default aroaceRouteStarted = false
 default gbRouteStarted = false
@@ -278,7 +331,56 @@ label aroaceRoute:
             image bg_city = Placeholder("bg", "city")
             # placeholder for until the city asset is finished
             scene bg_city with dis
-            g "This person is one of my chosen. If you continue to act against my and their wishes, I shall ensure that the consequences will be painful."
+            $ gb.show("",genpos,dis,True)
+            g "This person is one of my Chosen. If you continue to act against my and their wishes, I shall ensure that the consequences will be painful."
+            dmpc "The Garlic Bread descended from the heavens to protect them."
+            dmpc "It granted them the power to fight back, and they became the first Avatar of the Garlic Bread."
+            dmpc "They, along with the Garlic Bread, began to seek out others like them, founding an organization called the Chosen of the Garlic Bread."
+            dmpc "Those chosen by the Garlic Bread are typically individuals who experience little to no romantic or sexual attraction."
+            dmpc "Though at first, the organization was small, it has expanded greatly over the centuries since its formation."
+            dmpc "The Order of the Chosen of the Garlic Bread is sworn to neutrality during armed conflicts, although its members are not required to remain neutral, if they feel that doing so would be in violation of their values."
+            dmpc "Since the first, we have had a great many more Avatars of the Garlic Bread, the latest of whom is myself."
+            dmpc "The Avatar of the Garlic Bread possesses the ability to enter Avatar form, and in said form, can fire a powerful Garlic Bread Beam."
+            dmpc "The Avatar is typically the leader of the Order, as well as its most powerful member."
+            dmpc "I think I should be able to enter Avatar Form to demonstrate."
+            $ dmpcolor = "#733b40"
+            $ dname = "Avatar of the Garlic Bread"
+            scene bg_city
+            $ dmp.show("avf",genpos,dis,True)
+            dmpc "Behold my power."
+            $ dmp.show("idle",genpos,dis,True)
+            $ dmpcolor = "#eec2ff"
+            $ dname = "Lily"
+            dmpc "And now I return to normal."
+            dmpc "Soooooooo..."
+            dmpc "Yeah! That's the Order of the Chosen of the Garlic Bread for you!"
+            menu:
+                dmpc "What do you think?"
+                "It seems pretty interesting, although I'm not interested in joining...":
+                    dmpc "That's fair enough! Not everyone's a good fit for the Order, and if someone were to deny themselves to join it, that would go against everything we stand for!"
+                    dmpc "That said, we are an interesting bunch."
+                    dmpc "Feel free to come join us if you make a realization about yourself and are chosen!"
+                    $ dmp.aff += 0.1
+                "How do I join?":
+                    dmpc "Well, you don't really join the Order. You get chosen by the Garlic Bread."
+                    p "And how do I get chosen?"
+                    dmpc "Well, the Garlic Bread is probably keeping a closer eye on you since you've expressed interest in our order. If the Garlic Bread likes you and thinks that you would make a good fit, it will choose you to join the Order."
+                    dmpc "Of course, if you don't want to, you can refuse without any consequences. The Garlic Bread, and its order, believe that people should do what they feel best fits them, rather than what they are expected to do or what they think people want them to do."
+                    dmpc "So, if you feel that you would not be a good fit for the order, you can simply refuse entry. Of course, if you make a further realization about yourself later on, our doors will always be open."
+                    dmpc "Another thing is that the Order is sworn to neutrality. As such, even if you or any member is injured, I cannot call the Chosen to fight for you. As such, I might be a worse ally than others."
+                    dmpc "Then again, I do have that beam. I'm not entirely sure on how much power it has, though..."
+                    $ dmp.aff += 0.1
+                    $ gb.aff += 0.1
+                "It seems a bit weird...":
+                    dmpc "Perhaps it would be, to someone as evidently close-minded as yourself."
+                    dmpc "Hey, maybe you should go talk with some of the elder nobles. I think their views might be more your style."
+                    dmpc "Come to think of it, are you even a kid at all? How do I know you're not some short eighty-year-old who's disguised [p1flex] as a teenager to come to this school and rant about how things were 'Back in my day'?"
+                    $ dmp.aff -= 0.1
+                    $ gb.aff -= 0.1
+            dmpc "Well, it seems like we're about out of time, so I guess it's time to go to sleep!"
+            dmpc "The Garlic Bread seems to have taken an interest in you, so that's fun!"
+            dmpc "That does mean that you have a divine entity watching your every move, but no pressure, right?"
+            jump bedroom
         else:
             dmpc "Oh, sorry, I must be boring you with all my rambling. I can just get like that sometimes, especially when it's something that I'm super interested in or passionate about."
             $ dmp.show("idle",ripos,dis,True)
@@ -1384,32 +1486,59 @@ label hoBreak1:
                     r3 "If you end up changing your mind or something, please tell me!"
                     jump break_1
 label dmpBreak1:
-    dmp "Oh, hello there, [pname]!"
-    dmp "It's nice to be talking to you again!"
+    dmpc "Oh, hello there, [pname]!"
+    dmpc "It's nice to be talking to you again!"
     if (not aroaceRouteStarted):
-        dmp "Oh, yeah, I remembered that I neglected to mention something to you when I was introducing myself earlier!"
-        dmp "So, I'm aroace. Aegoromantic and Black Stripe Asexual, to be more specific."
+        dmpc "Oh, yeah, I remembered that I neglected to mention something to you when I was introducing myself earlier!"
+        dmpc "So, I'm aroace. Aegoromantic and Black Stripe Asexual, to be more specific."
         menu:
             "Aego-what now?":
-                dmp "Aegoromantic! It means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction."
-                dmp "Black stripe asexual basically means that I feel no sexual attraction at all."
-                dmp "Since the term aroace(meaning aromantic and asexual) is the intersection of two pretty big spectra of people, I like to be a bit more specific on where I lie."
-                dmp "After all, aromantic by itself could mean anything from feeling a small amount of romantic attraction to others or romantic attraction depending on certain conditions, or none at all, and the same could be said for sexual attraction and asexuality."
-                dmp "If you don't want to get that deep into the bushes about who you are, though, that's perfectly fine!"
-                dmp "I just find it fun to learn about these sorts of things, but someone else might find it super overwhelming, and that's completely valid."
-                dmp "I'm also part of this thing called the Order of the Garlic Bread, but that's another thing..."
+                dmpc "Aegoromantic! It means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction."
+                dmpc "Black stripe asexual basically means that I feel no sexual attraction at all."
+                dmpc "Since the term aroace(meaning aromantic and asexual) is the intersection of two pretty big spectra of people, I like to be a bit more specific on where I lie."
+                dmpc "After all, aromantic by itself could mean anything from feeling a small amount of romantic attraction to others or romantic attraction depending on certain conditions, or none at all, and the same could be said for sexual attraction and asexuality."
+                dmpc "If you don't want to get that deep into the bushes about who you are, though, that's perfectly fine!"
+                dmpc "I just find it fun to learn about these sorts of things, but someone else might find it super overwhelming, and that's completely valid."
+                dmpc "I'm also part of this thing called the Order of the Garlic Bread, but that's another thing..."
             "Black stripe?":
-                dmp "Black stripe asexual! It basically means that I don't feel any sexual attraction at all."
-                dmp "I'm also aegoromantic, which means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction to anyone."
-                dmp "Since the term aroace (meaning aromantic and asexual) describes the intersection of two pretty big spectra of attraction, I like to be more specific about where I lie on it."
-                dmp "After all, being aromantic could mean that you feel a small amount of romantic attraction to certain people, you feel attracted to certain people after getting to know them, or you feel none at all, and the same could be said for sexuality and sexual attraction."
-                dmp "If you don't wanna go that deep into who you are, that's perfectly fine as well."
-                dmp "I find it pretty fun to learn about these kinds of things, but someone else might think it's overwhelming, and that's completely valid."
-                dmp "I'm also part of this thing called the Order of the Garlic Bread, but that's a different thing..."
+                dmpc "Black stripe asexual! It basically means that I don't feel any sexual attraction at all."
+                dmpc "I'm also aegoromantic, which means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction to anyone."
+                dmpc "Since the term aroace (meaning aromantic and asexual) describes the intersection of two pretty big spectra of attraction, I like to be more specific about where I lie on it."
+                dmpc "After all, being aromantic could mean that you feel a small amount of romantic attraction to certain people, you feel attracted to certain people after getting to know them, or you feel none at all, and the same could be said for sexuality and sexual attraction."
+                dmpc "If you don't wanna go that deep into who you are, that's perfectly fine as well."
+                dmpc "I find it pretty fun to learn about these kinds of things, but someone else might think it's overwhelming, and that's completely valid."
+                dmpc "I'm also part of this thing called the Order of the Garlic Bread, but that's a different thing..."
         p "Garlic Bread?"
-        dmp "Yeah, it's a thing."
-        dmp "I can tell you more about it a bit later if you want!"
+        dmpc "Yeah, it's a thing."
+        dmpc "I can tell you more about it a bit later if you want!"
+        dmpc "Okay, so a few more things."
+        dmpc "It took me quite a bit to figure out a lot of stuff about myself, so I would appreciate if you would respect that by not trying to make some kind of big romantic pursuit out of trying to woo me or anything."
+        dmpc "I was quite confused for a long time, and I don't appreciate people completely discounting that."
+        dmpc "If you keep on doing it, I'll just stop talking to you altogether."
+        dmpc "After all, if you keep doing it after I've asked you to stop repeatedly, you clearly just don't care about me at all, and I'd be better off without you."
         $ aroaceRouteStarted = true
+    menu:
+        dmpc "So, what would you like to talk about? Or would you like to go somewhere?"
+        "What was that about Garlic Bread?":
+            dmpc "Ah, yes, the Chosen of the Garlic Bread."
+            dmpc "Just a little warning, I'll be going into the history of aroace people here in Laventhyria and it could get a bit long."
+            menu:
+                "Continue?"
+                "Yes":
+                    $ gbRouteStarted = true
+                    dmpc "All right! Let's go on a journey into the past!"
+                    jump aroaceRoute
+                "No":
+                    dmpc "Fair enough! If you want to hear it, come back to me some other time and ask about it!"
+        "How do you think our classmates feel about me?":
+            dmpc "That's an interesting question to be asking."
+            dmpc "Got anyone in particular you're thinking of?"
+            p "W-what? No!"
+            dmpc "Hehe, I'm just teasing. All right, let's see here..."
+            scene bg_mind
+            with dis
+            
+            dmpc "Alva seems to think that you are [word]"
 label roofBreak1:
     "The dialogue for this section is not yet complete. Please proceed to the bedroom."
     jump bedroom
