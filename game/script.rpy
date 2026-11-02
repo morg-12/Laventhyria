@@ -74,7 +74,8 @@ init python:
         genChooser = 120983736720298382937289
         roofWith = True
         denied = false
-        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, customFallback = "noFall"):
+        isIma = false
+        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, isIma = false, customFallback = "noFall"):
             self.name = name
             self.idNum = idNum
             # Used as a unique identification number to differentiate between models of the same name
@@ -83,6 +84,7 @@ init python:
             # gen is a string that is "boy" or "girl"
             self.folder = folder
             self.bass = bass
+            self.isIma = isIma
             # usually .6, but can be customized
             self.alia = {"idle":"m01","scared":"m02","excited":"m03","pout":"m04","embarassed":"m05"}
             self.isL2D = isL2D
@@ -103,7 +105,7 @@ init python:
                 else:
                     self.ima = Live2Ds(self.filepath,charFold = self.folder, fallback = Placeholder(base = self.gen,text = self.name),base=self.bass, aliases = self.alia, )
             else:
-                self.ima = self.filepath
+                self.ima = renpy.displayable(self.filepath)
         def taskHandler(self) -> str:
             response = ""
             match self.taskNum:
@@ -127,6 +129,8 @@ init python:
             if (self.isL2D and live2d_there(self.folder)):
                 nam = self.name + " " + aliWanted
                 renpy.show(nam, at_list = [pos],what = self.ima,tag="char_"+self.idNum)
+            elif (self.isIma):
+                renpy.show(self.filepath,at_list = [pos],what = self.ima,tag = "ima_"+self.idNum)
             else:
                 renpy.show(self.name, at_list = [pos],what=self.ima,tag="char_"+self.idNum)
             if(hasTrans):
@@ -213,11 +217,14 @@ label start:
     default al = Char("002","", "Alva", "Live2D/al","al",True, True,False,.6,renpy.random.random()*2)
     default gw = Char("003","","Gwynedd","Live2D/gw","gw",True,True,False,.6,renpy.random.random()*2)
     default ho = Char("004","","Hoshi","Live2D/ho","ho",True,True,False,.6,renpy.random.random()*2)
-    default gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6,-1)
+    default gb = Char("005","","Garlic Bread","images/Garlic_Bread.png","Garlic_Bread",False,False,False,.6,-1, isIma = true, customFallback = "Garlic_Bread.png")
+    #"[str(gb.isIma)]"
     $ pname = renpy.input("What would you like to name your character?")
     $ p = Character(pname)
     default playerf = Char("006","girl",pname,"Live2D/Playerf","Playerf",True,False,True,.6,2, customFallback = "playerf.png")
     default fb = Transform("playerf.png", zoom = 0.6)
+    default gIm = Transform("Garlic_Bread.png",zoom = 4.0)
+    $ gb.ima = gIm
     $ playerf.ima = fb
     # temporary means by which to add a custom placeholder until I can figure out how to do that.
     default playerm = Char("007","boy",pname,"Live2D/Playerm","Playerm",True,False,True,.6,0)
@@ -445,7 +452,7 @@ label schooltour:
     menu:
         "Would you like to use the Taskbringer?"
         "Yes":
-            $ renpy.say(dmpc,dmp.taskHandler())
+            $ renpy.say(dpc,dmp.taskHandler())
         "No":
             dpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
             dpc "What a world we live in, right?"
