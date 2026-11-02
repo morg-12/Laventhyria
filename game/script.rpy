@@ -1549,6 +1549,9 @@ label dmpBreak1:
             $ word = ho.affOut()
             dpc "Hoshi seems to think that you are [word]"
             dpc "Now, I'll check how I feel about you."
+            scene bg_mind
+            with dis
+            $ dmp.show("idle",genpos,dis,true)
             if (dmp.aff >= 2.0):
                 $ word = "an excellent specimen of humanity."
             elif (dmp.aff >= 1.5):
@@ -1571,8 +1574,13 @@ label dmpBreak1:
                 $ word = "The Incorrect Dishonourable Inferior Employee of the Arcadian Lands of Loondom."
             dpc "I think that you are [word]"
             $ fav = gb.aff
+            scene bg_mind
+            with dis
+            $ gb.show(None,genpos,dis,True)
             dpc "Your level of favor with the Garlic Bread is [fav]."
             dpc "We seem to still have some time during our break, so you can spend the rest of it as you wish."
+            scene bg_classroom
+            with dis
             jump break_1
         "Would you like to go to the rooftop?":
             dpc "I see you took the idea of going to the rooftop seriously, huh?"
@@ -1606,6 +1614,7 @@ label dmpBreak1:
                     dpc "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf} Especially{/font} if you have someone you liiiiike~"
                     p "Oh, you!"
             $ dmp.aff += 0.1
+            jump bedroom
         "How do you feel about the state of the nation?":
             dpc "Getting into the heavy questions, are we?"
             dpc "Well, I suppose I can bite."
@@ -1614,24 +1623,67 @@ label dmpBreak1:
             dpc "Meanwhile, every ten years, they must give more and more land away to the new rising nobles."
             dpc "Additionally, the people are growing tired of these wars. Laventhyria has a powerful military and its technology is on the bleeding edge, but even with that, they need people to run it."
             dpc "If the people are tired of these endless wars of expansion, I don't think that they can keep it going forever without risking a popular revolt."
-            dpc "Heck, even now, we have a pretty large revolt against the regime. That's probably at least a bit intimidating, especially with how they are struggling to apprehend them."
-            dpc "Even if they stop expanding, however, the censuses will continue. More and more new nobles will be crowned, and with that, more and more land must be distributed."
-            dpc "If the new counties are significantly smaller than those distributed to nobles of the past, the newly crowned nobility will be displeased. A large amount of noble displeasure with the regime could lead to a revolt of the nobility."
-            dpc "Even if the Levants somehow manage to avoid both a common and a noble revolt when they stop their expansion, the lands available to the monarchy to grant to the nobility will decrease over time without anything to bolster them."
-            dpc "In addition to that problem, there is the problem of outside aggression. If the Levants cease their expansion, it is quite possible that neighboring nations will view this as weakness on Laventhyria's part and attempt to reconquer their lost lands."
-            dpc "This will force the Levants into a defensive war, which will go against the intent behind the ceasing of expansion. This will mean that war will resume again, causing even more displeasure amongst the populace, and since this would be a defensive war, there wouldn't even be conquests to boast of."
-            dpc "In fact, this quandary is quite similar to the one that faced the House of Skorg-Miloquis about half a millennium ago. The constant defensive wars against nations pushing into the Hyrian core led to a mass revolt among all classes."
-            dpc "The Levants are also the leading merchant house in the nation, so I don't think they will have as much issue with their coffers, and they have continued to satiate the nobility, so I doubt that is their greatest worry either."
-            dpc "However, they have neglected the commoners, and this may be their greatest folly."
-            dpc "The Revolutionary Pirates launch attacks on the buildings of the nobility. This causes terror about who could be next. Meanwhile, the regime's consistent failure to find and capture them creates an image of incompetence in the minds of the nobles."
-            dpc "Meanwhile, their movement brings revolution and equality to the forefront of the people's minds. Even if this revolution should fail, the seeds of thought have been planted in the minds of the many, and they shall soon find root."
-            dpc "So yeah, I'd basically say that Laventhyria as it is is doomed to perish. Maybe even soon."
-            dpc "The Levants really should've not neglected the commoners, but you know..."
-            dpc "I suppose nobles will be nobles. Too boastful of their own superiority, they believe others to be inferior without proper evidence."
-            dpc "It is only natural that they should fall, and that a new realm should rise up from their ashes."
-            dpc "I suppose the greatest hope of all of us is that this realm will be a democratic one, and that we should not fall back into the era of absolutism."
+            menu:
+                "Would you like to use the Taskbringer?"
+                "Yes":
+                    $ renpy.say(dpc,dmp.taskHandler())
+                    dpc "I don't think I was off task, though?"
+                    $ dmp.aff -= 0.05
+                "No":
+                    dpc "Heck, even now, we have a pretty large revolt against the regime. That's probably at least a bit intimidating, especially with how they are struggling to apprehend them."
+                    dpc "Even if they stop expanding, however, the censuses will continue. More and more new nobles will be crowned, and with that, more and more land must be distributed."
+                    dpc "If the new counties are significantly smaller than those distributed to nobles of the past, the newly crowned nobility will be displeased. A large amount of noble displeasure with the regime could lead to a revolt of the nobility."
+                    dpc "Even if the Levants somehow manage to avoid both a common and a noble revolt when they stop their expansion, the lands available to the monarchy to grant to the nobility will decrease over time without anything to bolster them."
+                    dpc "In addition to that problem, there is the problem of outside aggression. If the Levants cease their expansion, it is quite possible that neighboring nations will view this as weakness on Laventhyria's part and attempt to reconquer their lost lands."
+                    dpc "This will force the Levants into a defensive war, which will go against the intent behind the ceasing of expansion. This will mean that war will resume again, causing even more displeasure amongst the populace, and since this would be a defensive war, there wouldn't even be conquests to boast of."
+                    dpc "In fact, this quandary is quite similar to the one that faced the House of Skorg-Miloquis about half a millennium ago. The constant defensive wars against nations pushing into the Hyrian core led to a mass revolt among all classes."
+                    dpc "The Levants are also the leading merchant house in the nation, so I don't think they will have as much issue with their coffers, and they have continued to satiate the nobility, so I doubt that is their greatest worry either."
+                    dpc "However, they have neglected the commoners, and this may be their greatest folly."
+                    dpc "The Revolutionary Pirates launch attacks on the buildings of the nobility. This causes terror about who could be next. Meanwhile, the regime's consistent failure to find and capture them creates an image of incompetence in the minds of the nobles."
+                    dpc "Meanwhile, their movement brings revolution and equality to the forefront of the people's minds. Even if this revolution should fail, the seeds of thought have been planted in the minds of the many, and they shall soon find root."
+                    dpc "So yeah, I'd basically say that Laventhyria as it is is doomed to perish. Maybe even soon."
+                    dpc "The Levants really should've not neglected the commoners, but you know..."
+                    dpc "I suppose nobles will be nobles. Too boastful of their own superiority, they believe others to be inferior without proper evidence."
+                    dpc "It is only natural that they should fall, and that a new realm should rise up from their ashes."
+                    dpc "I suppose the greatest hope of all of us is that this realm will be a democratic one, and that we should not fall back into the era of absolutism."
+                    dpc "I believe that the last revolution may have failed due to the presence of powerful backers with ulterior motives. I hope that this one shall not fall into the same trap."
+                    dpc "Money is, of course, endlessly alluring, but if gold's shine can be resisted, the nation will be all the better."
+            dpc "So, yeah! That's basically my views on the state of the nation!"
+            dpc "Laventhyria as a state's probably done for, for one reason or the other, and I hope that what comes out the other end is a better nation, and not a worse one."
+            jump bedroom
+        "Never mind.":
+            dpc "Fair enough, I suppose. People change their minds all the time!"
+            dpc "If you ever want to come back and talk to me again, though, feel free!"
+            jump break_1
 label roofBreak1:
-    "The dialogue for this section is not yet complete. Please proceed to the bedroom."
+    "You feel a calling to the rooftop."
+    scene bg_staircase
+    "You walk up the staircase. It is quiet, your only companion the echo of your footsteps in the hall."
+    "Until..."
+    unk "It is very nice to meet you."
+    p "What in the-"
+    unk "Oops, sorry! I forgot that I was still a disembodied voice."
+    unk "A moment, please..."
+    $ gb.show("",genpos,dis,True)
+    g "That's better."
+    p "Are you... a sentient piece of garlic bread?"
+    g "I suppose you could say that. I do, however, go by another name."
+    g "The Patron of the Order of the Chosen of the Garlic Bread, the Garlic Bread itself."
+    g "At your service."
+    p "Okay, so why are you meeting with me?"
+    g "I felt that you may be a good fit for my Order."
+    p "What makes you think that?"
+    g "Just a feeling, nothing more."
+    g "I haven't Chosen you yet, of course, but if I feel that you will be a good fit, it may only be a matter of time..."
+    p "Okay, so what will this impact for me?"
+    g "Nothing much, really. I'll just be keeping an eye on you, you know? Seeing if you'd make a good fit for my Order or not."
+    g "Anyways, fare thee well!"
+    $ gb.hide(dis,True)
+    scene bg_stairs
+    with dis
+    p "Wait, you still haven't answered all of my questions!"
+    g "All in good time, young one."
+    $ gb.aff += 0.1
     jump bedroom
 label hallBreak1:
     "The dialogue for this section is not yet complete. Please proceed to the bedroom."
