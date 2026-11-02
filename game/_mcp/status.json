@@ -1,1 +1,1 @@
-{"action": "heartbeat", "status": "ok", "label": "main_menu_screen", "scene": "['black']", "time": 1793588867.734252}
+{"action": "heartbeat", "status": "ok", "label": "_call__enter_game_menu_0", "scene": "['bg_mind', 'char_003']", "time": 1793592820.9279602}

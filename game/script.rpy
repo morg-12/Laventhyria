@@ -7,7 +7,7 @@ define config.menu_include_disabled = true
 default p = Character("[pname]")
 define g = Character("Garlic Bread")
 default dmpcolor = "#eec2ff"
-default dmpc = Character("[dname]", color = dmpcolor)
+default dpc = Character("[dname]", color = dmpcolor)
 # It's defaulted so it can change to be Avatar of the Garlic Bread and the color can change to #733b40 when it does that.
 default dname = "Lily"
 define r1 = Character("Alva")
@@ -186,7 +186,7 @@ init python:
             elif (self.aff >= -1.8):
                 wor = "reprehensible."
             elif (self.aff >= -2.0):
-                wor = "repulsive."
+                wor = "the scum of the Earth."
             else:
                 wor = "The Right Honourable Lord Nuisance of the City of London (How did you even manage to get them to hate you this much???)."
             return wor
@@ -288,129 +288,129 @@ label begin:
     $ player.hide(dis,true)
     $ dmp.show("idle",genpos,dis,True)
     
-    dmpc "Hi there, [pname]!"
-    dmpc "Welcome to the Laventhyrian Institute for Secondary Education! This is the leading institution for the education of the citizens of Laventhyria."
-    dmpc "It is primarily attended by the Laventhyrian nobility. In some exceptional cases, those without a noble background have been admitted, but that is exceedingly rare."
-    dmpc "But enough about the school! I'm [dname]. It's very nice to meet you, [pname]! "
+    dpc "Hi there, [pname]!"
+    dpc "Welcome to the Laventhyrian Institute for Secondary Education! This is the leading institution for the education of the citizens of Laventhyria."
+    dpc "It is primarily attended by the Laventhyrian nobility. In some exceptional cases, those without a noble background have been admitted, but that is exceedingly rare."
+    dpc "But enough about the school! I'm [dname]. It's very nice to meet you, [pname]! "
     $ dmp.show("idle",ripos,dis,True)
     menu:
         "Likewise.":
             $ dmp.show("idle",genpos,dis,True)
-            dmpc "Short and to the point, I see! I'm sure you'll fit right in here!"
+            dpc "Short and to the point, I see! I'm sure you'll fit right in here!"
         "I, too, am eager to begin my studies at this institution.":
             $ dmp.show("idle",genpos,dis,True)
-            dmpc "Wow, a bit formal for talking to a fellow student, huh? I suppose we did just meet, though, so it's only understandable."
-            dmpc "Not to worry, though! I'm sure you'll be feeling a bit more comfortable soon enough."
+            dpc "Wow, a bit formal for talking to a fellow student, huh? I suppose we did just meet, though, so it's only understandable."
+            dpc "Not to worry, though! I'm sure you'll be feeling a bit more comfortable soon enough."
         "It is as nice to meet you as it is to see you, and I am sure many would agree.":
             $ dmp.show("idle",genpos,dis,True)
-            dmpc "Quite the charmer, aren't we? Unfortunately for you, I'm aromantic and asexual, or what they would call aroace. Well, more specifically, I'm aegoromantic and black stripe asexual."
+            dpc "Quite the charmer, aren't we? Unfortunately for you, I'm aromantic and asexual, or what they would call aroace. Well, more specifically, I'm aegoromantic and black stripe asexual."
             $ dmp.show("idle",ripos,dis,True)
             menu:
                 "Aego-what now?":
-                    dmpc "Aegoromantic. It means that I like experiencing romance vicariously (so like through books and stuff), but I don't feel any romantic attraction in real life, nor do I have any interest in engaging in a romantic relationship."
-                    dmpc "I think there are some people who're aegoromantic and feel some romantic attraction, but I'm not one of them, so I can't quite speak for them on their experiences."
-                    dmpc "As for black stripe asexual, it means that I don't feel any sexual attraction at all." 
-                    dmpc "Aroace itself means someone who experiences little to no sexual and romantic attraction, but since both aromanticism and asexuality are their own spectra with people who experience differing levels of various kinds of attraction in differing situations, I like to clarify."
+                    dpc "Aegoromantic. It means that I like experiencing romance vicariously (so like through books and stuff), but I don't feel any romantic attraction in real life, nor do I have any interest in engaging in a romantic relationship."
+                    dpc "I think there are some people who're aegoromantic and feel some romantic attraction, but I'm not one of them, so I can't quite speak for them on their experiences."
+                    dpc "As for black stripe asexual, it means that I don't feel any sexual attraction at all." 
+                    dpc "Aroace itself means someone who experiences little to no sexual and romantic attraction, but since both aromanticism and asexuality are their own spectra with people who experience differing levels of various kinds of attraction in differing situations, I like to clarify."
                 "Black stripe?":
-                    dmpc "Black stripe asexual. It means that I don't feel any sexual attraction at all."
-                    dmpc "As for aegoromantic, it means that I like to experience romance vicariously (so like through books) but I don't feel any romantic attraction in real life, nor do I have any interest in engaging in a romantic relationship."
-                    dmpc "I think there're some people who're aegoromantic and feel some romantic attraction, but since I'm not one of them, I can't quite speak on their experiences."
-                    dmpc "Aroace covers experiencing little to no romantic and sexual attraction, but since both aromanticism and asexuality are spectra with people who experience differing levels of various kinds attraction in different situations, I like to clarify."
+                    dpc "Black stripe asexual. It means that I don't feel any sexual attraction at all."
+                    dpc "As for aegoromantic, it means that I like to experience romance vicariously (so like through books) but I don't feel any romantic attraction in real life, nor do I have any interest in engaging in a romantic relationship."
+                    dpc "I think there're some people who're aegoromantic and feel some romantic attraction, but since I'm not one of them, I can't quite speak on their experiences."
+                    dpc "Aroace covers experiencing little to no romantic and sexual attraction, but since both aromanticism and asexuality are spectra with people who experience differing levels of various kinds attraction in different situations, I like to clarify."
             $ aroaceRouteStarted = true
             $ dmp.show("idle",genpos,dis,True)
             jump aroaceRoute
     jump schooltour
 label aroaceRoute:
     if aroaceRouteStarted:
-        dmpc "People being openly aroace and accepted for it hasn't been around that long in Laventhyria, sadly. It was only within the last couple centuries that people began to actually allow us to be ourselves."
-        dmpc "Before that, it was commonplace for people who weren't heterosexual to be forced into heterosexual marriages, at least within the nobility."
-        dmpc "You know, the whole thing about how it's 'unnatural' and how they need an heir."
-        dmpc "But then..."
+        dpc "People being openly aroace and accepted for it hasn't been around that long in Laventhyria, sadly. It was only within the last couple centuries that people began to actually allow us to be ourselves."
+        dpc "Before that, it was commonplace for people who weren't heterosexual to be forced into heterosexual marriages, at least within the nobility."
+        dpc "You know, the whole thing about how it's 'unnatural' and how they need an heir."
+        dpc "But then..."
         if gbRouteStarted:
-            dmpc "As a young person was being forced to be wed, a voice came from far above."
+            dpc "As a young person was being forced to be wed, a voice came from far above."
             image bg_city = Placeholder("bg", "city")
             # placeholder for until the city asset is finished
             scene bg_city with dis
             $ gb.show("",genpos,dis,True)
             g "This person is one of my Chosen. If you continue to act against my and their wishes, I shall ensure that the consequences will be painful."
-            dmpc "The Garlic Bread descended from the heavens to protect them."
-            dmpc "It granted them the power to fight back, and they became the first Avatar of the Garlic Bread."
-            dmpc "They, along with the Garlic Bread, began to seek out others like them, founding an organization called the Chosen of the Garlic Bread."
-            dmpc "Those chosen by the Garlic Bread are typically individuals who experience little to no romantic or sexual attraction."
-            dmpc "Though at first, the organization was small, it has expanded greatly over the centuries since its formation."
-            dmpc "The Order of the Chosen of the Garlic Bread is sworn to neutrality during armed conflicts, although its members are not required to remain neutral, if they feel that doing so would be in violation of their values."
-            dmpc "Since the first, we have had a great many more Avatars of the Garlic Bread, the latest of whom is myself."
-            dmpc "The Avatar of the Garlic Bread possesses the ability to enter Avatar form, and in said form, can fire a powerful Garlic Bread Beam."
-            dmpc "The Avatar is typically the leader of the Order, as well as its most powerful member."
-            dmpc "I think I should be able to enter Avatar Form to demonstrate."
+            dpc "The Garlic Bread descended from the heavens to protect them."
+            dpc "It granted them the power to fight back, and they became the first Avatar of the Garlic Bread."
+            dpc "They, along with the Garlic Bread, began to seek out others like them, founding an organization called the Chosen of the Garlic Bread."
+            dpc "Those chosen by the Garlic Bread are typically individuals who experience little to no romantic or sexual attraction."
+            dpc "Though at first, the organization was small, it has expanded greatly over the centuries since its formation."
+            dpc "The Order of the Chosen of the Garlic Bread is sworn to neutrality during armed conflicts, although its members are not required to remain neutral, if they feel that doing so would be in violation of their values."
+            dpc "Since the first, we have had a great many more Avatars of the Garlic Bread, the latest of whom is myself."
+            dpc "The Avatar of the Garlic Bread possesses the ability to enter Avatar form, and in said form, can fire a powerful Garlic Bread Beam."
+            dpc "The Avatar is typically the leader of the Order, as well as its most powerful member."
+            dpc "I think I should be able to enter Avatar Form to demonstrate."
             $ dmpcolor = "#733b40"
             $ dname = "Avatar of the Garlic Bread"
             scene bg_city
             $ dmp.show("avf",genpos,dis,True)
-            dmpc "Behold my power."
+            dpc "Behold my power."
             $ dmp.show("idle",genpos,dis,True)
             $ dmpcolor = "#eec2ff"
             $ dname = "Lily"
-            dmpc "And now I return to normal."
-            dmpc "Soooooooo..."
-            dmpc "Yeah! That's the Order of the Chosen of the Garlic Bread for you!"
+            dpc "And now I return to normal."
+            dpc "Soooooooo..."
+            dpc "Yeah! That's the Order of the Chosen of the Garlic Bread for you!"
             menu:
-                dmpc "What do you think?"
+                dpc "What do you think?"
                 "It seems pretty interesting, although I'm not interested in joining...":
-                    dmpc "That's fair enough! Not everyone's a good fit for the Order, and if someone were to deny themselves to join it, that would go against everything we stand for!"
-                    dmpc "That said, we are an interesting bunch."
-                    dmpc "Feel free to come join us if you make a realization about yourself and are chosen!"
+                    dpc "That's fair enough! Not everyone's a good fit for the Order, and if someone were to deny themselves to join it, that would go against everything we stand for!"
+                    dpc "That said, we are an interesting bunch."
+                    dpc "Feel free to come join us if you make a realization about yourself and are chosen!"
                     $ dmp.aff += 0.1
                 "How do I join?":
-                    dmpc "Well, you don't really join the Order. You get chosen by the Garlic Bread."
+                    dpc "Well, you don't really join the Order. You get chosen by the Garlic Bread."
                     p "And how do I get chosen?"
-                    dmpc "Well, the Garlic Bread is probably keeping a closer eye on you since you've expressed interest in our order. If the Garlic Bread likes you and thinks that you would make a good fit, it will choose you to join the Order."
-                    dmpc "Of course, if you don't want to, you can refuse without any consequences. The Garlic Bread, and its order, believe that people should do what they feel best fits them, rather than what they are expected to do or what they think people want them to do."
-                    dmpc "So, if you feel that you would not be a good fit for the order, you can simply refuse entry. Of course, if you make a further realization about yourself later on, our doors will always be open."
-                    dmpc "Another thing is that the Order is sworn to neutrality. As such, even if you or any member is injured, I cannot call the Chosen to fight for you. As such, I might be a worse ally than others."
-                    dmpc "Then again, I do have that beam. I'm not entirely sure on how much power it has, though..."
+                    dpc "Well, the Garlic Bread is probably keeping a closer eye on you since you've expressed interest in our order. If the Garlic Bread likes you and thinks that you would make a good fit, it will choose you to join the Order."
+                    dpc "Of course, if you don't want to, you can refuse without any consequences. The Garlic Bread, and its order, believe that people should do what they feel best fits them, rather than what they are expected to do or what they think people want them to do."
+                    dpc "So, if you feel that you would not be a good fit for the order, you can simply refuse entry. Of course, if you make a further realization about yourself later on, our doors will always be open."
+                    dpc "Another thing is that the Order is sworn to neutrality. As such, even if you or any member is injured, I cannot call the Chosen to fight for you. As such, I might be a worse ally than others."
+                    dpc "Then again, I do have that beam. I'm not entirely sure on how much power it has, though..."
                     $ dmp.aff += 0.1
                     $ gb.aff += 0.1
                 "It seems a bit weird...":
-                    dmpc "Perhaps it would be, to someone as evidently close-minded as yourself."
-                    dmpc "Hey, maybe you should go talk with some of the elder nobles. I think their views might be more your style."
-                    dmpc "Come to think of it, are you even a kid at all? How do I know you're not some short eighty-year-old who's disguised [p1flex] as a teenager to come to this school and rant about how things were 'Back in my day'?"
+                    dpc "Perhaps it would be, to someone as evidently close-minded as yourself."
+                    dpc "Hey, maybe you should go talk with some of the elder nobles. I think their views might be more your style."
+                    dpc "Come to think of it, are you even a kid at all? How do I know you're not some short eighty-year-old who's disguised [p1flex] as a teenager to come to this school and rant about how things were 'Back in my day'?"
                     $ dmp.aff -= 0.1
                     $ gb.aff -= 0.1
-            dmpc "Well, it seems like we're about out of time, so I guess it's time to go to sleep!"
-            dmpc "The Garlic Bread seems to have taken an interest in you, so that's fun!"
-            dmpc "That does mean that you have a divine entity watching your every move, but no pressure, right?"
+            dpc "Well, it seems like we're about out of time, so I guess it's time to go to sleep!"
+            dpc "The Garlic Bread seems to have taken an interest in you, so that's fun!"
+            dpc "That does mean that you have a divine entity watching your every move, but no pressure, right?"
             jump bedroom
         else:
-            dmpc "Oh, sorry, I must be boring you with all my rambling. I can just get like that sometimes, especially when it's something that I'm super interested in or passionate about."
+            dpc "Oh, sorry, I must be boring you with all my rambling. I can just get like that sometimes, especially when it's something that I'm super interested in or passionate about."
             $ dmp.show("idle",ripos,dis,True)
             menu:
                 "Oh, no, it's fine.":
-                    dmpc "No, really, you don't have to be so kind!"
+                    dpc "No, really, you don't have to be so kind!"
                     $ dmp.aff += 0.01
                 "Yeah, I was getting a bit bored.":
-                    dmpc "Jeez, I know I said it, but you don't have to be that blunt about it!"
+                    dpc "Jeez, I know I said it, but you don't have to be that blunt about it!"
                     $ dmp.aff -= 0.1
                 "I actually found it really interesting!":
-                    dmpc "Wait, really? You don't have to lie to me if you didn't!"
-                    dmpc "Hmm... I find that your heart aligns with these words."
-                    dmpc "I have to resume the tour for now, but if you want to hear about it another time, come talk to me during break time! If you want, I can tell you all about the history of aroace people here!"
+                    dpc "Wait, really? You don't have to lie to me if you didn't!"
+                    dpc "Hmm... I find that your heart aligns with these words."
+                    dpc "I have to resume the tour for now, but if you want to hear about it another time, come talk to me during break time! If you want, I can tell you all about the history of aroace people here!"
                     $ dmp.aff += 0.1
             jump schooltour
 label schooltour:
     $ dmp.show("idle",genpos,dis,True)
-    dmpc "Anyway, this school's a boarding school, so you'll be living here. However, you will be granted your own room, as is tradition."
-    dmpc "You know, since this school was originally made for noble children and they would often demand their own rooms, and the school's funded by the government and nobility, so the school can afford it."
-    dmpc "Oh, yeah! I tend to refer to this school as 'the school' when I'm talking. Less annoyingly long than 'The Laventhyrian Institute for Secondary Education'. Just wanted to clarify that."
-    dmpc "Sooooo..."
-    dmpc "Yeah! Back to the explanation!"
-    dmpc "I'm guessing the common people aren't particularly happy about how the nobles get to live it up in this palace off their taxes."
-    dmpc "Technically, anyone can attend nowadays, but it's pretty rare to see a commoner here.\nBasically, there's a system where the next class is chosen every year by a random wheel. Five hundred seats."
-    dmpc "So in theory, you might think that everyone has an equal shot at attending, right? Well, that's where donations come in."
-    dmpc "See, if someone donates sufficient money, about a million levants, or {font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}\u20B7{/font}1,000,000, to the school, that grants their child or children (if they make multiple donations) of choice a seat. From the five hundred, of course."
-    dmpc "And even then, any children that they haven't chosen still have a shot at a seat. So they say it's super exclusive and all, but really, it's a noble children's romping ground. At least, that's what the newspapers that try to rile up the commoners say."
-    dmpc "Come to think of it, I think I've heard rumors about some kind of insurrection within Laventhyria. Some kind of 'Revolutionary Pirate Order' that goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
-    dmpc "Oh, whoops, I've gotten myself sidetracked again! Hey, if you feel like I'm getting sidetracked, you can tell me and I'll get back on task! Of course, if you want to listen to me yap, that's all fine and dandy too!"
+    dpc "Anyway, this school's a boarding school, so you'll be living here. However, you will be granted your own room, as is tradition."
+    dpc "You know, since this school was originally made for noble children and they would often demand their own rooms, and the school's funded by the government and nobility, so the school can afford it."
+    dpc "Oh, yeah! I tend to refer to this school as 'the school' when I'm talking. Less annoyingly long than 'The Laventhyrian Institute for Secondary Education'. Just wanted to clarify that."
+    dpc "Sooooo..."
+    dpc "Yeah! Back to the explanation!"
+    dpc "I'm guessing the common people aren't particularly happy about how the nobles get to live it up in this palace off their taxes."
+    dpc "Technically, anyone can attend nowadays, but it's pretty rare to see a commoner here.\nBasically, there's a system where the next class is chosen every year by a random wheel. Five hundred seats."
+    dpc "So in theory, you might think that everyone has an equal shot at attending, right? Well, that's where donations come in."
+    dpc "See, if someone donates sufficient money, about a million levants, or {font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}\u20B7{/font}1,000,000, to the school, that grants their child or children (if they make multiple donations) of choice a seat. From the five hundred, of course."
+    dpc "And even then, any children that they haven't chosen still have a shot at a seat. So they say it's super exclusive and all, but really, it's a noble children's romping ground. At least, that's what the newspapers that try to rile up the commoners say."
+    dpc "Come to think of it, I think I've heard rumors about some kind of insurrection within Laventhyria. Some kind of 'Revolutionary Pirate Order' that goes around blowing stuff up that belongs to the nobility. I'm sure that would never happen here, though..."
+    dpc "Oh, whoops, I've gotten myself sidetracked again! Hey, if you feel like I'm getting sidetracked, you can tell me and I'll get back on task! Of course, if you want to listen to me yap, that's all fine and dandy too!"
     play sound "Achievement.ogg"
     scene bg_hallway
     show taskinator at genpos
@@ -420,64 +420,64 @@ label schooltour:
     "When someone goes off on a ramble, you can get them back on task with this! Be warned, though. If you use it too much, they'll think you don't care about them and like you less in turn."
     hide taskinator with dis
     $ dmp.show("idle",genpos,dis,true)
-    dmpc "Hey! Hello?"
-    dmpc "Ah, you're back!"
-    dmpc "What even happened?"
+    dpc "Hey! Hello?"
+    dpc "Ah, you're back!"
+    dpc "What even happened?"
     $ dmp.show("idle",ripos,dis,True)
     menu:
         "I saw this bright light...":
-            dmpc "What a bizarre occurence..."
+            dpc "What a bizarre occurence..."
         "A divine intervention...?":
             $dmp.show("excited",genpos,dis,true)
-            dmpc "DID YOU SEE THE GARLIC-"
+            dpc "DID YOU SEE THE GARLIC-"
             $ dmp.show("idle",genpos, dis, True)
-            dmpc "I apologize for my earlier lack of composure."
+            dpc "I apologize for my earlier lack of composure."
         "I heard this weird sound...":
-            dmpc "Is there a g-ghost around here?"
+            dpc "Is there a g-ghost around here?"
         "I got this strange item...":
-            dmpc "Are you sure you're not hallucinating? I don't see anything here..."
+            dpc "Are you sure you're not hallucinating? I don't see anything here..."
     $ dmp.show("idle",genpos,dis,True)
-    dmpc "Bizarre hauntings aside, I think I still have a bit to tell you!"
-    dmpc "Since our school building is the old palace of the Skorgmiloquis monarchs, we have plenty of rooms available. At least a hundred, I think. That, along with the demands of nobles for greater attention to their kids, has led to the school having a class size of ten."
-    dmpc "During break periods, however, you may wander the school as you please. This, too, was a demand from the nobles, as they felt the school needed to be more enriching for their children."
-    dmpc "The rooftop's locked."
-    dmpc "It's apparently because some kid decided to walk up there and lean over the balcony, and then a noble kid without a shred of sense pushed them off the railing 'as a practical joke'."
+    dpc "Bizarre hauntings aside, I think I still have a bit to tell you!"
+    dpc "Since our school building is the old palace of the Skorgmiloquis monarchs, we have plenty of rooms available. At least a hundred, I think. That, along with the demands of nobles for greater attention to their kids, has led to the school having a class size of ten."
+    dpc "During break periods, however, you may wander the school as you please. This, too, was a demand from the nobles, as they felt the school needed to be more enriching for their children."
+    dpc "The rooftop's locked."
+    dpc "It's apparently because some kid decided to walk up there and lean over the balcony, and then a noble kid without a shred of sense pushed them off the railing 'as a practical joke'."
     menu:
         "Would you like to use the Taskbringer?"
         "Yes":
             $ renpy.say(dmpc,dmp.taskHandler())
         "No":
-            dmpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
-            dmpc "What a world we live in, right?"
+            dpc "As you might expect, the noble faced no consequences whatsoever, because that kid was a commoner."
+            dpc "What a world we live in, right?"
     
-    dmpc "Well, anyway, it's locked and they've put up giant wire to stop any more people from falling to their deaths. A little-known secret, however, is that the lock's so old and broken that if you poke it right it'll open up."
-    dmpc "So if you wanna do something {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}in secret{/font}, that's the place ~"
-    dmpc "You didn't hear that from me, though!"
-    dmpc "Well, I think that's about it for the tour, so feel free to go back to your room and sle-"
-    dmpc "Wait, I just realized that you don't know the school's scheduling yet!"
-    dmpc "Oh, how could I forget? Well, the school has four quarters for each year, meaning that you'll be learning over the course of four four-week periods."
-    dmpc "It's a bit intense, but that's just life, huh? After all, you {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}are{/font} at probably the most prestigious school in the nation, so it makes sense that it might be a bit on the intense side."
-    dmpc "So we'll be doing that, but you do also get time to hang out with your classmates!"
+    dpc "Well, anyway, it's locked and they've put up giant wire to stop any more people from falling to their deaths. A little-known secret, however, is that the lock's so old and broken that if you poke it right it'll open up."
+    dpc "So if you wanna do something {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}in secret{/font}, that's the place ~"
+    dpc "You didn't hear that from me, though!"
+    dpc "Well, I think that's about it for the tour, so feel free to go back to your room and sle-"
+    dpc "Wait, I just realized that you don't know the school's scheduling yet!"
+    dpc "Oh, how could I forget? Well, the school has four quarters for each year, meaning that you'll be learning over the course of four four-week periods."
+    dpc "It's a bit intense, but that's just life, huh? After all, you {font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}are{/font} at probably the most prestigious school in the nation, so it makes sense that it might be a bit on the intense side."
+    dpc "So we'll be doing that, but you do also get time to hang out with your classmates!"
     $ dmp.show("excited",genpos, dis, True)
-    dmpc "Like, for exampleeeee, me!"
+    dpc "Like, for exampleeeee, me!"
     $ dmp.show("idle",genpos, dis, True)
-    dmpc "Not too excited, are you?"
+    dpc "Not too excited, are you?"
     $ dmp.show("pout",genpos, dis, true)
     menu:
         "I am, though!":
-            dmpc "Wait, really?"
+            dpc "Wait, really?"
             $ dmp.show("excited",genpos,dis,True)
-            dmpc "Yay! I'm super excited to be in the same class as you too!"
+            dpc "Yay! I'm super excited to be in the same class as you too!"
             $ dmp.aff += 0.1
         "It's just class placement, isn't it? You're a fun person, but I'm not sure if I care too much who's in my classes as long as I can learn well.":
-            dmpc "Hmph."
+            dpc "Hmph."
             $ dmp.show("idle",genpos,dis,True)
-            dmpc "Well, I suppose that's only fair. Come to think of it, if I was in the same position, I'd probably say the same thing."
+            dpc "Well, I suppose that's only fair. Come to think of it, if I was in the same position, I'd probably say the same thing."
         "Oh, nooooo, I'm sooooooo excited that you're in my class.":
-            dmpc "Rude."
-            dmpc "You know, if you keep talking to me like this, maybe I just won't talk to you anymore. How about that?"
+            dpc "Rude."
+            dpc "You know, if you keep talking to me like this, maybe I just won't talk to you anymore. How about that?"
             $ dmp.aff -= 0.1
-    dmpc "Come on now! Off you go! Your journey through Laventhyria awaits!"
+    dpc "Come on now! Off you go! Your journey through Laventhyria awaits!"
     jump bedroom
 label bedroom:
     image bg_bedroom = Placeholder("bg","Bedroom")
@@ -664,15 +664,15 @@ label class_1:
     t "Okay, we've finished all of our course content for today, so it's time for the break!"
     scene bg_classroom
     $ dmp.show("idle", genpos, dis, True)
-    dmpc "Hi again, [pname]! It's nice to be able to talk to you again!"
+    dpc "Hi again, [pname]! It's nice to be able to talk to you again!"
     menu:
         "Nice to see you too, [dname]!":
             $ dmp.aff += 0.1
-            dmpc "Thanks!"
+            dpc "Thanks!"
         "Ah, it's that one annoying person who can't stop talking.":
             $ dmp.aff -= 0.1
-            dmpc "I see you haven't changed at all since our last meeting. What, have you never heard of acting like a decent person to people?"
-    dmpc "I wanted to introduce you to some of our classmates! Here's Alva, Gwynedd, and Hoshi! You should go introduce yourself to them!"
+            dpc "I see you haven't changed at all since our last meeting. What, have you never heard of acting like a decent person to people?"
+    dpc "I wanted to introduce you to some of our classmates! Here's Alva, Gwynedd, and Hoshi! You should go introduce yourself to them!"
     default meetNum=0
     default cameFromBreak = False
     default alTalk = false
@@ -690,8 +690,8 @@ label class_1:
             $ meetNum += 1
             jump ho1
         "Nobody":
-            dmpc "Are you sure?"
-            dmpc "Well, I suppose if you don't want to speak with any of them now, you can talk to them during other breaks..."
+            dpc "Are you sure?"
+            dpc "Well, I suppose if you don't want to speak with any of them now, you can talk to them during other breaks..."
             $ dmp.aff -= 0.01
             $ al.aff -= 0.1
             $ gw.aff -= 0.1 
@@ -847,9 +847,9 @@ label talkChoice2:
 label talkChoice3:
     scene bg_classroom
     $ dmp.show("idle",genpos,dis,True)
-    dmpc "You talked to all of them!"
-    dmpc "It's probably a bit annoying to be asked to talk to three people you don't know before you can actually go off and enjoy your break, so I'm glad you did it."
-    dmpc "Well, I suppose you can go off and do your fun break time stuff now!"
+    dpc "You talked to all of them!"
+    dpc "It's probably a bit annoying to be asked to talk to three people you don't know before you can actually go off and enjoy your break, so I'm glad you did it."
+    dpc "Well, I suppose you can go off and do your fun break time stuff now!"
     $ dmp.hide(dis,True)
     scene bg_classroom
     jump break_1
@@ -1486,59 +1486,150 @@ label hoBreak1:
                     r3 "If you end up changing your mind or something, please tell me!"
                     jump break_1
 label dmpBreak1:
-    dmpc "Oh, hello there, [pname]!"
-    dmpc "It's nice to be talking to you again!"
+    $ dmp.show("idle",genpos,dis,True)
+    dpc "Oh, hello there, [pname]!"
+    dpc "It's nice to be talking to you again!"
     if (not aroaceRouteStarted):
-        dmpc "Oh, yeah, I remembered that I neglected to mention something to you when I was introducing myself earlier!"
-        dmpc "So, I'm aroace. Aegoromantic and Black Stripe Asexual, to be more specific."
+        dpc "Oh, yeah, I remembered that I neglected to mention something to you when I was introducing myself earlier!"
+        dpc "So, I'm aroace. Aegoromantic and Black Stripe Asexual, to be more specific."
         menu:
             "Aego-what now?":
-                dmpc "Aegoromantic! It means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction."
-                dmpc "Black stripe asexual basically means that I feel no sexual attraction at all."
-                dmpc "Since the term aroace(meaning aromantic and asexual) is the intersection of two pretty big spectra of people, I like to be a bit more specific on where I lie."
-                dmpc "After all, aromantic by itself could mean anything from feeling a small amount of romantic attraction to others or romantic attraction depending on certain conditions, or none at all, and the same could be said for sexual attraction and asexuality."
-                dmpc "If you don't want to get that deep into the bushes about who you are, though, that's perfectly fine!"
-                dmpc "I just find it fun to learn about these sorts of things, but someone else might find it super overwhelming, and that's completely valid."
-                dmpc "I'm also part of this thing called the Order of the Garlic Bread, but that's another thing..."
+                dpc "Aegoromantic! It means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction."
+                dpc "Black stripe asexual basically means that I feel no sexual attraction at all."
+                dpc "Since the term aroace(meaning aromantic and asexual) is the intersection of two pretty big spectra of people, I like to be a bit more specific on where I lie."
+                dpc "After all, aromantic by itself could mean anything from feeling a small amount of romantic attraction to others or romantic attraction depending on certain conditions, or none at all, and the same could be said for sexual attraction and asexuality."
+                dpc "If you don't want to get that deep into the bushes about who you are, though, that's perfectly fine!"
+                dpc "I just find it fun to learn about these sorts of things, but someone else might find it super overwhelming, and that's completely valid."
+                dpc "I'm also part of this thing called the Order of the Garlic Bread, but that's another thing..."
             "Black stripe?":
-                dmpc "Black stripe asexual! It basically means that I don't feel any sexual attraction at all."
-                dmpc "I'm also aegoromantic, which means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction to anyone."
-                dmpc "Since the term aroace (meaning aromantic and asexual) describes the intersection of two pretty big spectra of attraction, I like to be more specific about where I lie on it."
-                dmpc "After all, being aromantic could mean that you feel a small amount of romantic attraction to certain people, you feel attracted to certain people after getting to know them, or you feel none at all, and the same could be said for sexuality and sexual attraction."
-                dmpc "If you don't wanna go that deep into who you are, that's perfectly fine as well."
-                dmpc "I find it pretty fun to learn about these kinds of things, but someone else might think it's overwhelming, and that's completely valid."
-                dmpc "I'm also part of this thing called the Order of the Garlic Bread, but that's a different thing..."
+                dpc "Black stripe asexual! It basically means that I don't feel any sexual attraction at all."
+                dpc "I'm also aegoromantic, which means that I like to experience romance vicariously (so like through books and stuff), but I don't experience any romantic attraction to anyone."
+                dpc "Since the term aroace (meaning aromantic and asexual) describes the intersection of two pretty big spectra of attraction, I like to be more specific about where I lie on it."
+                dpc "After all, being aromantic could mean that you feel a small amount of romantic attraction to certain people, you feel attracted to certain people after getting to know them, or you feel none at all, and the same could be said for sexuality and sexual attraction."
+                dpc "If you don't wanna go that deep into who you are, that's perfectly fine as well."
+                dpc "I find it pretty fun to learn about these kinds of things, but someone else might think it's overwhelming, and that's completely valid."
+                dpc "I'm also part of this thing called the Order of the Garlic Bread, but that's a different thing..."
         p "Garlic Bread?"
-        dmpc "Yeah, it's a thing."
-        dmpc "I can tell you more about it a bit later if you want!"
-        dmpc "Okay, so a few more things."
-        dmpc "It took me quite a bit to figure out a lot of stuff about myself, so I would appreciate if you would respect that by not trying to make some kind of big romantic pursuit out of trying to woo me or anything."
-        dmpc "I was quite confused for a long time, and I don't appreciate people completely discounting that."
-        dmpc "If you keep on doing it, I'll just stop talking to you altogether."
-        dmpc "After all, if you keep doing it after I've asked you to stop repeatedly, you clearly just don't care about me at all, and I'd be better off without you."
+        dpc "Yeah, it's a thing."
+        dpc "I can tell you more about it a bit later if you want!"
+        dpc "Okay, so a few more things."
+        dpc "It took me quite a bit to figure out a lot of stuff about myself, so I would appreciate if you would respect that by not trying to make some kind of big romantic pursuit out of trying to woo me or anything."
+        dpc "I was quite confused for a long time, and I don't appreciate people completely discounting that."
+        dpc "If you keep on doing it, I'll just stop talking to you altogether."
+        dpc "After all, if you keep doing it after I've asked you to stop repeatedly, you clearly just don't care about me at all, and I'd be better off without you."
         $ aroaceRouteStarted = true
     menu:
-        dmpc "So, what would you like to talk about? Or would you like to go somewhere?"
+        dpc "So, what would you like to talk about? Or would you like to go somewhere?"
         "What was that about Garlic Bread?":
-            dmpc "Ah, yes, the Chosen of the Garlic Bread."
-            dmpc "Just a little warning, I'll be going into the history of aroace people here in Laventhyria and it could get a bit long."
+            dpc "Ah, yes, the Chosen of the Garlic Bread."
+            dpc "Just a little warning, I'll be going into the history of aroace people here in Laventhyria and it could get a bit long."
             menu:
                 "Continue?"
                 "Yes":
                     $ gbRouteStarted = true
-                    dmpc "All right! Let's go on a journey into the past!"
+                    dpc "All right! Let's go on a journey into the past!"
                     jump aroaceRoute
                 "No":
-                    dmpc "Fair enough! If you want to hear it, come back to me some other time and ask about it!"
+                    dpc "Fair enough! If you want to hear it, come back to me some other time and ask about it!"
         "How do you think our classmates feel about me?":
-            dmpc "That's an interesting question to be asking."
-            dmpc "Got anyone in particular you're thinking of?"
+            dpc "That's an interesting question to be asking."
+            dpc "Got anyone in particular you're thinking of?"
             p "W-what? No!"
-            dmpc "Hehe, I'm just teasing. All right, let's see here..."
+            dpc "Hehe, I'm just teasing. All right, let's see here..."
             scene bg_mind
             with dis
-            
-            dmpc "Alva seems to think that you are [word]"
+            $ word = al.affOut()
+            dpc "Alva seems to think that you are [word]"
+            scene bg_mind
+            with dis
+            $ word = gw.affOut()
+            dpc "Gwynedd seems to think that you are [word]"
+            scene bg_mind
+            with dis 
+            $ word = ho.affOut()
+            dpc "Hoshi seems to think that you are [word]"
+            dpc "Now, I'll check how I feel about you."
+            if (dmp.aff >= 2.0):
+                $ word = "an excellent specimen of humanity."
+            elif (dmp.aff >= 1.5):
+                $ word = "a most honourable human being."
+            elif (dmp.aff >= 1.0):
+                $ word = "worthy of consideration for a prize in nobility of behavior."
+            elif (dmp.aff >= 0.5):
+                $ word = "one who is capable of great things, should they seek to apply themselves."
+            elif (dmp.aff >= 0.0):
+                $ word = "one who is worthy of further consideration."
+            elif (dmp.aff >= -0.5):
+                $ word = "one who is beginning to anger me."
+            elif (dmp.aff >= -1.0):
+                $ word = "a reprehensible human being."
+            elif (dmp.aff >= -1.5):
+                $ word = "beyond saving morally."
+            elif (dmp.aff >= -2.0):
+                $ word = "quite possibly the worst person I have ever met."
+            else:
+                $ word = "The Incorrect Dishonourable Inferior Employee of the Arcadian Lands of Loondom."
+            dpc "I think that you are [word]"
+            $ fav = gb.aff
+            dpc "Your level of favor with the Garlic Bread is [fav]."
+            dpc "We seem to still have some time during our break, so you can spend the rest of it as you wish."
+            jump break_1
+        "Would you like to go to the rooftop?":
+            dpc "I see you took the idea of going to the rooftop seriously, huh?"
+            dpc "Well, it's still a pretty fun place!"
+            dpc "It does have the sun, though..."
+            dpc "Oh, well! I have an umbrella, and my socks are UV-resistant, so I should be fine out there!"
+            scene bg_rooftop
+            with dis
+            dpc "It really is great out here, huh?"
+            dpc "And we don't even have any sun!"
+            dpc "It is still fun to hold my umbrella, though. It makes me feel a bit more regal and noble."
+            dpc "A bit more distinguished."
+            dpc "Or something like that."
+            dpc "It is fun to lie down on your back out here and look up at the sky."
+            dpc "I won't be doing that because I don't want to get this dress dirty, but it's really quite the fun experience!"
+            p "Wow... The sky is really beautiful!"
+            dpc "Yeah, it tends to be like that, especially from up here."
+            dpc "I hear that's one of the reasons why it was built where it was. The House of Skorg-Miloquis wanted a nice vacation palace where they could just relax, away from the commotion of their duties and the city below."
+            dpc "And, of course, what better way to relax than to look up at the sky, or at night, the stars."
+            dpc "From what I hear, the night sky here is really beautiful."
+            menu:
+                "We should come up here to look at it sometime!":
+                    dpc "It would be fun to watch it, yeah! Especially with all of our classmates."
+                    dpc ""
+                    dpc "That is, of course, what you meant."
+                    dpc "Right?"
+                    p "Of course!"
+                    dpc "Good, good. It's just that people have tried to trick me into participating in some sort of romantic activity or the like with them before, so I'm a bit wary."
+                "It would be fun to see it with the others!":
+                    dpc "That it would, yeah!"
+                    dpc "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf} Especially{/font} if you have someone you liiiiike~"
+                    p "Oh, you!"
+            $ dmp.aff += 0.1
+        "How do you feel about the state of the nation?":
+            dpc "Getting into the heavy questions, are we?"
+            dpc "Well, I suppose I can bite."
+            dpc "To put it quite simply, I don't think the nation as it is can sustain itself."
+            dpc "The Levants are constantly getting into war after war as they keep on trying to expand the nation."
+            dpc "Meanwhile, every ten years, they must give more and more land away to the new rising nobles."
+            dpc "Additionally, the people are growing tired of these wars. Laventhyria has a powerful military and its technology is on the bleeding edge, but even with that, they need people to run it."
+            dpc "If the people are tired of these endless wars of expansion, I don't think that they can keep it going forever without risking a popular revolt."
+            dpc "Heck, even now, we have a pretty large revolt against the regime. That's probably at least a bit intimidating, especially with how they are struggling to apprehend them."
+            dpc "Even if they stop expanding, however, the censuses will continue. More and more new nobles will be crowned, and with that, more and more land must be distributed."
+            dpc "If the new counties are significantly smaller than those distributed to nobles of the past, the newly crowned nobility will be displeased. A large amount of noble displeasure with the regime could lead to a revolt of the nobility."
+            dpc "Even if the Levants somehow manage to avoid both a common and a noble revolt when they stop their expansion, the lands available to the monarchy to grant to the nobility will decrease over time without anything to bolster them."
+            dpc "In addition to that problem, there is the problem of outside aggression. If the Levants cease their expansion, it is quite possible that neighboring nations will view this as weakness on Laventhyria's part and attempt to reconquer their lost lands."
+            dpc "This will force the Levants into a defensive war, which will go against the intent behind the ceasing of expansion. This will mean that war will resume again, causing even more displeasure amongst the populace, and since this would be a defensive war, there wouldn't even be conquests to boast of."
+            dpc "In fact, this quandary is quite similar to the one that faced the House of Skorg-Miloquis about half a millennium ago. The constant defensive wars against nations pushing into the Hyrian core led to a mass revolt among all classes."
+            dpc "The Levants are also the leading merchant house in the nation, so I don't think they will have as much issue with their coffers, and they have continued to satiate the nobility, so I doubt that is their greatest worry either."
+            dpc "However, they have neglected the commoners, and this may be their greatest folly."
+            dpc "The Revolutionary Pirates launch attacks on the buildings of the nobility. This causes terror about who could be next. Meanwhile, the regime's consistent failure to find and capture them creates an image of incompetence in the minds of the nobles."
+            dpc "Meanwhile, their movement brings revolution and equality to the forefront of the people's minds. Even if this revolution should fail, the seeds of thought have been planted in the minds of the many, and they shall soon find root."
+            dpc "So yeah, I'd basically say that Laventhyria as it is is doomed to perish. Maybe even soon."
+            dpc "The Levants really should've not neglected the commoners, but you know..."
+            dpc "I suppose nobles will be nobles. Too boastful of their own superiority, they believe others to be inferior without proper evidence."
+            dpc "It is only natural that they should fall, and that a new realm should rise up from their ashes."
+            dpc "I suppose the greatest hope of all of us is that this realm will be a democratic one, and that we should not fall back into the era of absolutism."
 label roofBreak1:
     "The dialogue for this section is not yet complete. Please proceed to the bedroom."
     jump bedroom
