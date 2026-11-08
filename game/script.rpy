@@ -48,6 +48,7 @@ transform ripos:
     xalign 1.0
     yalign 0.125
 init python:
+    import math
     def live2d_there(characterFold) -> bool:
         return renpy.loadable(f"Live2D/{characterFold}/{characterFold}.model3.json")
     def Live2Ds(*args, charFold, fallback = Placeholder(base = "girl", text="No Live2D"), fallback1 = Image(""),**kwargs):
@@ -1723,6 +1724,7 @@ label hallway:
     "You keep moving, almost automatically. As you do, the void's call grows louder."
     "You check your watch. It's now past midnight. Looks like you won't be getting any sleep tonight."
     $ noEep += 1
+    $ day += 1
     scene expression "/images/staying_up_late.png"
     with dis
     play music "BG_Hallway_Evil.ogg"
@@ -1757,6 +1759,7 @@ label hallway:
                     "The entity seems to be distracted with thinking of ways to berate you, so it does not notice opening it."
                     p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Let's see, let's see... wait, who left all this in my bag? Like, it's actually getting scary now!{/font}"
                     default checkedBag = false
+                    default escItem = ""
                     menu:
                         "Which item would you like to use to try and disguise your escape?"
                         "Smoke bomb (comes with a face mask)":
@@ -1772,7 +1775,8 @@ label hallway:
                             unk "That should keep the vile creature in place. Now, where is it? Come out, come out, whereeeeever you areeeee~"
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}How do I get out of this?{/font}"
                             "Thankfully, it seems that the paralysis was only temporary, but it's allowed the entity to draw closer."
-                            jump hallEscSmo1
+                            $ escItem = "smoke bomb"
+                            jump hallEscSmo
                         "Flash grenade (comes with protective goggles)":
 
                         "A ten million Levant coin?":
@@ -1783,7 +1787,8 @@ label hallway:
 
                         "Cancel your escape and stay here.":
 
-label hallEscSmo1:
+label hallEscSmo:
+    scene bg_hallway
     menu:
         p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}What should I do now?{/font}"
         "Check your backpack for more tools to use." if not checkedBag:
@@ -1791,9 +1796,81 @@ label hallEscSmo1:
             "It seems that they were a boon only for that encounter."
             $ checkedBag = true
             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, looks like that option's off the table...{/font}"
-            jump hallEscSmo1
-        "Make a break for it."
+            jump hallEscSmo
+        "Make a break for it.":
+            "You start running as fast as you can."
+            "The pattering of your feet upon the stone floors echoes throughout the hallway, alerting the entity to your presence."
+            unk "Why, you little..."
+            "The entity begins to chase after you."
+            play music "BG_Chase.ogg"
+            $ player.show("scared",genpos,dis,true)
+            $ player.hide("moveoutleft", true)
+            p "Why's this hallway so long?!"
+            unk "Did you seriously think that you could get away from me?"
+            "Your legs start to burn, but you keep running, knowing that if you stop, you're likely done for."
+            p "How much longer?!"
+            jump escSuccess
+        "Surrender yourself to the entity.":
+            "You throw up your hands in surrender."
+            p "I give up! I'm sorry for trying to get away."
+            unk "Sorries won't cut it, you deceitful little wretch."
+label escFail:
+    unk "No, I'll have to punish you some other way..."
+    unk "I know! I'll just leave you out in this hallway. It's so far off into the unknown that nobody'll find you, and you'll rot here."
+    unk "The perfect punishment for one such as yourself. Now, descend into your eternal sleep!"
+    with fade
+    scene expression "/images/staying_up_late.png"
+    default dayDiff = 0
+    "You collapse onto the floor. Into your eternal rest..."
+    if (day%5==0):
+        $ day += 1
+        $ dayDiff = 2
+    else:
+        $ dayDiff = (math.ceil(day/5.0))*5-day
+        $ day = (math.ceil(day/5.0))*5
+    with fade
+    $ noEep += dayDiff
+    scene bg_hallway
+    dpc "Wake up!"
+    dpc "What're you doing, collapsed out here on this floor? It's been [dayDiff] days since you walked off into the hallway, and nobody's known where you've been!"
+    if (day%5!=0):
+        dpc "This week's quiz is today! Oh my, you've missed so much content..."
+        dpc "I'll ask the teacher to do some review for you, okay? Of course, if you think you're good on it all, you can skip it, but I really think you'll need it!"
+    else:
+        dpc "Nobody's been able to find you all weekend! What, did you just wander off into the hallway after last week's quiz, hoping everyone would just forget about you?"
+        p "N-no, I-"
+        dpc "Oh, I'm so sorry. I really shouldn't have... It's just... we've all just been so worried about what happened to you."
+        dpc "You walked off into that hallway, and when you didn't come back after a day, and then two... I thought something had happened to you. That, or you had done something..."
+    dpc "But what even happened to you?"
+    p "Well, let's see... I walked off into the hallway, since I wanted to check it out and all. It sounded like it would be pretty interesting to go out exploring a bit, you know?"
+    p "But then I kept walking, and I felt this pull bringing me deeper and deeper..."
+    p "Before I knew it, I was surrounded by darkness, and that's when this weird entity appeared."
+    p "It was going on and on about me being a traitor and lying to everyone, but I don't really get what it was talking about..."
     
+
+label escSuccess:
+    scene bg_hallway
+    play music "Main_BGM.ogg"
+    "Eventually, you burst out of the void, but as you do so, you stumble and fall onto your face."
+    p "No! Please don't!"
+    $ dmp.show("idle", genpos,dis,true)
+    dpc "Are you okay? What's going on?"
+    p "W-where's the entity?"
+    dpc "I don't see any entities..."
+    $ dmp.show("pout",genpos,dis,true)
+    dpc "More importantly, where have you been? You went off into that hallway during break yesterday, and you haven't been back in a day!"
+    p "The hallways..."
+    dpc "I know you were in the hallway, but how did you end up in there for a DAY?!"
+    p "I don't know... I was walking, and as I kept walking, I felt this pull to keep walking, and then the night passed, and..."
+    dpc "And what?"
+    p "This mysterious voice appeared. It was going on about how I was lying to everyone about who I am and all that, or something."
+    dpc "How bizarre..."
+    p "Then I decided to try and get away while I still could. I felt a weird weight in my backpack, and when I checked inside, I saw a bunch of tools. Flash grenades, smoke bombs, a ten million levant coin, and a weird duck."
+    p "I used the [escItem] to get away, but it managed to spot me. From there, I had to run for my life."
+    p "It was talking about how I couldn't run forever or something, and it was right. My legs were burning like crazy by the end of it."
+    p "Then I tripped on something and landed here, where you found me."
+    dpc "Wow, it certainly sounds like you've had an adventure out there."
+    dpc "Fortunately, you're just in time for class!"
 label class_2:
     scene bg_classroom
     "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
