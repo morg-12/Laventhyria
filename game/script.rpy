@@ -1693,8 +1693,107 @@ label roofBreak1:
     $ gb.aff += 0.1
     jump bedroom
 label hallBreak1:
-    "The dialogue for this section is not yet complete. Please proceed to the bedroom."
+    "You walk out into the hallway."
+    scene bg_hallway
+    with dis 
+    play music "BG_Hallway.ogg"
+    $ player.show("idle",genpos,dis,true)
+    p "Huh. I would've thought there would be more people out here."
+    menu:
+        "Would you like to keep going down the hall?"
+        "Keep going":
+            "You continue further down the hallway."
+            "Your footsteps are the only sound you can hear."
+            "The darkness barely beyond your vision seems to almost call you deeper."
+            menu:
+                "Will you obey?"
+                "Keep going":
+                    jump hallway        
+                "Turn back":
+                    "Though your body seems to resist you, you wrench yourself away from the darkness."
+                    "You return to the classroom, finding that it is already night."
+                    p "How did it pass so fast? I could've sworn I just left the classroom."
+                    "You decide to go to bed, ignoring the bizarre incident for now."
+                    jump bedroom
+        "Turn back":
+            p "It seems a bit too eerie for my liking right now. Maybe later?"
+            jump break_1
     jump bedroom
+label hallway:
+    "You keep moving, almost automatically. As you do, the void's call grows louder."
+    "You check your watch. It's now past midnight. Looks like you won't be getting any sleep tonight."
+    $ noEep += 1
+    scene expression "/images/staying_up_late.png"
+    with dis
+    play music "BG_Hallway_Evil.ogg"
+    "You can barely see anything anymore, but it feels as though what you seek is just beyond your reach."
+    menu:
+        "Do you wish to see what lies beyond the darkness?"
+        "Yes":
+            
+        "No":
+            "You tear your eyes away from the alluring void before you and force yourself to turn back, one step at a time."
+            "With each step, you feel the force pulling you back grow stronger."
+            "It's a struggle not to turn around, but you steel yourself and keep moving forward."
+            "Forward and forward, until..."
+            ""
+            unk "You're quite a strong [p1genterm], aren't you?"
+            "A voice in the darkness taunts you."
+            p "Who are you?"
+            unk "One who knows what you are."
+            p "A student?"
+            unk "So you claim."
+            unk "You lie in your every breath to everyone around you, claiming that your name is [pname], you are a noble, you reside within this kingdom."
+            unk "But I can see through your deceptions, vile one. I know that you are not of this realm."
+            unk "You come to our world to fulfill your own heinous ambitions, is that it?"
+            unk "An intruder, come to feast upon our riches, then leave without consequence."
+            menu:
+                "You sense that it may be wise to flee. Do you wish to flee?"
+                "Yes":
+                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I need to get out of here before this thing flays me or something... but how?{/font}"
+                    unk "You are a despicable facsimile of a human. In fact, I have never seen one in my life so despicable."
+                    "You notice that your backpack seems to have suddenly become heavier. In the corner of your vision, you see what looks like... a bread crumb?"
+                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, never mind that. What's in the bag?{/font}"
+                    "The entity seems to be distracted with thinking of ways to berate you, so it does not notice opening it."
+                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Let's see, let's see... wait, who left all this in my bag? Like, it's actually getting scary now!{/font}"
+                    default checkedBag = false
+                    menu:
+                        "Which item would you like to use to try and disguise your escape?"
+                        "Smoke bomb (comes with a face mask)":
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Perfect! It should obstruct the entity's vision for a bit, allowing me to go through and get out of sight without it noticing until way later!{/font}"
+                            "You put on the face mask supplied, then toss down the smoke bomb beneath yourself."
+                            "A sizable smoke cloud appears beneath and around you."
+                            unk "Why's there a bunch of smoke? Is there a fire?"
+                            "The smoke feels very thick as you run through it."
+                            p "{font= NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I wonder how much damage this could do to my lungs...{/font}"
+                            "As the cloud fades, the entity notices your absence and lets out a paralyzing screech."
+                            "Headphone warning: A loud screech will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume."
+                            play sound "Screech.ogg"
+                            unk "That should keep the vile creature in place. Now, where is it? Come out, come out, whereeeeever you areeeee~"
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}How do I get out of this?{/font}"
+                            "Thankfully, it seems that the paralysis was only temporary, but it's allowed the entity to draw closer."
+                            jump hallEscSmo1
+                        "Flash grenade (comes with protective goggles)":
+
+                        "A ten million Levant coin?":
+
+                        "A rubber duck with a note next to it and a strange button. You can't read the note in the darkness.":
+
+                        "A crowbar, with the words \"For throwing only\" engraved into it.":
+
+                        "Cancel your escape and stay here.":
+
+label hallEscSmo1:
+    menu:
+        p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}What should I do now?{/font}"
+        "Check your backpack for more tools to use." if not checkedBag:
+            "You look inside, but all the old tools are gone."
+            "It seems that they were a boon only for that encounter."
+            $ checkedBag = true
+            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, looks like that option's off the table...{/font}"
+            jump hallEscSmo1
+        "Make a break for it."
+    
 label class_2:
     scene bg_classroom
     "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
