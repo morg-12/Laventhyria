@@ -30,6 +30,7 @@ default noEep = 0.0
 default eepNum = 0.0
 default keyAnswer = ""
 default hallBanned = false
+default qtWarned = false
 transform dying:
     linear 1.0 matrixcolor SaturationMatrix(0.0)
     #linear 1.0 matrixcolor SepiaMatrix()
@@ -48,6 +49,31 @@ transform lefpos:
 transform ripos:
     xalign 1.0
     yalign 0.125
+
+screen quicktime(choices,time,labels):
+# A basic screen for quicktime events. May add to it later.
+# Ensure that the number of labels is equal to the number of choices, plus one label at the end in case of failure. time must be a double.
+    if (not qtWarned):
+        qt()
+        qtWarned = True
+    vbox:
+        for i, choice in enumerate(choices):
+            textbutton choice action Jump(labels[i])
+    timer time action Jump(labels[-1])
+screen death(buttonNames,jumpLabels,deathMessage):
+# A basic attempt at making a death screen. Will be debugged later.
+    modal True
+    vbox:
+        align(0.5,0.3)
+        text "Game Over":
+            size 80
+            color "#cc0000"
+        text deathMessage yalign 0.4 size 24
+    vbox:
+        text "How will you continue?" size 12 yalign 0.6
+        align(0.5,0.7)
+        for i, name in enumerate(buttonNames):
+            textbutton name action Jump(jumpLabels[i])
 init python:
     import math
     def live2d_there(characterFold) -> bool:
@@ -62,13 +88,14 @@ init python:
                 return fallback
     def hw():
         renpy.say(None,"Headphone warning: A loud screech will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume.")
+    def qw():
+        renpy.say(None,"A quicktime event is coming up! Since this is your first quicktime event, there is a warning. In the future, there will be no warnings.")
 image bg_room = Placeholder("bg",text = "room")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
 define fonty = "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
 define fontyit = "NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf"
 init python:
-
     class Char:
         ima  = None
         taskNum = 0
@@ -1075,7 +1102,11 @@ label spy:
     r1 "Acts fast, right? I call this one Azumarine. Your bosses aren't the only ones who have this on hand."
     with fade
     scene expression "/images/staying_up_late.png"
-    "It all fades to black."
+    default spyBut = list("Talking with Alva","Break Period")
+    default spyLab = list("alvaBreak"+str(day),"break_"+str(day))
+    default spyMes = "Never take candy from a stranger."
+    show screen death(spyBut,spyLab,spyMes)
+'''    "It all fades to black."
     "You died."
     camera
     menu:
@@ -1085,7 +1116,8 @@ label spy:
             jump expression ("alvaBreak"+str(day))
         "Break Period":
             scene bg_classroom
-            jump expression ("break_"+str(day))
+            jump expression ("break_"+str(day))'''
+# Commented out in case the new death screen code doesn't work and I need to do emergency debugging.
 label gwyBreak1:
     if (gw.denied):
         r2 "Didn't you say you weren't interested in talking to me?"
@@ -1841,32 +1873,132 @@ label hallway:
                             "This is the highest denomination of currency in all of Laventhyria, rarely seen even within the treasuries of the loftiest nobles. Many die without even laying eyes upon one of these."
                             show image "/images/coin_reverse.png" at genpos
                             with dis
-                            p "Ten million Levants, huh..."
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Ten million levants, huh...{/font}"
                             menu:
-                                p "With that much money, I could..."
+                                p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}With that much money, I could...{/font}"
                                 "Ensure that my family remains nobility for all time.":
-                                    "Ten million Levants is a lot of money. If I had this coin, then even if we lost our entire fortune the day before the census, we would be able to keep our lands as long as I reported it."
-                                    "One hell of a rainy day fund, huh..."
-                                    "The only way it'd run out is if someone drained all our savings and went into debt. I don't think anyone in our family would do that, though..."
-                                    "Or at least not someone who has the coffers at their fingertips. It might be small compared to our own accounts, but it's still worth holding on to."
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Ten million levants is a lot of money. If I had this coin, then even if we lost our entire fortune the day before the census, we would be able to keep our lands as long as I reported it.{/font}"
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}One hell of a rainy day fund, huh..."
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}The only way it'd run out is if someone drained all our savings and went into debt. I don't think anyone in our family would do that, though...{/font}"
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Or at least not someone who has the coffers at their fingertips. It might be small compared to our own accounts, but it's still worth holding on to.{/font}"
                                 "Feed so many people.":
-                                    "A day's meals for a commoner costs about a hundred Levants. With this alone, I could feed a hundred thousand people for a day, over fourteen thousand for a week."
-                                    "I could probably feed close to three hundred people for a year. This coin alone could do a lot of good in the world..."
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}A day's meals for a commoner costs about a hundred levants. With this alone, I could feed a hundred thousand people for a day, over fourteen thousand for a week.{/font}"
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I could probably feed close to three hundred people for a year. This coin alone could do a lot of good in the world...{/font}"
                                 "Help a family get out of poverty":
-                                    "There's a lot of families out there who're stuck in an eternal dead end, doomed to live paycheck to paycheck while in eternal debt."
-                                    "With something this small, I could change everything for them. Housing in the better parts of the capital can cost upwards of fifty million Levants, but outside of the cities, you usually only see prices go up to a million, and even in other cities, they tend to stay below ten mil."
-                                    "So with this, I could get them really good housing. Ten million Levants could also be enough to get some good trading contracts, get to work on making your way up the ranks."
-                                    "There's not a lot of upward mobility in Laventhyria, but with this, I could make a real difference for them. Maybe they'd pay it back to society, helping the populace as a whole."
-                            p "But I'm probably supposed to use it as a distraction, right? After all, if I die here, it's not like the coin'll be able to do anything anyway."
-                            p "Farewell, good coin. We may not have known each other long, but I thank you for your noble sacrifice."
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}There's a lot of families out there who're stuck in a dead end, doomed to live paycheck to paycheck while in eternal debt.{/font}"
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}With something this small, I could change everything for them. Housing in the better parts of the capital can cost upwards of fifty million levants, but outside of the cities, you usually only see prices go up to a million, and even in other cities, they tend to stay below ten mil.{/font}"
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}So with this, I could get them really good housing. Ten million levants could also be enough to get some good trading contracts, get to work on making your way up the ranks.{/font}"
+                                    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}There's not a lot of upward mobility in Laventhyria, but with this, I could make a real difference for them. Maybe they'd pay it back to society, helping the populace as a whole.{/font}"
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}But I'm probably supposed to use it as a distraction, right? After all, if I die here, it's not like the coin'll be able to do anything anyway.{/font}"
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Farewell, good coin. We may not have known each other long, but I thank you for your noble sacrifice.{/font}"
                             "Looking back at the coin one last time, you toss it onto the ground behind the entity, the opposite direction from where you need to go."
                             play sound "coin.ogg"
-                            
+                            default hallChoices = list("Run away!")
+                            default hallLabels = list("hallEsc","escFail")
+                            unk "What was that?"
+                            "The entity checks where the sound came from."
+                            unk "Ten million levants? Did you seriously think that your mortal currency would-"
+                            "Its eyes glow with a terrible rage."
+                            unk "GET BACK HERE!"
+                            $ qw()
+                            $ escItem = "ten million Levant coin"
+                            show screen quicktime(hallChoices,1.0,hallLabels)
+                            # A quicktime event lasting one second that has the option button Run away and jumps to hallEsc in case of success and escFail in case of failure.
                         "A rubber duck with a note next to it and a strange button. You can't read the note in the darkness.":
-
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}A rubber duck? Seriously?{/font}"
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, I suppose it's better than nothing. What's this strange button, though?{/font}"
+                            jump duckWork
                         "A crowbar, with the words \"For throwing only\" engraved into it.":
 
                         "Cancel your escape and stay here.":
+
+label duckWork:
+    menu:
+        "It's a big red button. Do you press it?"
+        "Yes.":
+            if(escRand > 2):
+                "It explodes into a brilliantly bright light. You quickly shut your eyes."
+                unk "What in the-NOOOOOOOOOOOO"
+                unk "I'm melting! I'm melting! Well, I suppose I would be burning, actually, but it doesn't matter. How did you get your hands on Divine Light?"
+                unk "Wait, don't answer, I'm too busy dying."
+                scene bg_hallway
+                with fade
+                "When your eyes open, the entity has vanished and the darkness has retreated."
+                p "What in the-"
+                unk "Divine Light, packed inside a duck with a detonating mechanism to release it. Kills ghosts, specters, poltergeists, and the like in an instant. Quite the ingenious invention, wouldn't you say?"
+                p "Another mysterious voice?"
+                $ gb.show("",genpos,dis,True)
+                g "No, quite the opposite, my child."
+                g "I am the Garlic Bread!"
+                p "The... what?"
+                g "If you want to know more, speak with Lily. Be well, child!"
+                $ gb.hide(dis,True)
+                p "What even was that?"
+                p "Wait, what's the time?"
+                "You check your watch."
+                p "Morning, huh?"
+                ""
+                p "Oh, wait, I have to get to class!"
+                jump expression ("class_" + str(day))
+            elif (escRand > 1):
+                "It bursts loudly, releasing an incapacitating airborne sedative towards your face. You don't have time to figure out what it is, as you are quickly incapacitated by it."
+                unk "Oh, was someone trying to run away from me? Well, I guess this has done the job of taking you out for me, so I'll just leave you here."
+                unk "Or should I just kill you outright?"
+                jump escFail
+            else:
+                "As it turns out, inside the duck was a high explosive, which you just detonated with your detonator. Unfortunately for you, it was also quite close to your body."
+                play sound "Explosion.ogg"
+                unk "What in the-"
+                unk "Well, I guess you did the job of taking care of yourself for me, didn't you?"
+                default duckNames = list("Figure out the ducks")
+                default duckLabs = list("duckWork")
+                default duckMes = "What did you even think the big red button would do?"
+                show screen death(duckNames,duckLabs,duckMes)
+        "No":
+            "Though it is difficult, you prevent yourself from pushing the big red button."
+            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I'm probably meant to use it as a distraction, right?{/font}"
+            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Like so?{/font}"
+            "You toss the duck out towards the entity. When it lands, it makes a loud squeaking sound."
+            play sound "Duck.ogg"
+            unk "Huh?"
+            "The entity turns around to investigate."
+            unk "A rubber duck? Seriously?"
+            menu:
+                "The button calls to you."
+                "Run.":
+                    "You take off, running like your life depends on it. Maybe it does..."
+                    # Maybe add a quicktime event here instead of the hallEsc jump, once you figure out multiclick quicktimes?
+                    jump hallEsc
+                "Press the button, then run.":
+                    "You push it, then take off."
+                    if (escRand > 2):
+                        "As you run, you hear loud screams of agony coming from behind you."
+                        $ hw()
+                        play sound "Screech.ogg"
+                        "When the screams stop, the halls flash with a blinding light. You close your eyes."
+                        scene bg_hallway
+                        with fade
+                        p "It's suddenly bright enough to see again."
+                        p "I wonder what happened to that entity..."
+                        p "Wait, what time is it?"
+                        "You check your watch."
+                        p "Morning, huh?"
+                        ""
+                        p "Oh, wait, I have class!"
+                        jump expression ("class_" + str(day))
+                    elif (escRand > 1):
+                        "As you run, a cloud of gas follows close behind."
+                        p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I don't know what it is, so I should probably close my mouth and nose...{/font}"
+                        "Thankfully, the cloud fades away as your lungs are beginning to burn."
+                        unk "YOU CAN'T RUN FOREVER, LITTLE WRETCH!"
+                        "The entity follows close behind you."
+                        p "How much you wanna bet?"
+                        unk "BETTING IS FOR LOSERS."
+                        "You're keeping pace with the entity, but on the flip side, that means it's keeping pace with you, and your legs are aching for a rest."
+                        jump escSuccess
+                    else:
+                        
+                "Press the button and watch what happens.":
 
 label hallEsc:
     scene bg_hallway
