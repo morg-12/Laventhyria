@@ -29,6 +29,7 @@ default termDay = 0
 default noEep = 0.0
 default eepNum = 0.0
 default keyAnswer = ""
+default hallBanned = false
 transform dying:
     linear 1.0 matrixcolor SaturationMatrix(0.0)
     #linear 1.0 matrixcolor SepiaMatrix()
@@ -59,6 +60,8 @@ init python:
                 return fallback1
             else:
                 return fallback
+    def hw():
+        renpy.say(None,"Headphone warning: A loud screech will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume.")
 image bg_room = Placeholder("bg",text = "room")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
@@ -1732,7 +1735,26 @@ label hallway:
     menu:
         "Do you wish to see what lies beyond the darkness?"
         "Yes":
-            
+            "You keep walking, drawn by both your curiosity and, increasingly, this mysterious force."
+            "You can barely see, but you keep on walking."
+            "Why do you even walk now? Is it for your own curiosity, or for this force that draws you?"
+            "Do you know what it is? Can you know what it is?"
+            unk "Hello there."
+            "You let out a small scream and jump."
+            unk "Hehe, didn't mean to scare you."
+            unk "Or did I?"
+            p "W-what are you?"
+            unk "I know what you did. Or what you're doing, more accurately."
+            p "And what does that mean?"
+            unk "Stop pretending you don't know. You're probably laughing to yourself, aren't you?"
+            p "No, I really-"
+            unk "Shut it. You lie to me, just as you lie to everyone else in this world."
+            unk "You aren't really [pname], are you?"
+            unk "You're not a noble, either. Nor are you from here at all."
+            unk "What are your goals in this world? To rob us of our dignity? To steal our wealth, then retreat to another world?"
+            unk "You are an intruder. You are unwelcome in this world. And if nobody else will realize, then it's up to me to make sure this world is safe from you."
+            unk "But how should I? All the classical methods would be too kind for one as despicable as yourself."
+            jump escFail
         "No":
             "You tear your eyes away from the alluring void before you and force yourself to turn back, one step at a time."
             "With each step, you feel the force pulling you back grow stronger."
@@ -1760,6 +1782,7 @@ label hallway:
                     p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Let's see, let's see... wait, who left all this in my bag? Like, it's actually getting scary now!{/font}"
                     default checkedBag = false
                     default escItem = ""
+                    default escRand = renpy.random.random()*3
                     menu:
                         "Which item would you like to use to try and disguise your escape?"
                         "Smoke bomb (comes with a face mask)":
@@ -1770,24 +1793,82 @@ label hallway:
                             "The smoke feels very thick as you run through it."
                             p "{font= NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I wonder how much damage this could do to my lungs...{/font}"
                             "As the cloud fades, the entity notices your absence and lets out a paralyzing screech."
-                            "Headphone warning: A loud screech will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume."
+                            $ hw()
                             play sound "Screech.ogg"
                             unk "That should keep the vile creature in place. Now, where is it? Come out, come out, whereeeeever you areeeee~"
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}How do I get out of this?{/font}"
                             "Thankfully, it seems that the paralysis was only temporary, but it's allowed the entity to draw closer."
                             $ escItem = "smoke bomb"
-                            jump hallEscSmo
+                            jump hallEsc
                         "Flash grenade (comes with protective goggles)":
-
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}This'll blind and stun it for a bit, I think!{/font}"
+                            "You put on the goggles. They make it even harder to see, but you know you'll need it."
+                            "You toss the flash grenade towards the entity."
+                            unk "Huh? Whatever could that-"
+                            if(escRand >= 2):
+                                unk "No! Not the light!"
+                                "You can hear the entity trying to flee, but it is unable to escape in time."
+                                "It lets out a terrible shriek as it fades away."
+                                $ hw()
+                                play sound "Screech.ogg"
+                                p "Wow, was it really that easy?"
+                                "You take off your goggles."
+                                scene bg_hallway
+                                with dis
+                                "Even accounting for the darkness from the goggles, the hallway is noticeably brighter now."
+                                p "Was that thing making it darker in here?"
+                                "You check your watch."
+                                p "Oh, it's morning now. Wow, time really flies when you're..."
+                                p "No, I wouldn't call that having fun... Maybe 'Time really flies when you're cursed by an evil entity?'"
+                                p "Oh, whatever! I need to get to class!"
+                                jump expression ("class_" + str(day))
+                            else:
+                                unk "MY EYES!"
+                                p "Time to run!"
+                                "You take off, getting pretty far away from the entity."
+                                unk "Wait a second, that vile creature's gone!"
+                                "The entity lets out a paralyzing screech."
+                                $ hw()
+                                play sound "Screech.ogg"
+                                unk "Now, where did it go? Come out, vile one~ I won't hurt you... much..."
+                                p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}It's getting closer! I need to get moving!{/font}"
+                                $ escItem = "flash grenade"
+                                jump hallEsc
                         "A ten million Levant coin?":
-
+                            "You turn it over in your hands. Even in this darkness, it seems to glow softly. You feel the imperial crest on the obverse and a detailed engraving of the capital city on the reverse."
+                            show image "/images/coin_obverse.png" at genpos
+                            with dis
+                            "This is the highest denomination of currency in all of Laventhyria, rarely seen even within the treasuries of the loftiest nobles. Many die without even laying eyes upon one of these."
+                            show image "/images/coin_reverse.png" at genpos
+                            with dis
+                            p "Ten million Levants, huh..."
+                            menu:
+                                p "With that much money, I could..."
+                                "Ensure that my family remains nobility for all time.":
+                                    "Ten million Levants is a lot of money. If I had this coin, then even if we lost our entire fortune the day before the census, we would be able to keep our lands as long as I reported it."
+                                    "One hell of a rainy day fund, huh..."
+                                    "The only way it'd run out is if someone drained all our savings and went into debt. I don't think anyone in our family would do that, though..."
+                                    "Or at least not someone who has the coffers at their fingertips. It might be small compared to our own accounts, but it's still worth holding on to."
+                                "Feed so many people.":
+                                    "A day's meals for a commoner costs about a hundred Levants. With this alone, I could feed a hundred thousand people for a day, over fourteen thousand for a week."
+                                    "I could probably feed close to three hundred people for a year. This coin alone could do a lot of good in the world..."
+                                "Help a family get out of poverty":
+                                    "There's a lot of families out there who're stuck in an eternal dead end, doomed to live paycheck to paycheck while in eternal debt."
+                                    "With something this small, I could change everything for them. Housing in the better parts of the capital can cost upwards of fifty million Levants, but outside of the cities, you usually only see prices go up to a million, and even in other cities, they tend to stay below ten mil."
+                                    "So with this, I could get them really good housing. Ten million Levants could also be enough to get some good trading contracts, get to work on making your way up the ranks."
+                                    "There's not a lot of upward mobility in Laventhyria, but with this, I could make a real difference for them. Maybe they'd pay it back to society, helping the populace as a whole."
+                            p "But I'm probably supposed to use it as a distraction, right? After all, if I die here, it's not like the coin'll be able to do anything anyway."
+                            p "Farewell, good coin. We may not have known each other long, but I thank you for your noble sacrifice."
+                            "Looking back at the coin one last time, you toss it onto the ground behind the entity, the opposite direction from where you need to go."
+                            play sound "coin.ogg"
+                            
                         "A rubber duck with a note next to it and a strange button. You can't read the note in the darkness.":
 
                         "A crowbar, with the words \"For throwing only\" engraved into it.":
 
                         "Cancel your escape and stay here.":
 
-label hallEscSmo:
+label hallEsc:
     scene bg_hallway
     menu:
         p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}What should I do now?{/font}"
@@ -1814,23 +1895,28 @@ label hallEscSmo:
             "You throw up your hands in surrender."
             p "I give up! I'm sorry for trying to get away."
             unk "Sorries won't cut it, you deceitful little wretch."
+            jump escFail
 label escFail:
     unk "No, I'll have to punish you some other way..."
     unk "I know! I'll just leave you out in this hallway. It's so far off into the unknown that nobody'll find you, and you'll rot here."
+    unk "You will die alone, and they'll all be none the wiser!"
     unk "The perfect punishment for one such as yourself. Now, descend into your eternal sleep!"
     with fade
     scene expression "/images/staying_up_late.png"
     default dayDiff = 0
+    default weekend = false
     "You collapse onto the floor. Into your eternal rest..."
     if (day%5==0):
         $ day += 1
         $ dayDiff = 2
+        $ weekend = true
     else:
         $ dayDiff = (math.ceil(day/5.0))*5-day
         $ day = (math.ceil(day/5.0))*5
-    with fade
     $ noEep += dayDiff
+    with fade
     scene bg_hallway
+    $ dmp.show("idle",genpos,dis,True)
     dpc "Wake up!"
     dpc "What're you doing, collapsed out here on this floor? It's been [dayDiff] days since you walked off into the hallway, and nobody's known where you've been!"
     if (day%5!=0):
@@ -1846,8 +1932,23 @@ label escFail:
     p "But then I kept walking, and I felt this pull bringing me deeper and deeper..."
     p "Before I knew it, I was surrounded by darkness, and that's when this weird entity appeared."
     p "It was going on and on about me being a traitor and lying to everyone, but I don't really get what it was talking about..."
-    
-
+    p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I think I do, but I probably shouldn't tell her... I don't know how she'd react...{/font}"
+    dpc "That sounds very weird... I've certainly never heard of some kind of ghost that goes around the halls to accuse them of being evil liars or whatever."
+    dpc "Maaaaaybe you should stay out of the hallways in the future, though. Just in case."
+    p "Oh, yeah, and when it caught me, it said something about how it would leave me out in the hallway deep inside where nobody goes, so that I can rot like I deserve to..."
+    dpc "In that case, we need to keep you out of that hallway at all costs. It almost killed you just now, and it could strike again."
+    dpc "And since leaving you out here didn't work, it might just kill you outright."
+    p "That is a possibility, huh..."
+    dpc "Pretty dark one, too."
+    dpc "Well, I suppose we shouldn't linger on things like that. Class is soon, if you're feeling up to it."
+    dpc "Well, I guess even if you're not, you can't really afford to miss more..."
+    if (not weekend):
+        dpc "Especially since the quiz's today, and all that..."
+    dpc "So, I'm really sorry, but you'll need to go to class!"
+    dpc "I'll tell Alva, Gwynedd, and Hoshi to keep you out of the hallway, and I'll also be doing that. We can't let this entity get its hands on you again."
+    dpc "Well, time for class!"
+    $ hallBanned = true
+    jump expression ("class_" + str(day))
 label escSuccess:
     scene bg_hallway
     play music "Main_BGM.ogg"
@@ -1871,6 +1972,14 @@ label escSuccess:
     p "Then I tripped on something and landed here, where you found me."
     dpc "Wow, it certainly sounds like you've had an adventure out there."
     dpc "Fortunately, you're just in time for class!"
+    p "Well..."
+    dpc "I know you haven't slept, but you need to learn!"
+    dpc "And no more going back into the hallway! I'll get the others to stop you."
+    dpc "You may have escaped this time, but there's no telling what that entity wants to do to you."
+    dpc "And there's no guarantee that it won't just kill you outright next time."
+    dpc "Now, off to class! The others are all worried about you, especially since you walked into the hallway and didn't come back until just now!"
+    $ hallBanned = true
+    jump expression ("class_" + str(day))
 label class_2:
     scene bg_classroom
     "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
