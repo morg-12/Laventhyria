@@ -40,6 +40,9 @@ transform dying:
 #default pronoun2adj = ""
 #default pronoun2pos = ""
 #default secondarypronouns = false
+transform fad:
+# In essence, this is to be the opposite of fade, used when something fades into white.
+    Fade(0.5,0.0,0.5,color = "#ffffff")
 transform genpos:
     xalign 0.5
     yalign 0.125
@@ -911,7 +914,7 @@ label break_1:
         "Go up to the rooftop":
             jump roofBreak1
         "Go into the hallway":
-            jump hallBreak1
+            jump hallBreak
 label alvaBreak1:
     $ al.show("idle",genpos,dis,True)
     if (al.denied):
@@ -1728,7 +1731,7 @@ label roofBreak1:
     g "All in good time, young one."
     $ gb.aff += 0.1
     jump bedroom
-label hallBreak1:
+label hallBreak:
     "You walk out into the hallway."
     scene bg_hallway
     with dis 
@@ -1753,8 +1756,7 @@ label hallBreak1:
                     jump bedroom
         "Turn back":
             p "It seems a bit too eerie for my liking right now. Maybe later?"
-            jump break_1
-    jump bedroom
+                jump expression "break_"+str(day)
 label hallway:
     "You keep moving, almost automatically. As you do, the void's call grows louder."
     "You check your watch. It's now past midnight. Looks like you won't be getting any sleep tonight."
@@ -1929,6 +1931,18 @@ label hallway:
                             "You close the bag and stay where you are."
                             p "I don't really think any of that would be the most useful, anyway, and I'm sure it would have a much worse punishment in store for me if I tried to resist."
                             "Still, it feels like there's a disapproving glare from behind you. When you turn around, however, you see only a small pile of crumbs."
+                            unk "So you see, I know what you've done, I know what you are, and I know that you are quite possibly the worst thing in this world. As such, I seek to end you. Perfectly understandable, don't you think?"
+                            p "No, not rea-"
+                            unk "Did I ask you?"
+                            p "Well, ye-"
+                            unk "No, I did not. As a result of your insolence, I shall seek to make your punishment ten to fifteen times more painful."
+                            p "Why?!"
+                            unk "Because I want to. Now, let's see..."
+                            unk "How should I make you die?"
+                            "The entity ponders for some time."
+                            unk "Well, all of the traditional methods of execution are designed around making it easy for the executioner, not painful for the executed. In fact, many of them seek to make it less painful."
+                            unk "Meanwhile, many a method of torture is nonlethal, and I doubt any would be painful enough for what I desire..."
+                            jump escFail
 label duckWork:
     menu:
         "It's a big red button. Do you press it?"
@@ -1939,7 +1953,7 @@ label duckWork:
                 unk "I'm melting! I'm melting! Well, I suppose I would be burning, actually, but it doesn't matter. How did you get your hands on Divine Light?"
                 unk "Wait, don't answer, I'm too busy dying."
                 scene bg_hallway
-                with fade
+                with fad
                 "When your eyes open, the entity has vanished and the darkness has retreated."
                 p "What in the-"
                 unk "Divine Light, packed inside a duck with a detonating mechanism to release it. Kills ghosts, specters, poltergeists, and the like in an instant. Quite the ingenious invention, wouldn't you say?"
@@ -1995,7 +2009,7 @@ label duckWork:
                         play sound "Screech.ogg"
                         "When the screams stop, the halls flash with a blinding light. You close your eyes."
                         scene bg_hallway
-                        with fade
+                        with fad
                         p "It's suddenly bright enough to see again."
                         p "I wonder what happened to that entity..."
                         p "Wait, what time is it?"
@@ -2050,6 +2064,25 @@ label duckWork:
                         default gasCho = list("Run for it!")
                         default gasLab = list("hallRun", "escFail")
                         show screen quicktime(gasCho,1.0,gasLab)
+                    else:
+                        "The duck explodes. The explosion blows the entity backward into a wall, stunning them, and creates a cloud of dust."
+                        p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, this could be useful. After all, if I can't see through this fog, I don't think it can.{/font}"
+                        p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I was skeptical of the duck before, but it could just save my life here.{/font}"
+                        p "Well, I should be going."
+                        "You take off running. It's hard to see through the dust, but that makes it a good cover for your escape."
+                        "Its effect on your breathing isn't as nice, but you don't have much room to lodge complaints, given that it, and by extension, the duck, is saving your life."
+                        unk "Curses... How does a duck pack that much of a punch? And why does it pack that much of a punch? Who thought, 'Oh, let's stuff a bloody bomb inside a rubber duck'?"
+                        unk "And I can't even see a thumb_align through all of this dust..."
+                        unk "Maybe I should just go back into my realm for now..."
+                        "You feel the entity's presence wane, and the void surrounding you with it."
+                        scene bg_hallway
+                        with fad
+                        $ player.show("idle",genpos,dis,true)
+                        p "Guess I've won, then!"
+                        "You do a small party with yourself, then remember that you're at school."
+                        p "What time is it?"
+                        "Checking your watch, you find that it is morning. In particular, it is that part of the morning between when breakfast is eaten and when classes start."
+                        p "I need to get myself on down to class!"
 label hallRun:
     "You take off running, the entity at your heels."
     play music "BG_Chase.ogg"
@@ -2203,6 +2236,7 @@ label escSuccess:
     $ hallBanned = true
     jump expression ("class_" + str(day))
 label class_2:
+    play music "Main_BGM.ogg"
     scene bg_classroom
     "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
     "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Day Two{/font}"
@@ -2212,3 +2246,94 @@ label class_2:
     p "Hold on, I can probably check my schedule."
     play sound "Bell.ogg"
     p "No time! Well, I guess the teacher'll tell us what we're studying."
+    "The code for this segment has not yet been written. It will now proceed to the second day's break period."
+    jump break_2
+label break_2:
+    dpc "Hi again, [pname]! I know yesterday must have been overwhelming, but I'm glad to see that you're still doing well."
+    dpc "Now, enjoy your break! The school is your oyster!"
+    if (hallBanned):
+        dpc "Well, except for the hallway. You know how that went last time, and I really don't want you to die. None of us do."
+        dpc "We may never know what that entity is getting up to, but I certainly don't trust it."
+    scene bg_classroom
+    menu:
+        "What would you like to do during this break period?"
+        "Talk to Alva":
+            jump alvaBreak2
+        "Talk to Gwynedd":
+            jump gwyBreak2
+        "Talk to Hoshi":
+            jump hoBreak2
+        "Talk to Lily":
+            jump dmpBreak2
+        "Go up onto the rooftop":
+            jump roofBreak2
+        "Go into the hallway":
+            if (hallBanned):
+                $ al.show("idle",lefpos, dis, True)
+                $ gw.show("idle",genpos,dis,True)
+                $ ho.show("idle",ripos,dis,True)
+                r1 "I apologize, but we have received explicit orders to prevent any attempt by you to enter the hallway."
+                r2 "That's right! Since when were you stupid enough to go back to something that's tried to kill you before?"
+                r3 "I-if you were to die, I would be quite sad... So could you please not die? I got really scared when I heard..."
+                r1 "No matter how you may beg or whimper, we will not let you past."
+                if (al.aff >= 0.3):
+                    r1 "Though I would find that entertaining..."
+                    r2 "Are you missing a screw or something up there?"
+                    $ ho.show("embarassed",ripos,dis,true)
+                    r3 "W-what?"
+                if (gw.aff >= 0.3):
+                    r2 "That would be pretty fun, though..."
+                    r1 "Gwynedd, are you quite certain that your brain has not been replaced by... some other organs of yours?"
+                    r3 "U-um..."
+                if (ho.aff >= 0.3):
+                    r3 "I m-might like to see that some other time, though..."
+                    r1 "Hoshi?"
+                    r2 "Wow, I didn't expect that from you of all people, Hoshi! Good for you, though~"
+                    $ ho.show("embarassed", ripos, dis, true)
+                    r3 "N-no, I... Um..."
+                    "Hoshi appears to be having trouble responding."
+                r1 "Please, find something else to do."
+                r2 "You've got plenty of other options, after all. Why try and get yourself killed?"
+                r3 "Y-yeah! We know there's an evil monster thingy trying to kill you, so why're you letting it?"
+                jump break_2
+            else:
+                jump hallBreak
+label alvaBreak2:
+    "This text is a placeholder. Please proceed to the bedroom."
+    jump bedroom    
+label gwyBreak2:
+    "This text is a placeholder. Please proceed to the bedroom."
+    jump bedroom
+label hoBreak2:
+    "This text is a placeholder. Please proceed to the bedroom."
+    jump bedroom
+label dmpBreak2:
+    "This text is a placeholder. Please proceed to the bedroom."
+    jump bedroom
+label roofBreak2:
+    "This text is a placeholder. Please proceed to the bedroom."
+    jump bedroom
+label class_3:
+    play music "Main_BGM.ogg"
+    scene bg_classroom
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Day Three{/font}"
+    $ player.show("idle",genpos,dis,True)
+    p "Wow, Day 3 already!"
+    p "What're we learning about today? I've been enjoying these classes so far, which is a bit different than what I expected."
+    p ""
+
+
+                    
+label class_5:
+    t "Today is the date of your first quiz. I hope that you have studied well."
+    t "Now. On the request of one of your classmates, I have decided to hold a review session prior to said quiz. I hope that it will serve you well."
+    menu:
+        "Would you like to skip the review session?"
+        "Yes":
+            jump quiz_1
+        "No":
+            "This label serves as a placeholder for until the code for the days prior to day five is written. Please proceed to the quiz label."
+            jump quiz_1
+label quiz_1:
+    "This label serves as a placeholder until the code for the days prior to day five is written."
