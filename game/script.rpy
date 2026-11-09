@@ -40,9 +40,8 @@ transform dying:
 #default pronoun2adj = ""
 #default pronoun2pos = ""
 #default secondarypronouns = false
-transform fad:
+default fad = Fade(0.5,0.0,0.5,color = "#ffffff")
 # In essence, this is to be the opposite of fade, used when something fades into white.
-    Fade(0.5,0.0,0.5,color = "#ffffff")
 transform genpos:
     xalign 0.5
     yalign 0.125
@@ -52,31 +51,37 @@ transform lefpos:
 transform ripos:
     xalign 1.0
     yalign 0.125
-
+init python:
+        def qw(qt):
+            if(not qt):
+                renpy.say(None,"A quicktime event is coming up! Since this is your first quicktime event, there is a warning. In the future, there will be no warnings.")
+                qt = true
 screen quicktime(choices,time,labels):
 # A basic screen for quicktime events. May add to it later.
 # Ensure that the number of labels is equal to the number of choices, plus one label at the end in case of failure. time must be a double.
-    if (not qtWarned):
-        qt()
-        qtWarned = True
     vbox:
         for i, choice in enumerate(choices):
-            textbutton choice action Jump(labels[i])
-    timer time action Jump(labels[-1])
+            textbutton choice action Jump(labels[i]) xalign 0.5 yalign 0.5
+    timer time action Jump(labels[len(labels)-1])
 screen death(buttonNames,jumpLabels,deathMessage):
 # A basic attempt at making a death screen. Will be debugged later.
     modal True
     vbox:
-        align(0.5,0.3)
+        align(0.5,0.2)
         text "Game Over":
-            size 80
+            size 300
             color "#cc0000"
-        text deathMessage yalign 0.4 size 24
+            font "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
+        text deathMessage xalign 0.5 yalign 0.4 size 36 # font "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
     vbox:
-        text "How will you continue?" size 12 yalign 0.6
+        text "How will you continue?" size 60 yalign 0.6 font "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
         align(0.5,0.7)
         for i, name in enumerate(buttonNames):
-            textbutton name action Jump(jumpLabels[i])
+            textbutton name:
+                text_color"#cc0000"
+                hover_background Solid("#eec2ff")
+                action Jump(jumpLabels[i]) 
+                xalign 0.5 
 init python:
     import math
     def live2d_there(characterFold) -> bool:
@@ -90,9 +95,7 @@ init python:
             else:
                 return fallback
     def hw():
-        renpy.say(None,"Headphone warning: A loud screech will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume.")
-    def qw():
-        renpy.say(None,"A quicktime event is coming up! Since this is your first quicktime event, there is a warning. In the future, there will be no warnings.")
+        renpy.say(None,"Headphone warning: A loud sound will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume.")
 image bg_room = Placeholder("bg",text = "room")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
@@ -1022,7 +1025,7 @@ label alvaBreak1:
                 "I think I know.":
                     $ keyAnswer = renpy.input("What is the answer? Please do not use any periods.")
                     $ keyAnswer = keyAnswer.lower().strip()
-                    $ renpy.say(p,keyAnswer)
+                    # $ renpy.say(p,keyAnswer)
                     if (keyAnswer == ("they dealt in the eggshell of the shelled gazelle") or keyAnswer == ("they dealt in the shell of the shelled gazelle") or keyAnswer == ("the bombshell found by the belle in a well was planted by a cartel who dealt in the eggshell of the shelled gazelle")):
                         jump spy
                     else:
@@ -1107,10 +1110,11 @@ label spy:
     r1 "Acts fast, right? I call this one Azumarine. Your bosses aren't the only ones who have this on hand."
     with fade
     scene expression "/images/staying_up_late.png"
-    default spyBut = list("Talking with Alva","Break Period")
-    default spyLab = list("alvaBreak"+str(day),"break_"+str(day))
+    default spyBut = ["Talking with Alva","Break Period"]
+    default spyLab = []
+    $ spyLab = ["alvaBreak"+str(day),"break_"+str(day)]
     default spyMes = "Never take candy from a stranger."
-    show screen death(spyBut,spyLab,spyMes)
+    call screen death(spyBut,spyLab,spyMes)
 '''    "It all fades to black."
     "You died."
     camera
@@ -1758,7 +1762,7 @@ label hallBreak:
                     jump bedroom
         "Turn back":
             p "It seems a bit too eerie for my liking right now. Maybe later?"
-                jump expression "break_"+str(day)
+            jump expression "break_"+str(day)
 label hallway:
     "You keep moving, almost automatically. As you do, the void's call grows louder."
     "You check your watch. It's now past midnight. Looks like you won't be getting any sleep tonight."
@@ -1897,17 +1901,18 @@ label hallway:
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Farewell, good coin. We may not have known each other long, but I thank you for your noble sacrifice.{/font}"
                             "Looking back at the coin one last time, you toss it onto the ground behind the entity, the opposite direction from where you need to go."
                             play sound "coin.ogg"
-                            default hallChoices = list("Run away!")
-                            default hallLabels = list("hallRun","escFail")
+                            default hallChoices = ["Run away!"]
+                            default hallLabels = ["hallRun","escFail"]
                             unk "What was that?"
                             "The entity checks where the sound came from."
                             unk "Ten million levants? Did you seriously think that your mortal currency would-"
                             "Its eyes glow with a terrible rage."
                             unk "GET BACK HERE!"
-                            $ qw()
+                            $ qw(qtWarned)
+                            $ qtWarned = true
                             $ escItem = "ten million Levant coin"
-                            show screen quicktime(hallChoices,1.0,hallLabels)
-                            # A quicktime event lasting one second that has the option button Run away and jumps to hallRun in case of success and escFail in case of failure.
+                            call screen quicktime(hallChoices,0.5,hallLabels)
+                            # A quicktime event lasting half a second that has the option button Run away and jumps to hallRun in case of success and escFail in case of failure.
                         "A rubber duck with a note next to it and a strange button. You can't read the note in the darkness.":
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}A rubber duck? Seriously?{/font}"
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, I suppose it's better than nothing. What's this strange button, though?{/font}"
@@ -1945,6 +1950,12 @@ label hallway:
                             unk "Well, all of the traditional methods of execution are designed around making it easy for the executioner, not painful for the executed. In fact, many of them seek to make it less painful."
                             unk "Meanwhile, many a method of torture is nonlethal, and I doubt any would be painful enough for what I desire..."
                             jump escFail
+                "No":
+                    unk "To allow such a repulsive thing to continue its existence in this realm would be contrary to my values and my duties."
+                    unk "As such, you must die, despicable one!"
+                    unk "But however shall I do it?"
+                    unk "None of the usual methods would be sufficiently agonizing for one as abominable as yourself."
+                    jump escFail
 label duckWork:
     menu:
         "It's a big red button. Do you press it?"
@@ -1984,10 +1995,10 @@ label duckWork:
                 play sound "Explosion.ogg"
                 unk "What in the-"
                 unk "Well, I guess you did the job of taking care of yourself for me, didn't you?"
-                default duckNames = list("Figure out the ducks")
-                default duckLabs = list("duckWork")
+                default duckNames = ["Figure out the ducks"]
+                default duckLabs = ["duckWork"]
                 default duckMes = "What did you even think the big red button would do?"
-                show screen death(duckNames,duckLabs,duckMes)
+                call screen death(duckNames,duckLabs,duckMes)
         "No":
             "Though it is difficult, you prevent yourself from pushing the big red button."
             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I'm probably meant to use it as a distraction, right?{/font}"
@@ -2063,9 +2074,11 @@ label duckWork:
                         "However, as you start making your way away, the gas fully dissipates, allowing for full visibility once again."
                         "Unfortunately for you, this means that you are perfectly visible on the ground."
                         unk "Why, you little..."
-                        default gasCho = list("Run for it!")
-                        default gasLab = list("hallRun", "escFail")
-                        show screen quicktime(gasCho,1.0,gasLab)
+                        default gasCho = ["Run for it!"]
+                        default gasLab = ["hallRun", "escFail"]
+                        $ qw(qtWarned)
+                        $ qtWarned = true
+                        call screen quicktime(gasCho,1.0,gasLab)
                     else:
                         "The duck explodes. The explosion blows the entity backward into a wall, stunning them, and creates a cloud of dust."
                         p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, this could be useful. After all, if I can't see through this fog, I don't think it can.{/font}"
@@ -2085,6 +2098,7 @@ label duckWork:
                         p "What time is it?"
                         "Checking your watch, you find that it is morning. In particular, it is that part of the morning between when breakfast is eaten and when classes start."
                         p "I need to get myself on down to class!"
+                        jump expression ("class_" + str(day))
 label hallRun:
     "You take off running, the entity at your heels."
     play music "BG_Chase.ogg"
@@ -2162,6 +2176,7 @@ label escFail:
     scene expression "/images/staying_up_late.png"
     default dayDiff = 0
     default weekend = false
+    default ogDay = day
     "You collapse onto the floor. Into your eternal rest..."
     if (day%5==0):
         $ day += 1
@@ -2171,12 +2186,13 @@ label escFail:
         $ dayDiff = (math.ceil(day/5.0))*5-day
         $ day = (math.ceil(day/5.0))*5
     $ noEep += dayDiff
-    with fade
+    
     scene bg_hallway
+    with fad
     $ dmp.show("idle",genpos,dis,True)
     dpc "Wake up!"
     dpc "What're you doing, collapsed out here on this floor? It's been [dayDiff] days since you walked off into the hallway, and nobody's known where you've been!"
-    if (day%5!=0):
+    if (ogDay%5!=0):
         dpc "This week's quiz is today! Oh my, you've missed so much content..."
         dpc "I'll ask the teacher to do some review for you, okay? Of course, if you think you're good on it all, you can skip it, but I really think you'll need it!"
     else:
@@ -2194,7 +2210,7 @@ label escFail:
     dpc "Maaaaaybe you should stay out of the hallways in the future, though. Just in case."
     p "Oh, yeah, and when it caught me, it said something about how it would leave me out in the hallway deep inside where nobody goes, so that I can rot like I deserve to..."
     dpc "In that case, we need to keep you out of that hallway at all costs. It almost killed you just now, and it could strike again."
-    dpc "And since leaving you out here didn't work, it might just kill you outright."
+    dpc "And since leaving you out here didn't work, it might just kill you outright next time. Cut the chitchat, the nonsense, and your throat with it."
     p "That is a possibility, huh..."
     dpc "Pretty dark one, too."
     dpc "Well, I suppose we shouldn't linger on things like that. Class is soon, if you're feeling up to it."
@@ -2208,6 +2224,7 @@ label escFail:
     jump expression ("class_" + str(day))
 label escSuccess:
     scene bg_hallway
+    with fad
     play music "Main_BGM.ogg"
     "You burst out of the void, but as you do so, you stumble and fall onto your face."
     p "No! Please don't!"
@@ -2353,6 +2370,8 @@ label alvaBreak2:
                     r1 "Then again, there is the possibility that her spouse did not, and it was an unrequited love brought together by her and that lover's avarice."
                     r1 "Such a thing was likely commonplace as well, and we often cannot see into the homes of the ancients."
                     r1 "I would hope, however, that my ancestors were together of their own emotion and volition."
+                    r1 "That, I believe, would be the best outcome."
+                    r1 "Of course, it's not like I can know for sure, but I at least hope that they were happy together, even if they did not come together at first for each other."
     "This text is a placeholder. Please proceed to the bedroom."
     jump bedroom    
 label gwyBreak2:
@@ -2385,6 +2404,10 @@ label class_3:
 
                     
 label class_5:
+    play music "Main_BGM.ogg"
+    scene bg_classroom
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Quarter One{/font}"
+    "{font=NotoSerifDisplay-VariableFont_wdth,wght.ttf}Day Five{/font}"
     t "Today is the date of your first quiz. I hope that you have studied well."
     t "Now. On the request of one of your classmates, I have decided to hold a review session prior to said quiz. I hope that it will serve you well."
     menu:
