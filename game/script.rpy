@@ -1831,7 +1831,7 @@ label hallway:
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}How do I get out of this?{/font}"
                             "Thankfully, it seems that the paralysis was only temporary, but it's allowed the entity to draw closer."
                             $ escItem = "smoke bomb"
-                            jump hallEsc
+                            jump hallHide
                         "Flash grenade (comes with protective goggles)":
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}This'll blind and stun it for a bit, I think!{/font}"
                             "You put on the goggles. They make it even harder to see, but you know you'll need it."
@@ -1865,7 +1865,7 @@ label hallway:
                                 unk "Now, where did it go? Come out, vile one~ I won't hurt you... much..."
                                 p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}It's getting closer! I need to get moving!{/font}"
                                 $ escItem = "flash grenade"
-                                jump hallEsc
+                                jump hallRun
                         "A ten million Levant coin?":
                             "You turn it over in your hands. Even in this darkness, it seems to glow softly. You feel the imperial crest on the obverse and a detailed engraving of the capital city on the reverse."
                             show image "/images/coin_obverse.png" at genpos
@@ -1894,7 +1894,7 @@ label hallway:
                             "Looking back at the coin one last time, you toss it onto the ground behind the entity, the opposite direction from where you need to go."
                             play sound "coin.ogg"
                             default hallChoices = list("Run away!")
-                            default hallLabels = list("hallEsc","escFail")
+                            default hallLabels = list("hallRun","escFail")
                             unk "What was that?"
                             "The entity checks where the sound came from."
                             unk "Ten million levants? Did you seriously think that your mortal currency would-"
@@ -1903,15 +1903,32 @@ label hallway:
                             $ qw()
                             $ escItem = "ten million Levant coin"
                             show screen quicktime(hallChoices,1.0,hallLabels)
-                            # A quicktime event lasting one second that has the option button Run away and jumps to hallEsc in case of success and escFail in case of failure.
+                            # A quicktime event lasting one second that has the option button Run away and jumps to hallRun in case of success and escFail in case of failure.
                         "A rubber duck with a note next to it and a strange button. You can't read the note in the darkness.":
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}A rubber duck? Seriously?{/font}"
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, I suppose it's better than nothing. What's this strange button, though?{/font}"
+                            $ escItem = "rubber duck"
                             jump duckWork
                         "A crowbar, with the words \"For throwing only\" engraved into it.":
-
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}What am I supposed to do with a crowbar in a dark hallway where I can't see anything?{/font}"
+                            "You look again at the instructions engraved on the crowbar."
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Hmm... Maybe these instructions have some merit?{/font}"
+                            "You toss it deep into the hallway behind the entity."
+                            play sound "Crowbar.ogg"
+                            unk "What in the... Is there someone back there? I can't afford to let anyone find [p1obj], so I should go check..."
+                            "The entity turns around."
+                            unk "Hey, you! Stay right here until I come back. Don't move a muscle, you get me?"
+                            p "Perfectly understood!"
+                            unk "Good."
+                            "The entity heads off to investigate. As it does, you take off."
+                            unk "What's a crowbar doing here? I swear, people need to learn how to clean up after them-"
+                            "It spots you in the distance."
+                            unk "GET BACK HERE!"
+                            jump hallRun
                         "Cancel your escape and stay here.":
-
+                            "You close the bag and stay where you are."
+                            p "I don't really think any of that would be the most useful, anyway, and I'm sure it would have a much worse punishment in store for me if I tried to resist."
+                            "Still, it feels like there's a disapproving glare from behind you. When you turn around, however, you see only a small pile of crumbs."
 label duckWork:
     menu:
         "It's a big red button. Do you press it?"
@@ -1947,6 +1964,7 @@ label duckWork:
                 jump escFail
             else:
                 "As it turns out, inside the duck was a high explosive, which you just detonated with your detonator. Unfortunately for you, it was also quite close to your body."
+                $ hw()
                 play sound "Explosion.ogg"
                 unk "What in the-"
                 unk "Well, I guess you did the job of taking care of yourself for me, didn't you?"
@@ -1967,8 +1985,8 @@ label duckWork:
                 "The button calls to you."
                 "Run.":
                     "You take off, running like your life depends on it. Maybe it does..."
-                    # Maybe add a quicktime event here instead of the hallEsc jump, once you figure out multiclick quicktimes?
-                    jump hallEsc
+                    # Maybe add a quicktime event here instead of the hallRun jump, once you figure out multiclick quicktimes?
+                    jump hallRun
                 "Press the button, then run.":
                     "You push it, then take off."
                     if (escRand > 2):
@@ -1995,12 +2013,83 @@ label duckWork:
                         p "How much you wanna bet?"
                         unk "BETTING IS FOR LOSERS."
                         "You're keeping pace with the entity, but on the flip side, that means it's keeping pace with you, and your legs are aching for a rest."
+                        "Eventually, you see a light at the end of the void."
+                        p "Looks like... you'd better pay up."
+                        "Your legs feel like they're about to fall off, but given the choice between your life and your legs, you'd choose the former."
                         jump escSuccess
                     else:
-                        
+                        "You hear a tremendous explosion behind you and a cloud of dust covers everything, making it difficult to breathe or see."
+                        $ hw()
+                        play sound "Explosion.ogg"
+                        unk "Where is it? WHERE IS THAT REPREHENSIBLE LITTLE FACSIMILE OF A HUMAN BEING?!"
+                        "You hear the entity's screams, but the cloud of dust is on your side, making it difficult to find you."
+                        unk "Aha! If I do that, I'll have more time!"
+                        $ hw()
+                        play sound "Screech.ogg"
+                        "The entity lets out a paralyzing screech that immobilizes you."
+                        unk "COME OUT, COME OUT, WHEREVER YOU ARE~"
+                        p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I can move? I guess it's wearing off, but I can't even see the entity..."
+                        jump hallHide
                 "Press the button and watch what happens.":
+                    "You push the big red button. Truly, the compulsion to press a big red button is worthy of study."
+                    if (escRand > 2):
+                        "A bright light bursts out from the duck. You quickly close your eyes."
+                        unk "Wait... How did they get..."
+                        unk "OH, IT bubble.clear_retain_statements! IT BURNS!"
+                        "When you open your eyes, the entity is gone and the darkness has retreated."
+                        p "I wonder what happened to that thing... Well, I suppose it's for the best."
+                        p "I should probably be getting to class..."
+                        jump expression ("class_" + str(day))
+                    elif (escRand > 1):
+                        "The duck releases a cloud of gas. You hurry to close your nostrils and mouth."
+                        unk "Huh? What's this supposed to do? It's certainly blocked my vision, but I don't know what else it would do..."
+                        "You begin to crawl, keeping low to the ground to hopefully avoid the majority of the gas."
+                        "However, as you start making your way away, the gas fully dissipates, allowing for full visibility once again."
+                        "Unfortunately for you, this means that you are perfectly visible on the ground."
+                        unk "Why, you little..."
+                        default gasCho = list("Run for it!")
+                        default gasLab = list("hallRun", "escFail")
+                        show screen quicktime(gasCho,1.0,gasLab)
+label hallRun:
+    "You take off running, the entity at your heels."
+    play music "BG_Chase.ogg"
+    unk "YOU CAN'T RUN FOREVER!"
+    "Unfortunately, it's right. You can already start to feel yourself starting to slow down, and if the entity catches you, it's probably lights out."
+    menu:
+        "How do you respond?"
+        "Push everything in you towards a singular, immense burst of speed.":
+            "You use all of your power to increase your speed. You feel your legs starting to burn, but it doesn't matter. Nothing matters except getting out of this alive."
+            unk "How... Well, you'll surely be done for soon!"
+            "You feel an urge to respond, but keep yourself quiet, knowing that using any unnecessary energy could cause your demise."
+            "Eventually, you see a light in the void. Focusing on it, you push yourself to the limit."
+            jump escSuccess
+        "Keep going at a steady pace and conserve what little energy you can.":
+            "You slow down a bit to allow yourself to maintain a steady pace while still avoiding using all that you have in reserve."
+            "While this is an intelligent choice for energy conservation, it's not as much for staying ahead of the entity. In fact, you can feel its arms reaching for your back."
+            unk "What's wrong, scum? Are your 'human' lungs getting tired?"
+            p "Not... not yet!"
+            "Taking advantage of your reserves and the conserved energy from earlier, you speed up, going as fast as you can. The hallway and floor become a blur, and you can feel the entity falling behind."
+            menu:
+                unk "How..."
+                "Boast":
+                    "You turn back to taunt the entity."
+                    p "I'm just too good for you, huh?"
+                    "Unfortunately, you're so focused on taunting that you fail to notice a rather large ridged portion of the floor, and you fall onto your face."
+                    unk "So this is what you call being 'too good', huh?"
+                    p "U-um..."
+                    unk "It's quite adorable, but you're still absolutely loathsome. Now, how should I bring about your demise?"
+                    unk "Poison would be too good for you, torture isn't painful enough..."
+                    unk "It's funny, but I don't think any standard means of killing are good!"
+                    jump escFail
+                "Focus on keeping yourself going":
+                    unk "Wow, has the grand quipper lost their edge? I wouldn't have thought it possible, if it were not happening before my very eyes."
+                    "You ignore the taunts and keep running, one foot after the other."
+                    unk "Hey, are you ignoring me?"
+                    "You see a light shining at the end of this hall. There's a few students milling about, but not that many."
+                    p "Yes."
+                    jump escSuccess
 
-label hallEsc:
+label hallHide:
     scene bg_hallway
     menu:
         p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}What should I do now?{/font}"
@@ -2009,7 +2098,7 @@ label hallEsc:
             "It seems that they were a boon only for that encounter."
             $ checkedBag = true
             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, looks like that option's off the table...{/font}"
-            jump hallEscSmo
+            jump hallHide
         "Make a break for it.":
             "You start running as fast as you can."
             "The pattering of your feet upon the stone floors echoes throughout the hallway, alerting the entity to your presence."
@@ -2022,6 +2111,7 @@ label hallEsc:
             unk "Did you seriously think that you could get away from me?"
             "Your legs start to burn, but you keep running, knowing that if you stop, you're likely done for."
             p "How much longer?!"
+            "Eventually, a miracle occurs. Or at least, it feels that way to you."
             jump escSuccess
         "Surrender yourself to the entity.":
             "You throw up your hands in surrender."
@@ -2084,7 +2174,7 @@ label escFail:
 label escSuccess:
     scene bg_hallway
     play music "Main_BGM.ogg"
-    "Eventually, you burst out of the void, but as you do so, you stumble and fall onto your face."
+    "You burst out of the void, but as you do so, you stumble and fall onto your face."
     p "No! Please don't!"
     $ dmp.show("idle", genpos,dis,true)
     dpc "Are you okay? What's going on?"
