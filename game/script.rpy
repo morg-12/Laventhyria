@@ -109,6 +109,8 @@ init python:
         roofWith = True
         denied = false
         isIma = false
+        oathBound = false
+        oathBreak = false
         def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, isIma = false, customFallback = "noFall"):
             self.name = name
             self.idNum = idNum
@@ -2299,6 +2301,58 @@ label break_2:
             else:
                 jump hallBreak
 label alvaBreak2:
+    r1 "Hello once again, [pname]. It's nice to meet you."
+    if (hallBanned):
+        r1 "I'm glad to see you doing well, especially after the incident this morning."
+        r1 "Please try and take better care of yourself. You really did make all of us quite worried, myself included."
+        r1 "I know I must be sounding like a bit of an old coot, so I'll leave off on it for now, but I want you to promise me that you won't put yourself in any unnecessary danger, okay?"
+        p "Okay."
+        r1 "And don't try and circumvent this with the whole idea of 'I thought it necessary'. Even if you have a strong moral code or whatever, you must always remind yourself that to myself, and to the others, you are more important than any moral violations."
+        r1 "What is more, if you feel the need to go forth like that, we will join you. After all, what kind of friends would we be if we could not even do that?"
+        r1 "So please, swear it to me."
+        p "I swear."
+        r1 "Do you swear, upon your line, your life, and with any and all divine entities that may or may not exist as your witness, that you shall restrain yourself from making any unnecessarily dangerous moves, and that if you feel it necessary, you will consult with all of us on the topic?"
+        p "Yes, I do."
+        r1 "Then let it be known to all of the realms that you have sworn thus."
+        play sound "Achievement.ogg"
+        "You swore an oath to Alva!"
+        "This will prevent you from taking certain actions, and if you break it, Alva will know."
+        $ al.oathBound = true
+        r1 "Thank you. If you speak to the others, they, too, will desire that you swear an oath to them."
+        r1 "I'm sorry for making a whole scene. You didn't come to me to swear an oath or anything, after all!"
+        r1 "I guess we should get on to the real reason why you're here!"
+    menu:
+        r1 "What would you like to talk about with me?"
+        "Where have you been before?":
+            r1 "In Laventhyria, you mean?"
+            p "Yeah! After all, surely the heir to a long-standing noble family such as yours has travelled far."
+            r1 "Well, actually, I haven't. Since I'm the heir and all, I'm usually treated as some kind of delicate object, to be kept inside and away from any threats."
+            r1 "My status as the sole heir certainly hasn't helped with that. After all, if I die before taking the county, then Skorg will go off to some other branch. It would mean the end of over a millenium of the main line's unbroken rule."
+            r1 "For a millennium, the throne has been held by an unbroken line that has gone from monarch to monarch, beginning with the heir to the Miloquis throne and the official merger of the houses and continuing, unbroken, from sovereign to sovereign, and after our house's fall, from countum to countum."
+            r1 "I hold this legacy upon my shoulders. A legacy of conquest, of struggle, of defeat and resurgence."
+            p "I... see."
+            r1 "No, I don't think you do, but it's fine. I would consider you lucky, in fact, not to understand. It is a heavy burden, to hold a crown, and even more still to keep it. I pray that you shall never need to know such pain."
+            r1 "But to answer your question, I have not travelled too much. Mainly to the capital region and the surrounding provinces, and now, here in the heart of the Hyrian Plateau."
+            r1 "This site, where long ago, my ancestors swore an oath to each other, to unite their houses, their realms, and themselves, and to maintain said unity forevermore, is probably the farthest I have been from my homeland of Skorg. I think back in the day, this would have actually been Miloquis territory."
+            r1 "It is sort of funny how the Levants gave us Skorg and kept Miloquis for themselves, when we are the House of Miloquis. Amusing, yet somehow not."
+            r1 "I wonder, though... Sworn as they were to be bound for eternity, did my ancestors tire of each other's presence? Or was such tiredness never an option for them?"
+            r1 "Was their union entirely political, or did they join for personal reasons as well?"
+            menu:
+                r1 "What do you think, [pname]?"
+                "I think it was for political reasons.":
+                    r1 "I suppose it would be, wouldn't it? After all, political marriages were exceptionally common back in the old days, weren't they?"
+                    r1 "It would have served both their nations well to unify, especially since it ended an age of back-and-forth warfare."
+                    r1 "I wonder how it feels, to have a political marriage. Do they feel like they would rather be with someone else? Is it painful, to wake up and see a face besides that of the one you find beloved?"
+                    r1 "I hope that I never have to experience something like that, if that really is how it feels."
+                    r1 "However, if it is what is necessary to maintain our realm, I suppose that my duties would come before my own thoughts on the matter."
+                "I think they wanted to be together, even before politics came into the picture.":
+                    r1 "I certainly think that it would be nice, at the very least. After all, who amongst those who do count another as their beloved would not wish to spend a lifetime with them?"
+                    r1 "Besides, marriages for love were not nonexistent in the day, even if they were uncommon. There were even some rather prominent ones. I believe in one of the surrounding nations at the time, the Queen had wed a commoner. There was some outrage then, as was common for the day, but I think that it is nice."
+                    r1 "Of course, not many records remain of her reign, as it was soon ended by my ancestors. Still, I am glad that she was able to spend her life together with the one whom she cherished most."
+                    r1 "It sounds like a nice thing, doesn't it, to be able to spend eternity with one whom you love dearly and truly, and who in turn loves you just as much?"
+                    r1 "Then again, there is the possibility that her spouse did not, and it was an unrequited love brought together by her and that lover's avarice."
+                    r1 "Such a thing was likely commonplace as well, and we often cannot see into the homes of the ancients."
+                    r1 "I would hope, however, that my ancestors were together of their own emotion and volition."
     "This text is a placeholder. Please proceed to the bedroom."
     jump bedroom    
 label gwyBreak2:
@@ -2321,7 +2375,12 @@ label class_3:
     $ player.show("idle",genpos,dis,True)
     p "Wow, Day 3 already!"
     p "What're we learning about today? I've been enjoying these classes so far, which is a bit different than what I expected."
-    p ""
+    p "After all, when people talk all about how this school's so hard and all that, it really gets to sounding a bit intimidating."
+    p "It hasn't been thaaaaaaat bad so far, though..."
+    p "Sure, the material's not the easiest, but the teacher's always trying to help you improve!"
+    p "Or at least, that's how I see it."
+    "This portion of the code is not yet finished, so a placeholder has been included here for now."
+    "Thank you for playing this early access version of the game. Please feel free to leave any comments, ideas, or bugs/unexpected behavior in relation to the game in the comments section."
 
 
                     
