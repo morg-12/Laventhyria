@@ -1,0 +1,43 @@
+define false = False
+define true = True
+define config.menu_include_disabled = true
+default p = Character("[pname]")
+define g = Character("Garlic Bread")
+default dmpcolor = "#eec2ff"
+default dpc = Character("[dname]", color = dmpcolor)
+# It's defaulted so it can change to be Avatar of the Garlic Bread and the color can change to #733b40 when it does that.
+default dname = "Lily"
+define r1 = Character("Alva")
+define r2 = Character("Gwynedd")
+define r3 = Character("Hoshi")
+define unk = Character("???")
+define t = Character("Teacher")
+define dis = Dissolve(.5)
+default pname = "Insert player name here."
+default p1sub = ""
+default p1obj = ""
+default p1adj = ""
+default p1pos = ""
+default p1flex = ""
+default p1genterm = ""
+default term = 0
+default day = 0
+default termDay = 0
+default noEep = 0.0
+default eepNum = 0.0
+default keyAnswer = ""
+default hallBanned = false
+default qtWarned = false
+image bg_room = Placeholder("bg",text = "room")
+image taskinator = "images/Taskbringer.png"
+image gbr = "images/Garlic_Bread.png"
+define fonty = "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
+define fontyit = "NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf"
+define none = None
+default aroaceRouteStarted = false
+default gbRouteStarted = false
+default meetNum=0
+default cameFromBreak = False
+default alTalk = false
+default gwTalk = false
+default hoTalk = false
