@@ -1,5 +1,4 @@
 label begin:
-    image bg_hallway = Placeholder("bg","Hallway")
     # placeholder for until the hallway asset is made.
     scene bg_hallway
     $ player.hide(dis,true)

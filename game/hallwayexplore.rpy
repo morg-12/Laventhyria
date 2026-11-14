@@ -29,7 +29,7 @@ label hallway:
     "You check your watch. It's now past midnight. Looks like you won't be getting any sleep tonight."
     $ noEep += 1
     $ day += 1
-    scene expression "/images/staying_up_late.png"
+    scene bg_dark
     with dis
     play music "BG_Hallway_Evil.ogg"
     "You can barely see anything anymore, but it feels as though what you seek is just beyond your reach."

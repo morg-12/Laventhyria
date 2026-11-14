@@ -9,5 +9,7 @@ label class_2:
     p "Hold on, I can probably check my schedule."
     play sound "Bell.ogg"
     p "No time! Well, I guess the teacher'll tell us what we're studying."
-    "The code for this segment has not yet been written. It will now proceed to the second day's break period."
+    scene bg_classroom
+    t "Hello, class! Today, we will be studying Echelon Form, Row Reduced Echelon Form, and Row Reduction!"
+    
     jump break_2

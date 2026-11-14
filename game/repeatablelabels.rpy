@@ -1,5 +1,4 @@
 label bedroom:
-    image bg_bedroom = Placeholder("bg","Bedroom")
     scene bg_bedroom
     if (day>1):
         menu:
@@ -15,7 +14,7 @@ label bedroom:
                 with fade
             "Stay up":
                 with fade
-                scene expression "/images/staying_up_late.png"
+                scene bg_dark
                 "You stay up until the morning doing who knows what."
                 "You're very tired."
                 "You might make some mistakes tomorrow, but at least you got that last book in, right?"
@@ -39,7 +38,7 @@ label bedroom:
                 with fade
             "Stay up":
                 with Fade(0.5,1.0,0.5,color="#000000")
-                scene expression "/images/staying_up_late.png"
+                scene bg_dark
                 $ day += 1
                 "You stay up until the morning doing who knows what."
                 "You're very tired."
@@ -65,7 +64,7 @@ label spy:
     p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf} I can't breathe...{/font}"
     r1 "Acts fast, right? I call this one Azumarine. Your bosses aren't the only ones who have this on hand."
     with fade
-    scene expression "/images/staying_up_late.png"
+    scene bg_dark
     default spyBut = ["Talking with Alva","Break Period"]
     default spyLab = []
     $ spyLab = ["alvaBreak"+str(day),"break_"+str(day)]
@@ -79,7 +78,6 @@ label aroaceRoute:
         dpc "But then..."
         if gbRouteStarted:
             dpc "As a young person was being forced to be wed, a voice came from far above."
-            image bg_city = Placeholder("bg", "city")
             # placeholder for until the city asset is finished
             scene bg_city with dis
             $ gb.show("",genpos,dis,True)

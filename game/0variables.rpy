@@ -28,7 +28,6 @@ default eepNum = 0.0
 default keyAnswer = ""
 default hallBanned = false
 default qtWarned = false
-image bg_room = Placeholder("bg",text = "room")
 image taskinator = "images/Taskbringer.png"
 image gbr = "images/Garlic_Bread.png"
 define fonty = "NotoSerifDisplay-VariableFont_wdth,wght.ttf"

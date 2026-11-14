@@ -24,11 +24,11 @@ init python:
         name = " "
         genChooser = 120983736720298382937289
         roofWith = True
-        denied = false
-        isIma = false
-        oathBound = false
-        oathBreak = false
-        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, isIma = false, customFallback = "noFall"):
+        denied = False
+        isIma = False
+        oathBound = False
+        oathBreak = False
+        def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, isIma = False, customFallback = "noFall"):
             self.name = name
             self.idNum = idNum
             # Used as a unique identification number to differentiate between models of the same name

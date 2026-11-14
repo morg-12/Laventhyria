@@ -1,0 +1,12 @@
+image bg_classroom = Placeholder("bg","Classroom")
+image bg_hallway = Placeholder("bg","Hallway")
+image bg_city = Placeholder("bg", "City")
+image bg_room = Placeholder("bg",text = "room")
+image bg_bedroom = Placeholder("bg","Bedroom")
+image bg_dark = "/images/staying_up_late.png"
+image bg_map = Placeholder("bg","Map of Hyria")
+image bg_map_preMar = Placeholder("bg","The Nations of Skorg and Miloquis Prior to the Marriage and the Merging of the Houses")
+image bg_map_expand = Placeholder("bg","Skorgmiloquis Expansion")
+image bg_rooftop = Placeholder("bg","Rooftop")
+image bg_mind = Placeholder("bg","Mind")
+image bg_staircase = Placeholder("bg","Staircase")

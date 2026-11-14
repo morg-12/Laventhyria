@@ -43,7 +43,7 @@ label roofBreak1:
     g "Nothing much, really. I'll just be keeping an eye on you, you know? Seeing if you'd make a good fit for my Order or not."
     g "Anyways, fare thee well!"
     $ gb.hide(dis,True)
-    scene bg_stairs
+    scene bg_staircase
     with dis
     p "Wait, you still haven't answered all of my questions!"
     g "All in good time, young one."

@@ -215,7 +215,7 @@ label escFail:
     unk "You will die alone, and they'll all be none the wiser!"
     unk "The perfect punishment for one such as yourself. Now, descend into your eternal sleep!"
     with fade
-    scene expression "/images/staying_up_late.png"
+    scene bg_dark
     default dayDiff = 0
     default weekend = false
     default ogDay = day
