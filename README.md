@@ -1,4 +1,4 @@
-# Laventhyria (Tentative Name)
+# Laventhyria
 Explore the land of Laventhyria as a student in the prestigious Laventhyrian Institute for Secondary Education! Learn linear algebra, build relationships, be chosen by the Garlic Bread, and choose your side in a kingdom on the brink of revolution.
 # Building process: 
 I chose to build a game that teaches linear algebra through a visual novel because I like both linear algebra and writing stories, and I thought that combining the two could be fun. I am also the artist for the assets and the composer for the game's music. I chose to do this out of a desire to create this as something that is wholly my own.
