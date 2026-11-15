@@ -1,7 +1,8 @@
-transform dying:
-    linear 1.0 matrixcolor SaturationMatrix(0.0)
 default fad = Fade(0.5,0.0,0.5,color = "#ffffff")
 # In essence, this is to be the opposite of fade, used when something fades into white.
+define dis = Dissolve(.5)
+transform dying:
+    linear 1.0 matrixcolor SaturationMatrix(0.0)
 transform genpos:
     xalign 0.5
     yalign 0.125

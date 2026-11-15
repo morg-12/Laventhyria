@@ -12,7 +12,6 @@ define r2 = Character("Gwynedd")
 define r3 = Character("Hoshi")
 define unk = Character("???")
 define t = Character("Teacher")
-define dis = Dissolve(.5)
 default pname = "Insert player name here."
 default p1sub = ""
 default p1obj = ""

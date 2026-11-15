@@ -31,7 +31,8 @@ label class_2:
         "Neither":
             jump c2q1wrong
         "A":
-            jump c2q1right
+            t "Excellent work, [pname]! That's correct!"
+            jump c2postq1
         "B":
             jump c2q1wrong
         "Both":
@@ -43,17 +44,108 @@ label c2q1wrong:
     hide c2m2
     with dis
     show c2m1 at genpos
+    with dis
     t "Let's first check if there are any zero rows in matrix A." 
     pause 0.5
     t "There is one, and it's at the bottom. Great! That's our first condition off the list."
-    t "Now, for leading entries. In matrix A, the leading entry of the first row, 2, is all the way on the left, and all the entries below it are zero. The leading entry of row 2 is 5, because it's the first nonzero entry in that row. Sure enough, 5's to the right of 2. Since the last row's a zero row, the entry below 5 is 0."
-    t "So it looks like we've got ourselves "
-    
-
-
-
-
-
-
-
+    t "Now, for leading entries. In matrix A, the leading entry of the first row, 2, is all the way on the left, and all the entries below it are zero. The leading entry of [row2] is 5, because it's the first nonzero entry in that row. Sure enough, 5's to the right of 2. Since the last row's a zero row, the entry below 5 is 0."
+    t "So it looks like we've got ourselves a matrix in Echelon Form! How about matrix B?"
+    hide c2m1
+    with dis
+    show c2m2 at genpos
+    with dis 
+    t "Matrix B doesn't have any zero rows, so we don't have to worry about those! The leading entry of [row1] is 3 and the leading entry of [row2] is 2, but they're in the same column! That means that matrix B isn't in echelon form, since all entries below a leading entry need to be zero and any leading entry needs to be to the right of the one in the row above it."
+    t "So that means that matrix A is in echelon form, while B is not!"
+    t "Hopefully that's helped you understand what you did wrong there. Now, on to the next topic!"
+    hide c2m2
+    with dis
+    jump c2postq1
+label c2postq1:
+    hide c2m1
+    with dis 
+    hide c2m2
+    with dis
+    t "Now, it's all well and good to have your matrices in Echelon Form, but there's another form that makes some other calculations easier. This form is called Row Reduced Echelon Form, or RREF for short."
+    t "As you might imagine, the rules for having a matrix in RREF are stricter than just having it in Echelon Form. In fact, we have two new rules!"
+    t "A matrix in echelon form is in RREF if all of its leading entries, if it has any, are equal to one, and if leading entries are the only nonzero entry in their respective column."
+    t "Now, let's take a look at some matrices in echelon form and determine if they're in RREF!"
+    show c2m3 at ripos
+    with dis 
+    show c2m4 at lefpos
+    with dis 
+    t "Let matrix A be the one on the left and matrix B be the one on the right."
+    menu:
+        t "Which of these two matrices is in RREF, if any? Raise your hand and tell me when you're ready!"
+        "Raise hand":
+            pass
+    menu:
+        t "[pname]? Go for it!"
+        "None":
+            jump c2q2wrong
+        "A":
+            jump c2q2wrong
+        "B":
+            t "That's right! Excellent work once again, [pname]!"
+            jump c2postq2
+        "Both":
+            jump c2q2wrong
+label c2q2wrong:
+    t "That's not quite right, but thank you for putting in your best effort."
+    t "Now, let's go over this answer together."
+    hide c2m3
+    with dis
+    hide c2m4
+    with dis
+    show c2m4 at genpos
+    with dis
+    t "Let's go over A first. A has two nonzero rows and one zero row. The leading entries are both 1, so that's that off the list. However, in column 3, there's an eight above the one. Since that one is a leading entry, there should be nothing else in its row. The fact that there is means that while A is in echelon form, it is not in RREF."
+    hide c2m4
+    with dis 
+    show c2m3 at genpos
+    with dis
+    t "Next up is B. You might notice that B looks very similar to A, but with a zero where A had an eight. This will be important later."
+    t "B has two nonzero rows, and the leading entries of both are 1, so that's off the list. Next, we have to check the columns of each leading entry. Column 1, where [row1]'s leading entry is, is all zeroes except for the leading entry, and the same can be said for Column 3, where [row2]'s leading entry is. This means that matrix B {i}is{/i} in fact in both echelon form and RREF."
+    hide c2m3
+    with dis 
+    show c2m4 at lefpos
+    with dis 
+    show c2m3 at ripos
+    with dis 
+    t "Like I mentioned going into this one, that difference between A and B, slight as it was, impacted whether the matrix was in RREF or not. Since matrix A had a nonzero entry above a leading entry, while matrix B didn't, A is not in RREF, while B is!"
+    hide c2m3
+    with dis 
+    hide c2m4
+    with dis 
+    t "Hopefully my explanation helped you understand where you went wrong. Now, let us venture forth!"
+    jump c2postq2
+label c2postq2:
+    hide c2m3
+    with dis
+    hide c2m4
+    with dis 
+    t "Well, now you know what a matrix in RREF looks like and how to identify it. But how do you get a matrix into RREF, anyway?"
+    t "Well, there's an algorithm you can use for that job! It's called the Row Reduction Algorithm, and it's used to, well, reduce a matrix to RREF!"
+    t "First! You swap [row1] with a lower row so that the leftmost nonzero entry in all the land's in the first row. Or, well, in all the matrix."
+    t "Second! You scale the first row so that its leading entry is equal to one."
+    t "Third! Use row replacement to make sure that all entries above and below this leading entry are equal to zero."
+    t "Then repeat this for the second row, the third row, and so on until you're out of rows!"
+    t "This is probably a bit difficult to understand from me just saying it, so let me show you!"
+    show c2m10 at lefpos
+    with dis 
+    t "Take this matrix here. How can we get it into RREF?"
+    show c2rowop1 at ripos
+    with dis 
+    t "Well, we first need to swap [row1] and [row3], since [row3] has the leftmost leading entry. Since [row3] and [row4] both have a leading entry of 12 in the first column, we need to subtract [row3] from [row4] to make all of the entries in the first column besides the leading entry of [row1] zero."
+    t "This row operation is shown on the right side of the board."
+    t "We could have also swapped [row1] with [row4], then subtracted [row4] from [row3]."
+    hide c2m10
+    with dis 
+    hide c2rowop1
+    with dis
+    show c2m11 at lefpos
+    with dis 
+    t "The row operation I described earlier results in the matrix shown."
+    show c2rowop2 at ripos
+    with dis 
+    t "We'll now need to divide [row1] by 12 to make its leading entry 1, after which we can move on to the next row. [row2] already has the leftmost leading entry of the remaining rows, so it doesn't need to swap with any rows. Since the leading entry of [row3] is 42 and the leading entry of [row2] is 6, "
 jump break_2
