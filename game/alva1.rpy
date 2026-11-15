@@ -10,7 +10,7 @@ label alvaBreak1:
     else:
         r1 "Hello, [pname]. A good day to you once again."
     r1 "I guess, since you're here, you probably want to talk to me."
-    r1 ""
+    pause 0.5
     r1 "Do you have any ideas about what we could talk about?"
     menu:
         "I hear there's some kind of revolutionary movement within Laventhyria.":
@@ -139,7 +139,7 @@ label alvaBreak1:
                     p "Sure is!"
                     r1 "I wonder what it would look like at night..."
                     p "So do I..."
-                    ""
+                    pause 0.5
                     r1 "Maybe we should come up here sometime at night?"
                     p "Ah, acting a bit daring, are we?"
                     r1 "No, it's just..."
@@ -147,7 +147,7 @@ label alvaBreak1:
                     r1 "It could be a nice experience, right?"
                     menu:
                         "It could be fun to bring along some of the others, too, right?":
-                            r1 ""
+                            pause 0.5
                             r1 "Oh, right!"
                             r1 "Yeah, we could bring them..."
                         "True.":

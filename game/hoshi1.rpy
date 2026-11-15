@@ -1,4 +1,5 @@
 label hoBreak1:
+    $ ho.show("idle",genpos,dis,true)
     if (ho.denied):
         r3 "I thought you said you didn't want to talk with me?"
         r3 "I'd probably be too annoying anyway..."
@@ -131,7 +132,7 @@ label hoBreak1:
             menu:
                 r3 "Well, I'm not entirely sure, but I guess if you want to go, we can go..."
                 "Go":
-                    "Okay, then! Let's go on up and talk about stuff or whatever!"
+                    p "Okay, then! Let's go on up and talk about stuff or whatever!"
                     scene bg_rooftop
                     with dis
                     $ ho.show("idle",lefpos,dis,True)
@@ -142,7 +143,7 @@ label hoBreak1:
                     r3 "This sky sure is pretty, huh?"
                     p "That it is..."
                     r3 "I wonder how it would look at night..."
-                    ""
+                    pause 0.5
                     r3 "Maybe we could come up here sometime at night?"
                     p "Acting a bit daring, are we?"
                     $ ho.show("embarassed",lefpos,dis,true)
@@ -150,7 +151,7 @@ label hoBreak1:
                     p "That it would..."
                     menu:
                         "Maybe we could come up here sometime with everyone else...":
-                            r3 ""
+                            pause 0.5
                             r3 "Oh, right!"
                             r3 "That would be nice too..."
                         "It would certainly be fun...":

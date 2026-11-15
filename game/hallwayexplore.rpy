@@ -61,7 +61,7 @@ label hallway:
             "With each step, you feel the force pulling you back grow stronger."
             "It's a struggle not to turn around, but you steel yourself and keep moving forward."
             "Forward and forward, until..."
-            ""
+            pause 1.0
             unk "You're quite a strong [p1genterm], aren't you?"
             "A voice in the darkness taunts you."
             p "Who are you?"

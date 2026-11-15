@@ -92,7 +92,7 @@ label gwy1:
             r2 "I think I just explained it..."
             r2 "Well, I suppose I can do it again. See, basically, there's that wheel that decides if you get to go, right? But a lot of the slots get bought up by nobles beforehand, so there's often only a couple spots left for anybody else."
             r2 "Add in the fact that nobles who weren't bought in can still get in, and there's not too many seats for us commoners, even though there's a lot more of us than there are nobles. As such, it's a bit of a rare sight to see one of us here, which is why I'm called that."
-            " "
+            pause 0.5
             r2 "Ohhhhh, you meant it as in it's weird and stuff, not literally asking."
             r2 "Sorry, I do get a bit confused sometimes."
     if(cameFromBreak):
@@ -114,9 +114,9 @@ label ho1:
         "No":
             r3 "A couple of my realllly old relatives (although they're not technically considered part of our family due to the distance) recently passed and left us with some pretty sizable inheritances that were enough to get our net worth above the nobility threshold, and the census last year made us nobility."
             r3 "It's still a bit shocking, though. After all, we were a, well, still a well-to-do common family, but now we have our own land and our own manor and all that stuff."
-            r3 " "
+            pause 0.5
             r3 "Um..."
-            r3 " "
+            pause 0.5
     r3 "Sorry for being so nervous and awkward..."
     menu: 
         "No, it's fine!":

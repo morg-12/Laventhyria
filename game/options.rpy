@@ -23,13 +23,14 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "0.1.3"
+define config.version = "0.1.4"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
 ## triple-quotes, and leave a blank line between paragraphs.
 
-define gui.about = _p("""
+define gui.about = _p("""Explore the land of Laventhyria as a student in the prestigious Laventhyrian Institute for Secondary Education! 
+Learn linear algebra, build relationships, be chosen by the Garlic Bread, and choose your side in a kingdom on the brink of revolution.
 """)
 
 
@@ -144,7 +145,7 @@ default preferences.afm_time = 15
 ## This generally should not be changed, and if it is, should always be a
 ## literal string, not an expression.
 
-define config.save_directory = "OmniscientVoid-1784822578"
+define config.save_directory = "Laventhyria-1784822578"
 
 
 ## Icon ########################################################################
@@ -207,4 +208,4 @@ init python:
 ## The username and project name associated with an itch.io project, separated
 ## by a slash.
 
-# define build.itch_project = "renpytom/test-project"
+define build.itch_project = "morg12/laventhyria"

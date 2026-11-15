@@ -117,7 +117,7 @@ label dmpBreak1:
             menu:
                 "We should come up here to look at it sometime!":
                     dpc "It would be fun to watch it, yeah! Especially with all of our classmates."
-                    dpc ""
+                    pause 1.0
                     dpc "That is, of course, what you meant."
                     dpc "Right?"
                     p "Of course!"

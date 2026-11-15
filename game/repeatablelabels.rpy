@@ -13,8 +13,8 @@ label bedroom:
                 jump expression ("class_" + str(day)) 
                 with fade
             "Stay up":
-                with fade
                 scene bg_dark
+                with Fade(0.5,1.0,0.5,color="#000000")
                 "You stay up until the morning doing who knows what."
                 "You're very tired."
                 "You might make some mistakes tomorrow, but at least you got that last book in, right?"
@@ -37,8 +37,8 @@ label bedroom:
                 jump expression ("class_" + str(day))
                 with fade
             "Stay up":
-                with Fade(0.5,1.0,0.5,color="#000000")
                 scene bg_dark
+                with Fade(0.5,1.0,0.5,color="#000000")
                 $ day += 1
                 "You stay up until the morning doing who knows what."
                 "You're very tired."

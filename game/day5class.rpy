@@ -10,5 +10,5 @@ label class_5:
         "Yes":
             jump quiz_1
         "No":
-            "This label serves as a placeholder for until the code for the days prior to day five is written. Please proceed to the quiz label."
+            "This label serves as a placeholder for until the code for days two through four is written. Please proceed to the quiz label."
             jump quiz_1

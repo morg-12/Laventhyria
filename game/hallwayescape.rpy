@@ -23,7 +23,7 @@ label duckWork:
                 p "Wait, what's the time?"
                 "You check your watch."
                 p "Morning, huh?"
-                ""
+                pause 0.5
                 p "Oh, wait, I have to get to class!"
                 jump expression ("class_" + str(day))
             elif (escRand > 1):
@@ -70,7 +70,7 @@ label duckWork:
                         p "Wait, what time is it?"
                         "You check your watch."
                         p "Morning, huh?"
-                        ""
+                        pause 0.5
                         p "Oh, wait, I have class!"
                         jump expression ("class_" + str(day))
                     elif (escRand > 1):

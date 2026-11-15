@@ -192,7 +192,7 @@ label gwyBreak1:
                     p "That it is!"
                     r2 "I wonder how it would look at night..."
                     p "So do I..."
-                    ""
+                    pause 0.5
                     r2 "Maybe the two of us should come up here at night sometime?"
                     p "Ah, being a bit daring, are we now?"
                     $ gw.show("embarassed",lefpos,None,false)
@@ -200,7 +200,7 @@ label gwyBreak1:
                     p "Nothing, nothing! It would be nice to come up here at night, though..."
                     menu:
                         "It could be nice to come up here with the others sometime...":
-                            r2 ""
+                            pause 0.5
                             r2 "Oh, right, the others! Yeah, it would..."
                         "It could be nice to come up here sometime, just the two of us...":
                             $ gw.show("pout",lefpos,None,False)
