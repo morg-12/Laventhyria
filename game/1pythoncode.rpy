@@ -16,6 +16,18 @@ init python:
         if(not qt):
             renpy.say(None,"A quicktime event is coming up! Since this is your first quicktime event, there is a warning. In the future, there will be no warnings.")
             qt = true
+    def listCompare(list1,list2) -> list:
+        # These two lists must be the same length and contain the same type of object. 
+        boolList = [false] * list1.len()
+        for i in range(list1.len()):
+            boolList[i]= list1[i]==list2[i]
+        return boolList
+    def multiChecker(correctAnswers, inCollected, receivedAnswers=list(None), recPhrases=list(None)) -> list:
+        if (not inCollected):
+            receivedAnswers = list()
+            for i in range(correctAnswers.len()):
+                receivedAnswers[i] = renpy.input(recPhrases[i])
+        return listCompare(correctAnswers,receivedAnswers)
     class Char:
         ima  = None
         taskNum = 0

@@ -117,8 +117,28 @@ label c2q2wrong:
     hide c2m4
     with dis 
     t "Hopefully my explanation helped you understand where you went wrong. Now, let us venture forth!"
-    jump c2postq2
-label c2postq2:
+    jump c2q3
+label c2q3:
+    "We know how to tell the difference between matrices in RREF, Echelon Form, and neither now, so why don't we try and tell the difference?"
+    for i in range(correctMatrices.len()):
+        menu:
+            "Identify any and all of the matrices below that are in RREF."
+            "{image=c2m5}"if not selectedMatrices[0]:
+                $ selectedMatrices[0] = true
+            "{image=c2m6}"if not selectedMatrices[1]:
+                $ selectedMatrices[1] = true
+            "{image=c2m7}"if not selectedMatrices[2]:
+                $ selectedMatrices[2] = true
+            "{image=c2m8}"if not selectedMatrices[3]:
+                $ selectedMatrices[3] = true
+            "{image=c2m9}"if not selectedMatrices[4]:
+                $ selectedMatrices[4] = true
+            "All RREF Matrices have been selected":
+                jump c2q3solutions
+        
+label c2q3solutions:
+    
+label c2postq3:
     hide c2m3
     with dis
     hide c2m4
@@ -181,5 +201,11 @@ label c2postq2:
     $ al.show("idle",genpos,dis,true)
     r1 "I think I remember this matrix. The Identity Matrix, right?"
     t "Correct, Alva! This is in fact [id4], the 4-by-4 Identity Matrix. Pretty interesting, don't you think?"
-    t ""
+    t "Row reduction's a pretty useful thing to know. It can even be used to help you solve a linear equation! But that's a topic for tomorrow."
+    t "For now, we've got another fun practice problem! I'll put it up on the board. When you're done, call me over to take a look at it."
+    show c2m15 at genpos
+    with dis 
+    t "Please row reduce the shown matrix. When you're done, raise your hand so I can come over and check over your answers."
+    "The matrix problem in question has not yet been made. Please proceed to the break period."
+    #call screen matrixproblem()
 jump break_2

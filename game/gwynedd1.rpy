@@ -55,7 +55,7 @@ label gwyBreak1:
             jump bedroom
         "What's your daily life like?":
             if (gw.aff < 0.0):
-                if (p1sub = "they"):
+                if (p1sub == "they"):
                     r2 "Ah, so the wealthy noble finally bothers to ask the people they oppress about how they live."
                 else:
                     r2 "Ah, so the wealthy noble finally bothers to ask the people [p1sub] oppress about how they live."

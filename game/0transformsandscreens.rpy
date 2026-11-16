@@ -38,3 +38,5 @@ screen death(buttonNames,jumpLabels,deathMessage):
                 hover_background Solid("#eec2ff")
                 action Jump(jumpLabels[i]) 
                 xalign 0.5 
+# screen matrixProblem(rightAnswers)
+# To be worked on later.

@@ -116,8 +116,6 @@ label duckWork:
                         "However, as you start making your way away, the gas fully dissipates, allowing for full visibility once again."
                         "Unfortunately for you, this means that you are perfectly visible on the ground."
                         unk "Why, you little..."
-                        default gasCho = ["Run for it!"]
-                        default gasLab = ["hallRun", "escFail"]
                         $ qw(qtWarned)
                         $ qtWarned = true
                         call screen quicktime(gasCho,1.0,gasLab)

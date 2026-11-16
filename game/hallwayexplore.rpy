@@ -162,8 +162,6 @@ label hallway:
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Farewell, good coin. We may not have known each other long, but I thank you for your noble sacrifice.{/font}"
                             "Looking back at the coin one last time, you toss it onto the ground behind the entity, the opposite direction from where you need to go."
                             play sound "coin.ogg"
-                            default hallChoices = ["Run away!"]
-                            default hallLabels = ["hallRun","escFail"]
                             unk "What was that?"
                             "The entity checks where the sound came from."
                             unk "Ten million levants? Did you seriously think that your mortal currency would-"
