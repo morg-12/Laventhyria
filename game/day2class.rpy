@@ -122,6 +122,8 @@ label c2q2wrong:
     jump c2q3
 label c2q3:
     t "We know how to tell the difference between matrices in RREF, Echelon Form, and neither now, so why don't we try and tell the difference?"
+    scene bg_classroom
+    with dis
     while (matNum < 5):
         menu:
             "Identify any and all of the matrices below that are in RREF. When you're done, raise your hand to call me over so that I can check over your answers."
