@@ -39,3 +39,6 @@ default cameFromBreak = False
 default alTalk = false
 default gwTalk = false
 default hoTalk = false
+default dayDiff = 0
+default weekend = false
+default ogDay = day

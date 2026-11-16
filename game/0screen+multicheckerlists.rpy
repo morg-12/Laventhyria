@@ -7,4 +7,5 @@ default hallLabels = ["hallRun","escFail"]
 # Lists for the multichecker for the RREF identification problem in day2class
 default correctMatrices = [False, True, False, True, True]
 default selectedMatrices = [False, False, False, False, False]
+default matNum = 0
 default boolsList = []

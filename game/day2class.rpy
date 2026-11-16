@@ -54,7 +54,8 @@ label c2q1wrong:
     with dis
     show c2m2 at genpos
     with dis 
-    t "Matrix B doesn't have any zero rows, so we don't have to worry about those! The leading entry of [row1] is 3 and the leading entry of [row2] is 2, but they're in the same column! That means that matrix B isn't in echelon form, since all entries below a leading entry need to be zero and any leading entry needs to be to the right of the one in the row above it."
+    t "Matrix B doesn't have any zero rows, so we don't have to worry about those! The leading entry of [row1] is 3 and the leading entry of [row2] is 2, but they're in the same column!" 
+    t "That means that matrix B isn't in echelon form, since all entries below a leading entry need to be zero and any leading entry needs to be to the right of the one in the row above it."
     t "So that means that matrix A is in echelon form, while B is not!"
     t "Hopefully that's helped you understand what you did wrong there. Now, on to the next topic!"
     hide c2m2
@@ -69,9 +70,9 @@ label c2postq1:
     t "As you might imagine, the rules for having a matrix in RREF are stricter than just having it in Echelon Form. In fact, we have two new rules!"
     t "A matrix in echelon form is in RREF if all of its leading entries, if it has any, are equal to one, and if leading entries are the only nonzero entry in their respective column."
     t "Now, let's take a look at some matrices in echelon form and determine if they're in RREF!"
-    show c2m3 at ripos
-    with dis 
     show c2m4 at lefpos
+    with dis 
+    show c2m3 at ripos
     with dis 
     t "Let matrix A be the one on the left and matrix B be the one on the right."
     menu:
@@ -86,7 +87,7 @@ label c2postq1:
             jump c2q2wrong
         "B":
             t "That's right! Excellent work once again, [pname]!"
-            jump c2postq2
+            jump c2q3
         "Both":
             jump c2q2wrong
 label c2q2wrong:
@@ -104,7 +105,8 @@ label c2q2wrong:
     show c2m3 at genpos
     with dis
     t "Next up is B. You might notice that B looks very similar to A, but with a zero where A had an eight. This will be important later."
-    t "B has two nonzero rows, and the leading entries of both are 1, so that's off the list. Next, we have to check the columns of each leading entry. Column 1, where [row1]'s leading entry is, is all zeroes except for the leading entry, and the same can be said for Column 3, where [row2]'s leading entry is. This means that matrix B {i}is{/i} in fact in both echelon form and RREF."
+    t "B has two nonzero rows, and the leading entries of both are 1, so that's off the list. Next, we have to check the columns of each leading entry. Column 1, where [row1]'s leading entry is, is all zeroes except for the leading entry, and the same can be said for Column 3, where [row2]'s leading entry is."
+    t "This means that matrix B {i}is{/i} in fact in both echelon form and RREF."
     hide c2m3
     with dis 
     show c2m4 at lefpos
@@ -120,7 +122,7 @@ label c2q2wrong:
     jump c2q3
 label c2q3:
     t "We know how to tell the difference between matrices in RREF, Echelon Form, and neither now, so why don't we try and tell the difference?"
-    for i in range(correctMatrices.len()):
+    while (matNum < 5):
         menu:
             "Identify any and all of the matrices below that are in RREF. When you're done, raise your hand to call me over so that I can check over your answers."
             "{image=c2m5}"if not selectedMatrices[0]:
@@ -134,9 +136,11 @@ label c2q3:
             "{image=c2m9}"if not selectedMatrices[4]:
                 $ selectedMatrices[4] = true
             "All RREF Matrices have been selected (Raise your hand)":
-                jump c2q3solutions
+                $ matNum = 5
+        $ matNum += 1
     jump c2q3solutions
 label c2q3solutions:
+    $ matNum = 0
     t "Okay, let's see here."
     $ boolsList = multiChecker(correctMatrices,True,receivedAnswers=selectedMatrices)
     t "You said that the statement that {image=c2m5} is in RREF was [selectedMatrices[0]]. It was [correctMatrices[0]]."
@@ -144,7 +148,7 @@ label c2q3solutions:
     t "You said that the statement that {image=c2m7} is in RREF was [selectedMatrices[2]]. It was [correctMatrices[2]]."
     t "You said that the statement that {image=c2m8} is in RREF was [selectedMatrices[3]]. It was [correctMatrices[3]]."
     t "You said that the statement that {image=c2m9} is in RREF was [selectedMatrices[4]]. It was [correctMatrices[4]]."
-    t "Out of these [selectedMatrices.len()] questions, you correctly answered [rightCounter(boolsList)[0]], meaning that you were [rightCounter(boolsList)[1]*100]% correct."
+    t "Out of these [len(selectedMatrices)] questions, you correctly answered [rightCounter(boolsList)[0]], meaning that you were [rightCounter(boolsList)[1]*100]\% correct."
     if(not boolsList[0]):
         t "So you got the first one wrong, huh? Let's go over it together!"
         t "The leading entry of [row1] is 1. However, the leading entry of [row2]."

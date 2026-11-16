@@ -18,15 +18,15 @@ init python:
             qt = true
     def listCompare(list1,list2) -> list:
         # These two lists must be the same length and contain the same type of object. 
-        boolList = [false] * list1.len()
-        for i in range(list1.len()):
+        boolList = [false] * len(list1)
+        for i in range(len(list1)):
             boolList[i]= list1[i]==list2[i]
         return boolList
-    def multiChecker(correctAnswers, inCollected, receivedAnswers=list(None), recPhrases=list(None)) -> list:
+    def multiChecker(correctAnswers, inCollected, receivedAnswers=list(""), recPhrases=list("")) -> list:
         # inCollected describes whether the values to compare have already been collected.
         if (not inCollected):
             receivedAnswers = list()
-            for i in range(correctAnswers.len()):
+            for i in range(len(correctAnswers)):
                 receivedAnswers[i] = renpy.input(recPhrases[i])
         return listCompare(correctAnswers,receivedAnswers)
     def rightCounter(boolvarsList) -> list:
@@ -35,8 +35,9 @@ init python:
         for bean in boolvarsList:
             if bean:
                 j+=1
-        fracRight = j/boolvarsList.len()
-        return list(j,fracRight)
+        fracRight = j/len(boolvarsList)
+        rights = [j,fracRight]
+        return rights
         
     class Char:
         ima  = None

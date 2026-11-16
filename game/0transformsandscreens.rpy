@@ -12,6 +12,8 @@ transform lefpos:
 transform ripos:
     xalign 1.0
     yalign 0.125
+transform sxtnX:
+    zoom 16.0
 screen quicktime(choices,time,labels):
 # A basic screen for quicktime events. May add to it later.
 # Ensure that the number of labels is equal to the number of choices, plus one label at the end in case of failure. time must be a double.

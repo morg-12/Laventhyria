@@ -214,9 +214,8 @@ label escFail:
     unk "The perfect punishment for one such as yourself. Now, descend into your eternal sleep!"
     with fade
     scene bg_dark
-    default dayDiff = 0
-    default weekend = false
-    default ogDay = day
+    $ ogDay = day
+    $ renpy.say(p,str(ogDay))
     "You collapse onto the floor. Into your eternal rest..."
     if (day%5==0):
         $ day += 1
