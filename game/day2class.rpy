@@ -147,5 +147,39 @@ label c2postq2:
     t "The row operation I described earlier results in the matrix shown."
     show c2rowop2 at ripos
     with dis 
-    t "We'll now need to divide [row1] by 12 to make its leading entry 1, after which we can move on to the next row. [row2] already has the leftmost leading entry of the remaining rows, so it doesn't need to swap with any rows. Since the leading entry of [row3] is 42 and the leading entry of [row2] is 6, "
+    t "We'll now need to divide [row1] by 12 to make its leading entry 1, after which we can move on to the next row. [row2] already has the leftmost leading entry of the remaining rows, so it doesn't need to swap with any rows. Since the leading entry of [row3] is 42 and the leading entry of [row2] is 6, we subtract 7[row2] from [row3] to make the entry of [row1] in column 2 zero."
+    hide c2m11
+    with dis 
+    hide c2rowop2
+    with dis 
+    show c2m12 at lefpos
+    with dis
+    t "This makes it so that all of the entries in Column 2 are zero, save for the leading entry of [row2]. The matrix now appears as shown on the board."
+    show c2rowop3 at ripos
+    with dis
+    t "Since [row4] only contains entries in Column three, while [row3] contains entries in Columns three and four, it is best to swap the two."
+    hide c2m12
+    with dissolve
+    hide c2rowop3
+    with dis 
+    show c2m13 at lefpos
+    with dis 
+    t "All of the rows have entries in Column three, so it is necessary to row replace to make all entries zero except for the leading entry of [row3]."
+    show c2rowop4 at ripos
+    with dis
+    t "In [row1], the entry in Column three, 3, is equal to negative one-eighth of -24, the entry in Column three for [row3]. As such, we must subtract -[row3]/8, or add [row3]/8, to [row1]. The entry in Column three for [row2] is 2, which is negative one-twelfth of the leading entry in [row3]. As such, we must subtract -[row3]/12, or add [row3]/12, to [row2]."
+    t "The entry in Column three for [row4] is -54, which is equal to 9*(-6). -6 is one fourth of -24, which is the leading entry in [row3]. 9*1/4=9/4. This means that we must subtract 9[row3]/4 from [row4]. Finally, we must scale the leading entry of [row3] so that it is equal to one. This means dividing [row3] by -24."
+    hide c2m13
+    with dissolve
+    hide c2rowop4
+    with dis 
+    show c2m14 at genpos
+    with dis
+    t "Finally, since the only remaining entry in [row4] is 1, no more row operations are necessary. This results in the matrix shown on the board here. Any questions?"
+    hide c2m14
+    with dis 
+    $ al.show("idle",genpos,dis,true)
+    r1 "I think I remember this matrix. The Identity Matrix, right?"
+    t "Correct, Alva! This is in fact [id4], the 4-by-4 Identity Matrix. Pretty interesting, don't you think?"
+    t ""
 jump break_2
