@@ -23,11 +23,21 @@ init python:
             boolList[i]= list1[i]==list2[i]
         return boolList
     def multiChecker(correctAnswers, inCollected, receivedAnswers=list(None), recPhrases=list(None)) -> list:
+        # inCollected describes whether the values to compare have already been collected.
         if (not inCollected):
             receivedAnswers = list()
             for i in range(correctAnswers.len()):
                 receivedAnswers[i] = renpy.input(recPhrases[i])
         return listCompare(correctAnswers,receivedAnswers)
+    def rightCounter(boolvarsList) -> list:
+        j = 0.0
+        fracRight = 0.0
+        for bean in boolvarsList:
+            if bean:
+                j+=1
+        fracRight = j/boolvarsList.len()
+        return list(j,fracRight)
+        
     class Char:
         ima  = None
         taskNum = 0

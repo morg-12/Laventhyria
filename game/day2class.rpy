@@ -119,10 +119,10 @@ label c2q2wrong:
     t "Hopefully my explanation helped you understand where you went wrong. Now, let us venture forth!"
     jump c2q3
 label c2q3:
-    "We know how to tell the difference between matrices in RREF, Echelon Form, and neither now, so why don't we try and tell the difference?"
+    t "We know how to tell the difference between matrices in RREF, Echelon Form, and neither now, so why don't we try and tell the difference?"
     for i in range(correctMatrices.len()):
         menu:
-            "Identify any and all of the matrices below that are in RREF."
+            "Identify any and all of the matrices below that are in RREF. When you're done, raise your hand to call me over so that I can check over your answers."
             "{image=c2m5}"if not selectedMatrices[0]:
                 $ selectedMatrices[0] = true
             "{image=c2m6}"if not selectedMatrices[1]:
@@ -133,11 +133,21 @@ label c2q3:
                 $ selectedMatrices[3] = true
             "{image=c2m9}"if not selectedMatrices[4]:
                 $ selectedMatrices[4] = true
-            "All RREF Matrices have been selected":
+            "All RREF Matrices have been selected (Raise your hand)":
                 jump c2q3solutions
-        
+    jump c2q3solutions
 label c2q3solutions:
-    
+    t "Okay, let's see here."
+    $ boolsList = multiChecker(correctMatrices,True,receivedAnswers=selectedMatrices)
+    t "You said that the statement that {image=c2m5} is in RREF was [selectedMatrices[0]]. It was [correctMatrices[0]]."
+    t "You said that the statement that {image=c2m6} is in RREF was [selectedMatrices[1]]. It was [correctMatrices[1]]."
+    t "You said that the statement that {image=c2m7} is in RREF was [selectedMatrices[2]]. It was [correctMatrices[2]]."
+    t "You said that the statement that {image=c2m8} is in RREF was [selectedMatrices[3]]. It was [correctMatrices[3]]."
+    t "You said that the statement that {image=c2m9} is in RREF was [selectedMatrices[4]]. It was [correctMatrices[4]]."
+    t "Out of these [selectedMatrices.len()] questions, you correctly answered [rightCounter(boolsList)[0]], meaning that you were [rightCounter(boolsList)[1]*100]% correct."
+    if(not boolsList[0]):
+        t "So you got the first one wrong, huh? Let's go over it together!"
+        t "The leading entry of [row1] is 1. However, the leading entry of [row2]."
 label c2postq3:
     hide c2m3
     with dis
@@ -147,7 +157,7 @@ label c2postq3:
     t "Well, there's an algorithm you can use for that job! It's called the Row Reduction Algorithm, and it's used to, well, reduce a matrix to RREF!"
     t "First! You swap [row1] with a lower row so that the leftmost nonzero entry in all the land's in the first row. Or, well, in all the matrix."
     t "Second! You scale the first row so that its leading entry is equal to one."
-    t "Third! Use row replacement to make sure that all entries above and below this leading entry are equal to zero."
+    t "Third! Use row replacement to make sure that all entries ave and below this leading entry are equal to zero."
     t "Then repeat this for the second row, the third row, and so on until you're out of rows!"
     t "This is probably a bit difficult to understand from me just saying it, so let me show you!"
     show c2m10 at lefpos
