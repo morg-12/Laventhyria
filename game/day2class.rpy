@@ -151,6 +151,7 @@ label c2q3solutions:
     t "Out of these [len(selectedMatrices)] questions, you correctly answered [rightCounter(boolsList)[0]], meaning that you were [rightCounter(boolsList)[1]*100]\% correct."
     if(not boolsList[0]):
         t "So you got the first one wrong, huh? Let's go over it together!"
+        # show(Transform(c2m5,zoom=))
         t "The leading entry of [row1] is 1. However, the leading entry of [row2]."
 label c2postq3:
     hide c2m3
@@ -181,7 +182,8 @@ label c2postq3:
     t "The row operation I described earlier results in the matrix shown."
     show c2rowop2 at ripos
     with dis 
-    t "We'll now need to divide [row1] by 12 to make its leading entry 1, after which we can move on to the next row. [row2] already has the leftmost leading entry of the remaining rows, so it doesn't need to swap with any rows. Since the leading entry of [row3] is 42 and the leading entry of [row2] is 6, we subtract 7[row2] from [row3] to make the entry of [row1] in column 2 zero."
+    t "We'll now need to divide [row1] by 12 to make its leading entry 1, after which we can move on to the next row. [row2] already has the leftmost leading entry of the remaining rows, so it doesn't need to swap with any rows."
+    t "Since the leading entry of [row3] is 42 and the leading entry of [row2] is 6, we subtract 7[row2] from [row3] to make the entry of [row1] in column 2 zero."
     hide c2m11
     with dis 
     hide c2rowop2
@@ -215,6 +217,8 @@ label c2postq3:
     $ al.show("idle",genpos,dis,true)
     r1 "I think I remember this matrix. The Identity Matrix, right?"
     t "Correct, Alva! This is in fact [id4], the 4-by-4 Identity Matrix. Pretty interesting, don't you think?"
+    scene bg_classroom
+    with dis
     t "Row reduction's a pretty useful thing to know. It can even be used to help you solve a linear equation! But that's a topic for tomorrow."
     t "For now, we've got another fun practice problem! I'll put it up on the board. When you're done, call me over to take a look at it."
     show c2m15 at genpos

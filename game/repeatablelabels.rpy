@@ -6,6 +6,7 @@ label bedroom:
             "Sleep":
                 if (noEep >0):
                     $ noEep -= 0.5
+                $ day += 1
                 $ al.denied = false
                 $ ho.denied = false
                 $ gw.denied = false
@@ -18,6 +19,7 @@ label bedroom:
                 "You stay up until the morning doing who knows what."
                 "You're very tired."
                 "You might make some mistakes tomorrow, but at least you got that last book in, right?"
+                $ day += 1
                 $ noEep += 1
                 $ al.denied = false
                 $ ho.denied = false
