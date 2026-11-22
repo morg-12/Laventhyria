@@ -7,7 +7,7 @@ I chose to build a game that teaches linear algebra through a visual novel becau
 # On your device:
  1. Go to https://morg12.itch.io/laventhyria
  2. Download the version of the game for your OS.
- 3. Open the compressed file you just downloaded using your uncompressing application of choice.
+ 3. Open the compressed file you just downloaded using your decompressing application of choice.
  4. Run the executable.
  5. You are now playing the game!
 # In browser:
@@ -15,4 +15,11 @@ I chose to build a game that teaches linear algebra through a visual novel becau
 2. Click on the Run Game button at the top of the page and wait for it to load.
 3. Once it has loaded, click on Preferences, then Fullscreen to get the best experience.
 4. You are now playing the game!
+# An older version (On device only):
+1. Go to the Releases tab on this GitHub Repository
+2. Select the release you wish to play.
+3. Download the version of the game for your OS.
+4. Open the compressed file you just downloaded using your decompressing application of choice.
+5. Run the executable
+6. You are now playing the game!
 Have fun!
