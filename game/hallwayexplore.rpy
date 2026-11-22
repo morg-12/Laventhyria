@@ -92,10 +92,11 @@ label hallway:
                             "A sizable smoke cloud appears beneath and around you."
                             unk "Why's there a bunch of smoke? Is there a fire?"
                             "The smoke feels very thick as you run through it."
-                            p "{font= NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I wonder how much damage this could do to my lungs...{/font}"
+                            p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I wonder how much damage this could do to my lungs...{/font}"
                             "As the cloud fades, the entity notices your absence and lets out a paralyzing screech."
                             $ hw()
                             play sound "Screech.ogg"
+                            pause 10
                             unk "That should keep the vile creature in place. Now, where is it? Come out, come out, whereeeeever you areeeee~"
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}How do I get out of this?{/font}"
                             "Thankfully, it seems that the paralysis was only temporary, but it's allowed the entity to draw closer."

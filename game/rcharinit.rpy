@@ -24,7 +24,6 @@ label introductions:
 label alva1:
     $ dmp.hide(dis, True)
     $ alTalk = true
-    scene bg_classroom
     $ al.show("idle",genpos,dis,True)
     r1 "Hello there, [pname]. It's very nice to meet you."
     r1 "My name is Alva Miloquis, and my family's holdings are in the county of Skorg."
@@ -57,7 +56,6 @@ label alva1:
     jump expression ("talkChoice"+str(meetNum))
 label gwy1:
     $ dmp.hide(dis,True)
-    scene bg_classroom
     $ gwTalk = true
     $ gw.show("idle",genpos,dis,True)
     r2 "Hiya there, [pname]! I'm very glad to meet you!"
@@ -101,7 +99,7 @@ label gwy1:
     $ gw.hide(dis,True)
     jump expression ("talkChoice"+str(meetNum))
 label ho1:
-    scene bg_classroom
+    $ dmp.hide(dis, True)
     $ ho.show("idle",genpos,dis,True)
     $ hoTalk = True
     r3 "Hello, [pname]. My name's Hoshi."

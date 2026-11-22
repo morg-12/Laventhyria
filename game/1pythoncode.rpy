@@ -31,10 +31,11 @@ init python:
             else:
                 return fallback
     def hw():
-        renpy.say(None,"Headphone warning: A loud sound will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume.")
+        renpy.say("System Warning","Headphone warning: A loud sound will soon follow. It is advised that you remove your headphones, if you have any, and turn down your volume, either for your device or your sound volume in the in game preferences menu.")
+        renpy.display_menu([("Please indicate that you understand that a loud sound is upcoming and are ready to proceed (If you skipped past the text before this, you are advised to read over it by going back.)",None),("Proceed",True)])
     def qw(qt):
         if(not qt):
-            renpy.say(None,"A quicktime event is coming up! Since this is your first quicktime event, there is a warning. In the future, there will be no warnings.")
+            renpy.say("System Information","A quicktime event is coming up! Since this is your first quicktime event, there is a warning. In the future, there will be no warnings.")
             qt = true
     def listCompare(list1,list2) -> list:
         # These two lists must be the same length and contain the same type of object. 
@@ -133,11 +134,19 @@ init python:
                 renpy.with_statement(wi)
         def hide(self,wi,hasTrans):
         # seems to be kind of broken, probably best to add a scene after every instance of this to make sure it actually does what's intended.
-            renpy.hide(self.name)
+            # renpy.hide(self.name)
+            if (self.isIma):
+                renpy.hide("ima_"+self.idNum)
+            else:
+                renpy.hide("char_"+self.idNum)
             # renpy.say(p,str(self.genChooser)) 
             # Used for testing if genChooser was working properly
             if(hasTrans):
                 renpy.with_statement(wi,always=True)
+        def run(self, speed = 32.0):
+            self.show("scared",lefpos,moveinleft,true)
+            renpy.pause(1/32)
+            self.hide(moveoutright, true)
         def affOut(self) -> str:
             self.show("idle",genpos,dis,true)
             wor = "interesting."

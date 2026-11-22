@@ -68,7 +68,6 @@ label cselect:
     "This is the first of the player character options."
     $ playerm.show("idle",ripos,dis,true)
     "This is the second."
-    $ playerm.hide(dis, true)
     default player = Char("000","bg",pname,"Live2D/Player","Player",True,False,True,.6,2)
     menu:
         "Which player character do you prefer?"

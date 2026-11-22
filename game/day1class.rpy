@@ -34,7 +34,6 @@ label class_1:
     p "O-or at least the best I can..."
     p "H-hopefully that's enough..."
     $ player.hide(dis,true)
-    scene bg_classroom
     t "All right, settle down now, class."
     t "I hope that we'll have a productive session today."
     t "You may call me 'Your Lordship'."

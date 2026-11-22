@@ -76,14 +76,18 @@ label duckWork:
                     elif (escRand > 1):
                         "As you run, a cloud of gas follows close behind."
                         p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I don't know what it is, so I should probably close my mouth and nose...{/font}"
+                        $ player.run()
                         "Thankfully, the cloud fades away as your lungs are beginning to burn."
                         unk "YOU CAN'T RUN FOREVER, LITTLE WRETCH!"
+                        $ player.run()
                         "The entity follows close behind you."
                         p "How much you wanna bet?"
                         unk "BETTING IS FOR LOSERS."
+                        $ player.run()
                         "You're keeping pace with the entity, but on the flip side, that means it's keeping pace with you, and your legs are aching for a rest."
                         "Eventually, you see a light at the end of the void."
                         p "Looks like... you'd better pay up."
+                        $ player.run()
                         "Your legs feel like they're about to fall off, but given the choice between your life and your legs, you'd choose the former."
                         jump escSuccess
                     else:
@@ -141,23 +145,29 @@ label duckWork:
                         jump expression ("class_" + str(day))
 label hallRun:
     "You take off running, the entity at your heels."
+    $ player.run()
     play music "BG_Chase.ogg"
     unk "YOU CAN'T RUN FOREVER!"
+    $ player.run(speed = 28.0)
     "Unfortunately, it's right. You can already start to feel yourself starting to slow down, and if the entity catches you, it's probably lights out."
     menu:
         "How do you respond?"
         "Push everything in you towards a singular, immense burst of speed.":
             "You use all of your power to increase your speed. You feel your legs starting to burn, but it doesn't matter. Nothing matters except getting out of this alive."
+            $ player.run(speed = 36.0)
             unk "How... Well, you'll surely be done for soon!"
             "You feel an urge to respond, but keep yourself quiet, knowing that using any unnecessary energy could cause your demise."
+            $ player.run()
             "Eventually, you see a light in the void. Focusing on it, you push yourself to the limit."
             jump escSuccess
         "Keep going at a steady pace and conserve what little energy you can.":
             "You slow down a bit to allow yourself to maintain a steady pace while still avoiding using all that you have in reserve."
+            $ player.run(speed = 24.0)
             "While this is an intelligent choice for energy conservation, it's not as much for staying ahead of the entity. In fact, you can feel its arms reaching for your back."
             unk "What's wrong, scum? Are your 'human' lungs getting tired?"
             p "Not... not yet!"
             "Taking advantage of your reserves and the conserved energy from earlier, you speed up, going as fast as you can. The hallway and floor become a blur, and you can feel the entity falling behind."
+            $ player.run(speed = 40.0)
             menu:
                 unk "How..."
                 "Boast":
@@ -173,13 +183,14 @@ label hallRun:
                 "Focus on keeping yourself going":
                     unk "Wow, has the grand quipper lost their edge? I wouldn't have thought it possible, if it were not happening before my very eyes."
                     "You ignore the taunts and keep running, one foot after the other."
+                    $ player.run(36.0)
                     unk "Hey, are you ignoring me?"
                     "You see a light shining at the end of this hall. There's a few students milling about, but not that many."
+                    $ player.run()
                     p "Yes."
                     jump escSuccess
 
 label hallHide:
-    scene bg_hallway
     menu:
         p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}What should I do now?{/font}"
         "Check your backpack for more tools to use." if not checkedBag:
@@ -190,15 +201,17 @@ label hallHide:
             jump hallHide
         "Make a break for it.":
             "You start running as fast as you can."
+            $ player.run()
             "The pattering of your feet upon the stone floors echoes throughout the hallway, alerting the entity to your presence."
             unk "Why, you little..."
             "The entity begins to chase after you."
             play music "BG_Chase.ogg"
-            $ player.show("scared",genpos,dis,true)
-            $ player.hide("moveoutleft", true)
+            $ player.run()
             p "Why's this hallway so long?!"
             unk "Did you seriously think that you could get away from me?"
+            $ player.run()
             "Your legs start to burn, but you keep running, knowing that if you stop, you're likely done for."
+            $ player.run()
             p "How much longer?!"
             "Eventually, a miracle occurs. Or at least, it feels that way to you."
             jump escSuccess
@@ -264,6 +277,7 @@ label escFail:
 label escSuccess:
     scene bg_hallway
     with fad
+    $ player.run()
     play music "Main_BGM.ogg"
     "You burst out of the void, but as you do so, you stumble and fall onto your face."
     p "No! Please don't!"
