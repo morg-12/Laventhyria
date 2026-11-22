@@ -42,3 +42,4 @@ default hoTalk = false
 default dayDiff = 0
 default weekend = false
 default ogDay = day
+default numRuns = 0

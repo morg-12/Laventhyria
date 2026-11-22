@@ -281,11 +281,26 @@ label c2q4:
     t "Please row reduce the shown matrix. When you're done, raise your hand so I can come over and check over your answers."
     $ boolies = matrixProblem(righties)
     t "[boolies]"
+    hide c2m15
+    with dis 
+    $ rice = []
+    $ i = 0
+    while i<len(boolies):
+        $ rice.append(rightCounter(boolies[i]))
+        t "You got [rice[i][0]] entries in Row [i] right, meaning that you got [rice[i][1]*100]\% of them right."
+        t "[rice]"
+        $ rightynum += rice[i][0]
+        $ rightyperc += rice[i][1]
+        $ i+=1
+    $ rightyperc /= i
+    t "Overall, you got [rightynum] of the [len(boolies)*len(boolies[0])] entries in the matrix correct, or [rightyperc*100]\%."
+    if (rightyperc<1):
+        t "Okay, so you got [len(boolies)*len(boolies[0])-rightynum] of the [len(boolies)*len(boolies[0])] entries wrong here."
     jump c2postq4
 label c2postq4:
     scene bg_classroom with dis
     show c2me1 at genpos
     with dis
-    t "On the board is the basic structure for a matrix in echelon form. Please keep this in mind."
+    t "On the board is the basic structure for a matrix in echelon form. While the number of rows and columns may not match this across all echelon form matrices, this can still be a helpful tool in identifying one in the wild."
     #call screen matrixproblem()
 jump break_2

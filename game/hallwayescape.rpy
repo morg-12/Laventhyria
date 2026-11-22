@@ -61,7 +61,8 @@ label duckWork:
                     if (escRand > 2):
                         "As you run, you hear loud screams of agony coming from behind you."
                         $ hw()
-                        play sound "Screech.ogg"
+                        play sound "screech.ogg"
+                        pause 10
                         "When the screams stop, the halls flash with a blinding light. You close your eyes."
                         scene bg_hallway
                         with fad
@@ -98,7 +99,8 @@ label duckWork:
                         "You hear the entity's screams, but the cloud of dust is on your side, making it difficult to find you."
                         unk "Aha! If I do that, I'll have more time!"
                         $ hw()
-                        play sound "Screech.ogg"
+                        play sound "screech.ogg"
+                        pause 10
                         "The entity lets out a paralyzing screech that immobilizes you."
                         unk "COME OUT, COME OUT, WHEREVER YOU ARE~"
                         p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I can move? I guess it's wearing off, but I can't even see the entity..."

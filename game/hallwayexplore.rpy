@@ -79,7 +79,7 @@ label hallway:
                     unk "You are a despicable facsimile of a human. In fact, I have never seen one in my life so despicable."
                     "You notice that your backpack seems to have suddenly become heavier. In the corner of your vision, you see what looks like... a bread crumb?"
                     p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Well, never mind that. What's in the bag?{/font}"
-                    "The entity seems to be distracted with thinking of ways to berate you, so it does not notice opening it."
+                    "The entity seems to be distracted with thinking of ways to berate you, so it doesn't notice you opening the bag."
                     p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}Let's see, let's see... wait, who left all this in my bag? Like, it's actually getting scary now!{/font}"
                     default checkedBag = false
                     default escItem = ""
@@ -95,7 +95,7 @@ label hallway:
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}I wonder how much damage this could do to my lungs...{/font}"
                             "As the cloud fades, the entity notices your absence and lets out a paralyzing screech."
                             $ hw()
-                            play sound "Screech.ogg"
+                            play sound "screech.ogg"
                             pause 10
                             unk "That should keep the vile creature in place. Now, where is it? Come out, come out, whereeeeever you areeeee~"
                             p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}How do I get out of this?{/font}"
@@ -112,7 +112,8 @@ label hallway:
                                 "You can hear the entity trying to flee, but it is unable to escape in time."
                                 "It lets out a terrible shriek as it fades away."
                                 $ hw()
-                                play sound "Screech.ogg"
+                                play sound "screech.ogg"
+                                pause 10
                                 p "Wow, was it really that easy?"
                                 "You take off your goggles."
                                 scene bg_hallway
@@ -131,7 +132,8 @@ label hallway:
                                 unk "Wait a second, that vile creature's gone!"
                                 "The entity lets out a paralyzing screech."
                                 $ hw()
-                                play sound "Screech.ogg"
+                                play sound "screech.ogg"
+                                pause 10
                                 unk "Now, where did it go? Come out, vile one~ I won't hurt you... much..."
                                 p "{font=NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf}It's getting closer! I need to get moving!{/font}"
                                 $ escItem = "flash grenade"

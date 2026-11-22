@@ -52,13 +52,18 @@ label hoBreak1:
             r3 "Well, I guess the Levants did give my family our current standing and all that, so I should probably like them..."
             r3 "I wonder why they have this whole nobility system, though... After all, doesn't it just make it so that rich people keep getting richer?"
             r3 "Then again, I suppose I am one of those rich people now, so I should probably be really excited and happy about it, but I don't know..."
-            r3 "I don't know, though... It feels kind of unfair to just have some people have all this power and money and then most of the common people have nothing."
-            r3 "I don't really like them for making that kind of world."
-            r3 "Although I guess I do benefit from that kind of world..."
-            r3 "Aghhh, it's difficult to think about the differences between what I benefit from and what the world would benefit from..."
-            r3 "Do all nobles have to deal with this kind of thing?"
-            p "I doubt most worry themselves..."
-            r3 "That's an option?"
+            menu:
+                "Would you like to use the Taskbringer?"
+                "Yes":
+                    $ renpy.say(r3,ho.taskHandler())
+                "No":
+                    r3 "I don't know, though... It feels kind of unfair to just have some people have all this power and money and then most of the common people have nothing."
+                    r3 "I don't really like them for making that kind of world."
+                    r3 "Although I guess I do benefit from that kind of world..."
+                    r3 "Aghhh, it's difficult to think about the differences between what I benefit from and what the world would benefit from..."
+                    r3 "Do all nobles have to deal with this kind of thing?"
+                    p "I doubt most worry themselves..."
+                    r3 "That's an option?"
             r3 "Well, I suppose I'm not the biggest fan of this inequality they push for in our society."
             r3 "I do benefit from it, I guess, but it's not something I want to see in this world."
             r3 "So I guess that's my view on it."
@@ -67,8 +72,8 @@ label hoBreak1:
                 r3 "I'm sure it was annoying sometimes, right?"
                 "Really annoying...":
                     r3 "Oh... I'm sorry for being such a nuisance..."
-                    r3 "How do I always manage to make every situation I get involved in worse..."
-                    r3 "Bye..."
+                    r3 "{size=24}How do I always manage to make every situation I get involved in worse?{/size}"
+                    r3 "{size=18}Bye...{/size}"
                     $ ho.aff -= 0.1
                 "Not really, no.":
                     r3 "Are you sure?"
@@ -146,7 +151,7 @@ label hoBreak1:
                     pause 0.5
                     r3 "Maybe we could come up here sometime at night?"
                     p "Acting a bit daring, are we?"
-                    $ ho.show("embarassed",lefpos,dis,true)
+                    $ ho.show("embarassed",lefpos,None,false)
                     r3 "W-well, wouldn't it be nice?"
                     p "That it would..."
                     menu:
@@ -163,7 +168,8 @@ label hoBreak1:
                     $ ho.aff += 0.2
                     jump bedroom
                 "Don't go":
-                    p "I guess it could be pretty risky to go somewhere I've never been before, especially if it could be a risk to my academic career..."
+                    p "I guess it could be pretty bad to go somewhere I've never been before, especially if it could be a risk to my academic career..."
                     r3 "True..."
                     r3 "If you end up changing your mind or something, please tell me!"
+                    r3 "Bye for now!"
                     jump break_1

@@ -144,9 +144,19 @@ init python:
             if(hasTrans):
                 renpy.with_statement(wi,always=True)
         def run(self, speed = 32.0):
-            self.show("scared",lefpos,moveinleft,true)
-            renpy.pause(1/32)
-            self.hide(moveoutright, true)
+            moveLeftIn = MoveTransition(16.0/speed,enter = offscreenleft)
+            moveRightIn = MoveTransition(16.0/speed, enter = offscreenright)
+            moveLeftOut = MoveTransition(16.0/speed, leave = offscreenright)
+            moveRightOut = MoveTransition(16.0/speed, leave = offscreenright)
+            if (numRuns%2==0):
+                self.show("scared",lefpos,moveLeftIn,true)
+                renpy.pause(1/32)
+                self.hide(moveRightOut, true)
+            else:
+                self.show("scared",ripos,moveRightIn,true)
+                renpy.pause(1/32)
+                self.hide(moveLeftOut, true)
+            numRuns += 1
         def affOut(self) -> str:
             self.show("idle",genpos,dis,true)
             wor = "interesting."

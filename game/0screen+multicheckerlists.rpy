@@ -12,3 +12,7 @@ default boolsList = []
 # Lists for the matrix fill in the blank problem in day2class
 default righties = [[1,0,-3,3],[0,1,2,-3],[0,0,0,0]]
 default boolies = [[]]
+default rightynum = 0.0
+default rightyperc = 0.0
+default rice = []
+default i = 0
