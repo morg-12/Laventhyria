@@ -152,10 +152,12 @@ label c2q3solutions:
     t "You said that the statement that {image=c2m9} is in RREF was [selectedMatrices[4]]. It was [correctMatrices[4]]."
     t "Out of these [len(selectedMatrices)] questions, you correctly answered [rightCounter(boolsList)[0]], meaning that you were [rightCounter(boolsList)[1]*100]\% correct."
     if(not boolsList[0]):
-        
+        scene bg_classroom
+        with dis 
         t "So you got the first one wrong, huh? Let's go over it together!"
         show c2m5 at genpos, sxtnX
-        t "The leading entry of [row1] is 1. However, the leading entry of [row2] is 2. For a matrix to be in RREF, all of its leading entries must be 1. As such, this matrix is not in RREF."
+        t "The leading entry of [row1] is 1. However, the leading entry of [row2] is 2. For a matrix to be in RREF, all of its leading entries must be 1." 
+        t "As such, this matrix is not in RREF."
     if(not boolsList[1]):
         hide c2m5
         with dis
@@ -206,6 +208,8 @@ label c2postq3:
     hide c2m3
     with dis
     hide c2m4
+    with dis 
+    scene bg_classroom
     with dis 
     t "Well, now you know what a matrix in RREF looks like and how to identify it. But how do you get a matrix into RREF, anyway?"
     t "Well, there's an algorithm you can use for that job! It's called the Row Reduction Algorithm, and it's used to, well, reduce a matrix to RREF!"
@@ -265,14 +269,23 @@ label c2postq3:
     with dis 
     $ al.show("idle",genpos,dis,true)
     r1 "I think I remember this matrix. The Identity Matrix, right?"
-    t "Correct, Alva! This is in fact [id4], the 4-by-4 Identity Matrix. Pretty interesting, don't you think?"
     scene bg_classroom
     with dis
+    t "Correct, Alva! This is in fact [id4], the 4-by-4 Identity Matrix. Pretty interesting, don't you think?"
     t "Row reduction's a pretty useful thing to know. It can even be used to help you solve a linear equation! But that's a topic for tomorrow."
+    jump c2q4
+label c2q4:
     t "For now, we've got another fun practice problem! I'll put it up on the board. When you're done, call me over to take a look at it."
     show c2m15 at genpos
     with dis 
     t "Please row reduce the shown matrix. When you're done, raise your hand so I can come over and check over your answers."
-    "The matrix problem in question has not yet been made. Please proceed to the break period."
+    $ boolies = matrixProblem(righties)
+    t "[boolies]"
+    jump c2postq4
+label c2postq4:
+    scene bg_classroom with dis
+    show c2me1 at genpos
+    with dis
+    t "On the board is the basic structure for a matrix in echelon form. Please keep this in mind."
     #call screen matrixproblem()
 jump break_2

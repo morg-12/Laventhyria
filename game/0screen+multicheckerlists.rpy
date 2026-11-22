@@ -9,3 +9,6 @@ default correctMatrices = [False, True, False, True, True]
 default selectedMatrices = [False, False, False, False, False]
 default matNum = 0
 default boolsList = []
+# Lists for the matrix fill in the blank problem in day2class
+default righties = [[1,0,-3,3],[0,1,2,-3],[0,0,0,0]]
+default boolies = [[]]

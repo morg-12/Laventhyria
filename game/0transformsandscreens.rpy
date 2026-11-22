@@ -22,7 +22,7 @@ screen quicktime(choices,time,labels):
             textbutton choice action Jump(labels[i]) xalign 0.5 yalign 0.5
     timer time action Jump(labels[len(labels)-1])
 screen death(buttonNames,jumpLabels,deathMessage):
-# A basic attempt at making a death screen. Will be debugged later.
+# A basic attempt at making a death screen.
     modal True
     vbox:
         align(0.5,0.2)
@@ -40,5 +40,13 @@ screen death(buttonNames,jumpLabels,deathMessage):
                 hover_background Solid("#eec2ff")
                 action Jump(jumpLabels[i]) 
                 xalign 0.5 
-# screen matrixProblem(rightAnswers)
+'''screen matrixProblem(rightAnswers, numRows, numCols):
+    
+    vbox:
+        align(0.5,0.4)
+        for i in range(numRows):
+            for j in range(numCols):
+                text "Please enter the entry in Row [curRow], Column [curCol]."'''
+
+
 # To be worked on later.

@@ -1,5 +1,25 @@
 init python:
     import math
+    def matrixProblem(rightAnswers) -> list:
+        numRows = len(rightAnswers)
+        numCols = len(rightAnswers[0])
+        playerAnswers = [[0 for a in range(numCols)] for b in range(numRows)]
+        validEntry = false
+        checkList = [[false for a in range(numCols)] for b in range(numRows)]
+        for i in range(numRows):
+            for j in range(numCols):
+                validEntry = false
+                while not validEntry:
+                    try:
+                        playerAnswers[i][j]=int(renpy.input(f"Please enter the entry in Row {i+1}, Column {j+1} of the fully row reduced matrix.",allow="0123456789-+"))
+                        validEntry = true
+                    except ValueError:
+                        renpy.say("","Invalid entry. Please try again.")
+                        validEntry = false
+        for k in range(numRows):
+            checkList[k]=listCompare(rightAnswers[k],playerAnswers[k])
+        return checkList
+        
     def live2d_there(characterFold) -> bool:
         return renpy.loadable(f"Live2D/{characterFold}/{characterFold}.model3.json")
     def Live2Ds(*args, charFold, fallback = Placeholder(base = "girl", text="No Live2D"), fallback1 = Image(""),**kwargs):
@@ -18,7 +38,7 @@ init python:
             qt = true
     def listCompare(list1,list2) -> list:
         # These two lists must be the same length and contain the same type of object. 
-        boolList = [false] * len(list1)
+        boolList = [false for i in range(len(list1))]
         for i in range(len(list1)):
             boolList[i]= list1[i]==list2[i]
         return boolList
