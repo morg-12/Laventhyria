@@ -30,7 +30,7 @@ screen death(buttonNames,jumpLabels,deathMessage):
             size 300
             color "#cc0000"
             font "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
-        text deathMessage xalign 0.5 yalign 0.4 size 36 # font "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
+        text deathMessage xalign 0.5 yalign 0.4 size 36
     vbox:
         text "How will you continue?" size 60 yalign 0.6 font "NotoSerifDisplay-VariableFont_wdth,wght.ttf"
         align(0.5,0.7)

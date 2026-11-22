@@ -153,8 +153,16 @@ label c2q3solutions:
     t "Out of these [len(selectedMatrices)] questions, you correctly answered [rightCounter(boolsList)[0]], meaning that you were [rightCounter(boolsList)[1]*100]\% correct."
     if(not boolsList[0]):
         t "So you got the first one wrong, huh? Let's go over it together!"
-        # show(Transform(c2m5,zoom=))
-        t "The leading entry of [row1] is 1. However, the leading entry of [row2]."
+        show c2m5 at genpos, sxtnX
+        t "The leading entry of [row1] is 1. However, the leading entry of [row2] is 2. For a matrix to be in RREF, all of its leading entries must be 1. As such, this matrix is not in RREF."
+    if(not boolsList[1]):
+        t "The second one's wrong, is that right?"
+        pause 0.25
+        t "Okay, let's go over it together!"
+        show c2m6 at genpos, sxtnX
+        with dis
+        t ""
+
 label c2postq3:
     hide c2m3
     with dis
