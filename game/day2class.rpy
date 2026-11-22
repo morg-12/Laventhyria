@@ -152,17 +152,56 @@ label c2q3solutions:
     t "You said that the statement that {image=c2m9} is in RREF was [selectedMatrices[4]]. It was [correctMatrices[4]]."
     t "Out of these [len(selectedMatrices)] questions, you correctly answered [rightCounter(boolsList)[0]], meaning that you were [rightCounter(boolsList)[1]*100]\% correct."
     if(not boolsList[0]):
+        
         t "So you got the first one wrong, huh? Let's go over it together!"
         show c2m5 at genpos, sxtnX
         t "The leading entry of [row1] is 1. However, the leading entry of [row2] is 2. For a matrix to be in RREF, all of its leading entries must be 1. As such, this matrix is not in RREF."
     if(not boolsList[1]):
+        hide c2m5
+        with dis
         t "The second one's wrong, is that right?"
         pause 0.25
         t "Okay, let's go over it together!"
         show c2m6 at genpos, sxtnX
         with dis
-        t ""
-
+        t "Neither row in this matrix has any leading entries. Since there's no leading entries and no nonzero entries, we don't need to worry about any issues with leading entries."
+        t "As such, this matrix is in RREF."
+    if(not boolsList[2]):
+        hide c2m5
+        with dis 
+        hide c2m6
+        with dis 
+        t "You got the third one wrong, then? I'll walk you through it, and hopefully you won't get any similar problems wrong in the future!"
+        show c2m7 at genpos, sxtnX
+        with dis 
+        t "In this matrix, the only leading entry is in the [row2], and all other entries in its column are zero. However, [row1], [row3], and [row4] are zero rows, and [row1] is not at the bottom. As such, this matrix is not in echelon form and therefore cannot be in RREF."
+    if(not boolsList[3]):
+        hide c2m5
+        with dis 
+        hide c2m6
+        with dis 
+        hide c2m7
+        with dis 
+        t "The fourth one, then? Let's go for it!"
+        show c2m8 at genpos, sxtnX
+        with dis 
+        t "This matrix only has one row. As such, there are no entries in the columns above or below the leading entry. Now, to check the leading entry itself."
+        t "The leading entry is the first in its row. Since the leading entry is 1 and there's no entries above, below, or to the left of it that would need to be 0, this matrix is indeed in RREF."
+    if(not boolsList[4]):
+        hide c2m5
+        with dis 
+        hide c2m6
+        with dis 
+        hide c2m7
+        with dis 
+        hide c2m8
+        with dis 
+        t "Okay, the fifth one! Let's figure this out."
+        show c2m9 at genpos, sxtnX
+        with dis 
+        t "The leading entry in [row1] is 1, in the first column. The leading entry in [row2] is also 1, in the third column. In [row2], all of the entries to the left of the leading entry are 0, while the entry above it is also 0."
+        t "The leading entries are 1, all of the entries in their respective rows to the left of them, if any, are zero, and all of the entries in their respective columns are zero, meaning that this matrix is in RREF."
+        jump c2postq3
 label c2postq3:
     hide c2m3
     with dis
