@@ -16,3 +16,8 @@ default rightynum = 0.0
 default rightyperc = 0.0
 default rice = []
 default i = 0
+# Lists for the question about pivot columns at the end of day2class
+default corrCols = [True,True,False,False]
+default selCols = [False,False,False,False]
+default colmNum = 0
+default beans = []

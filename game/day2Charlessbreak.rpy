@@ -49,5 +49,42 @@ label break_2:
             else:
                 jump hallBreak
 label roofBreak2:
-    "This text is a placeholder. Please proceed to the bedroom."
+    "You head up to the roof. The stairs are a bit creaky, but it's not too much of a concern."
+    "The lock up here seems to be crumbling a bit. It's pretty easy to pull out the curved bit and unlock it." 
+    "However, you do have to be careful to avoid it actually breaking, since that could tell the teachers that it was broken and that people have been coming up here. Worse, it could lead to them replacing the lock, making it much harder to get up here."
+    scene bg_rooftop
+    with dis 
+    "Even without anyone being up here, it's still a pretty nice place. The wind blows through your hair as you look up and around."
+    $ player.show("idle",genpos,dis,true)
+    p "Wow... It's super pretty up here..."
+    "You head near the protective fence to look out at the area below."
+    scene bg_view
+    with dis
+    p "Wow, you can see so much from up here! There's the pond below, and the statues, and then the city."
+    scene bg_rooftop
+    with dis 
+    p "It really is a special view."
+    menu:
+        "I wonder if it would be more special with a special someone...":
+            p "A special someone, huh..."
+            p "I don't think I've ever really thought about that kind of stuff before, but come to think of it, that does sound like a fairly couple-ish thing to do, doesn't it?"
+            p "But who would I want to do it with?"
+            p "Oh, look at me, thinking about something else with this incredible view before me."
+            p "It is an interesting thought, though... Maybe I can think about it more later?"
+            play sound "Bell.ogg"
+            p "Oh! Time for bed, I suppose!"
+            "You rush down the stairs and to your bedroom."
+            jump bedroom
+        "It would probably be more special if everyone could come up here and see it...":
+            p "I'd love to bring the others up here to take a look at it. I wonder how they'd respond..."
+            p "Lily probably already knows, since she's the one who told me, but there's a chance she might be surprised."
+            p "As for the others, I doubt any of them have come up here before, so they'd probably be really surprised. Somehow, the thought sounds really nice."
+            p "Maybe I should invite them up here sometime?"
+            "You ponder this for some time."
+            play sound "Bell.ogg"
+            "The bell cuts off your train of thought."
+            p "Oh, it's already this time? I suppose I'd best get to my bedroom, then."
+            jump bedroom
+        "It's a nice view to see alone.":
+
     jump bedroom

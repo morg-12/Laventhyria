@@ -99,13 +99,13 @@ label c2q2wrong:
     with dis
     show c2m4 at genpos
     with dis
-    t "Let's go over A first. A has two nonzero rows and one zero row. The leading entries are both 1, so that's that off the list. However, in column 3, there's an eight above the one. Since that one is a leading entry, there should be nothing else in its row. The fact that there is means that while A is in echelon form, it is not in RREF."
+    t "Let's go over A first. A has two nonzero rows and one zero row. The leading entries are both 1, so that's that off the list. However, in [col3], there's an eight above the one. Since that one is a leading entry, there should be nothing else in its row. The fact that there is means that while A is in echelon form, it is not in RREF."
     hide c2m4
     with dis 
     show c2m3 at genpos
     with dis
     t "Next up is B. You might notice that B looks very similar to A, but with a zero where A had an eight. This will be important later."
-    t "B has two nonzero rows, and the leading entries of both are 1, so that's off the list. Next, we have to check the columns of each leading entry. Column 1, where [row1]'s leading entry is, is all zeroes except for the leading entry, and the same can be said for Column 3, where [row2]'s leading entry is."
+    t "B has two nonzero rows, and the leading entries of both are 1, so that's off the list. Next, we have to check the columns of each leading entry. [col1], where [row1]'s leading entry is, is all zeroes except for the leading entry, and the same can be said for [col3], where [row2]'s leading entry is."
     t "This means that matrix B {i}is{/i} in fact in both echelon form and RREF."
     hide c2m3
     with dis 
@@ -176,7 +176,7 @@ label c2q3solutions:
         t "You got the third one wrong, then? I'll walk you through it, and hopefully you won't get any similar problems wrong in the future!"
         show c2m7 at genpos, sxtnX
         with dis 
-        t "In this matrix, the only leading entry is in the [row2], and all other entries in its column are zero. However, [row1], [row3], and [row4] are zero rows, and [row1] is not at the bottom. As such, this matrix is not in echelon form and therefore cannot be in RREF."
+        t "In this matrix, the only leading entry is in the [row2], and all other entries in its column, [col1], are zero. However, [row1], [row3], and [row4] are zero rows, and [row1] is not at the bottom. As such, this matrix is not in echelon form and therefore cannot be in RREF."
     if(not boolsList[3]):
         hide c2m5
         with dis 
@@ -215,7 +215,7 @@ label c2postq3:
     t "Well, there's an algorithm you can use for that job! It's called the Row Reduction Algorithm, and it's used to, well, reduce a matrix to RREF!"
     t "First! You swap [row1] with a lower row so that the leftmost nonzero entry in all the land's in the first row. Or, well, in all the matrix."
     t "Second! You scale the first row so that its leading entry is equal to one."
-    t "Third! Use row replacement to make sure that all entries ave and below this leading entry are equal to zero."
+    t "Third! Use row replacement to make sure that all entries above and below this leading entry are equal to zero."
     t "Then repeat this for the second row, the third row, and so on until you're out of rows!"
     t "This is probably a bit difficult to understand from me just saying it, so let me show you!"
     show c2m10 at lefpos
@@ -223,7 +223,7 @@ label c2postq3:
     t "Take this matrix here. How can we get it into RREF?"
     show c2rowop1 at ripos
     with dis 
-    t "Well, we first need to swap [row1] and [row3], since [row3] has the leftmost leading entry. Since [row3] and [row4] both have a leading entry of 12 in the first column, we need to subtract [row3] from [row4] to make all of the entries in the first column besides the leading entry of [row1] zero."
+    t "Well, we first need to swap [row1] and [row3], since [row3] has the leftmost leading entry. Since [row3] and [row4] both have a leading entry of 12 in the first column, we need to subtract [row3] from [row4] to make all of the entries in [col1] besides the leading entry of [row1] zero."
     t "This row operation is shown on the right side of the board."
     t "We could have also swapped [row1] with [row4], then subtracted [row4] from [row3]."
     hide c2m10
@@ -236,28 +236,28 @@ label c2postq3:
     show c2rowop2 at ripos
     with dis 
     t "We'll now need to divide [row1] by 12 to make its leading entry 1, after which we can move on to the next row. [row2] already has the leftmost leading entry of the remaining rows, so it doesn't need to swap with any rows."
-    t "Since the leading entry of [row3] is 42 and the leading entry of [row2] is 6, we subtract 7[row2] from [row3] to make the entry of [row1] in column 2 zero."
+    t "Since the leading entry of [row3] is 42 and the leading entry of [row2] is 6, we subtract 7[row2] from [row3] to make the entry of [row1] in [col2] zero."
     hide c2m11
     with dis 
     hide c2rowop2
     with dis 
     show c2m12 at lefpos
     with dis
-    t "This makes it so that all of the entries in Column 2 are zero, save for the leading entry of [row2]. The matrix now appears as shown on the board."
+    t "This makes it so that all of the entries in [col2] are zero, save for the leading entry of [row2]. The matrix now appears as shown on the board."
     show c2rowop3 at ripos
     with dis
-    t "Since [row4] only contains entries in Column three, while [row3] contains entries in Columns three and four, it is best to swap the two."
+    t "Since [row4] only contains entries in [col3], while [row3] contains entries in [col3] and [col4], it is best to swap the two."
     hide c2m12
     with dissolve
     hide c2rowop3
     with dis 
     show c2m13 at lefpos
     with dis 
-    t "All of the rows have entries in Column three, so it is necessary to row replace to make all entries zero except for the leading entry of [row3]."
+    t "All of the rows have entries in [col3], so it is necessary to row replace to make all entries zero except for the leading entry of [row3]."
     show c2rowop4 at ripos
     with dis
-    t "In [row1], the entry in Column three, 3, is equal to negative one-eighth of -24, the entry in Column three for [row3]. As such, we must subtract -[row3]/8, or add [row3]/8, to [row1]. The entry in Column three for [row2] is 2, which is negative one-twelfth of the leading entry in [row3]. As such, we must subtract -[row3]/12, or add [row3]/12, to [row2]."
-    t "The entry in Column three for [row4] is -54, which is equal to 9*(-6). -6 is one fourth of -24, which is the leading entry in [row3]. 9*1/4=9/4. This means that we must subtract 9[row3]/4 from [row4]. Finally, we must scale the leading entry of [row3] so that it is equal to one. This means dividing [row3] by -24."
+    t "In [row1], the entry in [col3], 3, is equal to negative one-eighth of -24, the entry in [col3] for [row3]. As such, we must subtract -[row3]/8, or add [row3]/8, to [row1]. The entry in [col3] for [row2] is 2, which is negative one-twelfth of the leading entry in [row3]. As such, we must subtract -[row3]/12, or add [row3]/12, to [row2]."
+    t "The entry in [col3] for [row4] is -54, which is equal to 9*(-6). -6 is one fourth of -24, which is the leading entry in [row3]. 9*1/4=9/4. This means that we must subtract 9[row3]/4 from [row4]. Finally, we must scale the leading entry of [row3] so that it is equal to one. This means dividing [row3] by -24."
     hide c2m13
     with dissolve
     hide c2rowop4
@@ -280,7 +280,7 @@ label c2q4:
     with dis 
     t "Please row reduce the shown matrix. When you're done, raise your hand so I can come over and check over your answers."
     $ boolies = matrixProblem(righties)
-    t "[boolies]"
+    # t "[boolies]"
     hide c2m15
     with dis 
     $ rice = []
@@ -288,19 +288,107 @@ label c2q4:
     while i<len(boolies):
         $ rice.append(rightCounter(boolies[i]))
         t "You got [rice[i][0]] entries in Row [i] right, meaning that you got [rice[i][1]*100]\% of them right."
-        t "[rice]"
+        # t "[rice]"
         $ rightynum += rice[i][0]
         $ rightyperc += rice[i][1]
         $ i+=1
     $ rightyperc /= i
     t "Overall, you got [rightynum] of the [len(boolies)*len(boolies[0])] entries in the matrix correct, or [rightyperc*100]\%."
     if (rightyperc<1):
-        t "Okay, so you got [len(boolies)*len(boolies[0])-rightynum] of the [len(boolies)*len(boolies[0])] entries wrong here."
+        t "Okay, so you got [len(boolies)*len(boolies[0])-rightynum] of the [len(boolies)*len(boolies[0])] entries wrong here. Let's go over how to do this right."
+        show c2m15 at lefpos
+        with dis 
+        show c2rowop5 at ripos
+        with dis
+        t "We begin with the matrix shown on the left side of the board. [row1]'s leading entry is in [col2], while [row2] and [row3]'s leading entries are in [col1]. As such, we need to swap [row1] with a lower row to make it have the leftmost leading entry."
+        t "Since we also have to scale this row to make the leading entry equal to 1, it's easier to take one in which the leading entry is either 1 or -1, as neither of those would require dividing the row to bring the leading entry to 1. This means that the best option is [row2]. [row3] also has an entry in the first column, so we need to row replace to make its leading entry 0."
+        t "-2, the leading entry of [row3], is twice -1, [row2]'s leading entry. As such, we can subtract 2[row2] from [row3] to make it zero."
+        hide c2m15
+        with dis 
+        hide c2rowop5
+        with dis 
+        show c2m16 at lefpos
+        with dis 
+        t "This results in the matrix shown on the left."
+        show c2rowop6 at ripos
+        with dis
+        t "The leading entry of [row1] is -1, and we need it to be 1, so we can multiply [row1] by -1."
+        t "Now, we move on to [row2]. [row2] already has one of the leftmost leading entries, so we just need to scale it. -3/-3 = 1, so we divide [row2] by -3 to make its leading entry 1. [row3]'s leading entry of 1 is equal to -1/3*-3, the leading entry of [row2] before this set of row operations. As such, we can subtract -[row2]/3, or add [row2]/3, to [row3]."
+        hide c2m16
+        with dis
+        hide c2rowop6
+        with dis 
+        show c2m17 at lefpos
+        with dis 
+        t "That series of row operations leaves us with the matrix on the left."
+        show c2rowop7 at ripos
+        with dis
+        t "Since [row1] has an entry in the same [colas the leading entry of [row2], it is necessary to row replace to make this entry 0. The entry is 2, twice [row2]'s leading entry of 1, so we can subtract 2[row2] from [row1]. Since [row3] is a zero row and it's the bottom row, nothing needs to be done involving it."
+        hide c2rowop7
+        with dis 
+        show c2m18 at genpos
+        with dis
+        t "This results in the matrix shown on the board."
+    else:
+        show c2m18 at genpos
+        with dis
+        t "Congratulations, [pname]! You correctly row reduced the matrix!"
+    t "Now, let's continue to the last parts of the lesson."
     jump c2postq4
 label c2postq4:
     scene bg_classroom with dis
+    t "Here are a few more terms that'll be important tomorrow and later on in this course."
+    t "A {b}pivot position{/b} in a matrix A is a location in A that corresponds to a leading 1 in the RREF of A. A {b}pivot column{/b} of A is a column of A that contains a pivot position."
+    show c2m10 at lefpos
+    with dissolve
+    show c2m14 at ripos
+    with dis 
+    t "Let's go over the concept by looking at the matrix on the left of the board and its RREF, which we found together earlier."
+    t "In the matrix on the left, every column is a pivot column because in its RREF, shown on the right, every column has a leading entry."
+    t "Now, let's look at the matrix from the problem we just did."
+    hide c2m10
+    with dis 
+    hide c2m14
+    with dis 
+    show c2m15 at genpos
+    with dis 
+    while (colmNum < 4):
+        menu:
+            "Which of the following columns are pivot columns? Select all that apply. When you're done selecting, please raise your hand to call me over so I can check them."
+            "[col1]"if not selCols[0]:
+                $ selCols[0] = true
+            "[col2]"if not selcols[1]:
+                $ selCols[1] = true
+            "[col3]"if not selCols[2]:
+                $ selCols[2] = true
+            "[col4]"if not selCols[3]:
+                $ selcols[3] = true
+            "All Pivot Columns have been selected (Raise your hand)":
+                $ colmNum = 4
+        $ colmNum += 1
+        t "Let's see here."
+        $ beans = multiChecker(corrCols,True, receivedAnswers = selCols)
+        t "You said that the statement that [col1] is a pivot column was [selCols[0]]. It was [corrCols[0]]."
+        t "According to you, the statement that [col2] is a pivot column was [selCols[1]]. It was [corrCols[1]]."
+        t "According to you, the statement that [col3] is a pivot column was [selCols[2]]. It was [corrCols[2]]."
+        t "You said that the statement that [col4] is a pivot column was [selCols[3]]. It was [corrCols[3]]."
+        t "Out of these [len(selCols)] questions, you correctly answered [rightCounter(beans)[0]], meaning that you were [rightCounter(beans)[1]*100]\% correct."
+        if (rightCounter(beans)[1]<1):
+            t "Okay, so you were a bit off on the pivot columns. Let's go over it."
+            show c2m15 at lefpos
+            with dis
+            show c2m18 at ripos
+            with dis
+            t "When we row reduced the matrix on the left, we found that [row1] and [row2] had their leading entries in [col1] and [col2], respectively."
+            t "This means that their pivot columns are [col1] and [col2]."
+            t "At least in this class, when you're doing these types of problems, you'll likely be finding the pivot columns after row reducing the matrix itself, so if you forgot what the row reduced matrix looked like, that won't really be an issue for you moving forward."
+        else:
+            t "Nice work there. Or, well, nice work remembering."
+        t "Now, let's go back to basic echelon form for a second."
     show c2me1 at genpos
     with dis
     t "On the board is the basic structure for a matrix in echelon form. While the number of rows and columns may not match this across all echelon form matrices, this can still be a helpful tool in identifying one in the wild."
+    t "You'll especially want to remember the details about where nonzero digits would go. Remember, in echelon form, the entries in the columns above a leading entry don't need to be zero."
+    t "Well, that's all for today. Have a good break period, and remember to keep all this knowledge in good shape for tomorrow."
     #call screen matrixproblem()
 jump break_2

@@ -19,7 +19,6 @@ init python:
         for k in range(numRows):
             checkList[k]=listCompare(rightAnswers[k],playerAnswers[k])
         return checkList
-        
     def live2d_there(characterFold) -> bool:
         return renpy.loadable(f"Live2D/{characterFold}/{characterFold}.model3.json")
     def Live2Ds(*args, charFold, fallback = Placeholder(base = "girl", text="No Live2D"), fallback1 = Image(""),**kwargs):

@@ -25,3 +25,5 @@
 /dialogue.txt
 /strings.json
 **/.DS_Store
+**/status.json
+**/status2.json
