@@ -84,7 +84,15 @@ label roofBreak2:
             play sound "Bell.ogg"
             "The bell cuts off your train of thought."
             p "Oh, it's already this time? I suppose I'd best get to my bedroom, then."
+            $ gb.aff += 0.05
             jump bedroom
         "It's a nice view to see alone.":
-
-    jump bedroom
+            p "Truly, it is such a beautiful view."
+            p "In fact, the silence seems almost to enhance it. I wonder, would this view be improved or worsened by the presence of others?"
+            p "Perhaps it is impossible to know, but I feel that I may gravitate toward believing the latter."
+            p "Regardless, it really is amazing. I could almost look at it foreve-"
+            play sound "Bell.ogg"
+            p "Oh? Is it that time already?"
+            p "Well, methinks that I should retire shortly. Fare thee well, beautiful sky!"
+            $ gb.aff += 0.05
+            jump bedroom
