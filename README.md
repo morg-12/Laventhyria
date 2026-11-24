@@ -22,5 +22,7 @@ I chose to build a game that teaches linear algebra through a visual novel becau
 4. Open the compressed file you just downloaded using your decompressing application of choice.
 5. Run the executable
 6. You are now playing the game!
-Note that each older release includes the final commit of that release, since GitHub's release information and the source code included with those releases is inaccurate for many of them, as the releases were made after the actual final commit of those releases.
+# Information about older releases and commit information:
+Each older release includes the final commit of that release, since GitHub's release information and the source code included with those releases is inaccurate for many of them, as the releases were made after the actual final commit of those releases.
+#
 Have fun!
