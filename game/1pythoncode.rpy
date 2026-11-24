@@ -164,7 +164,7 @@ init python:
             elif (self.aff >= 1.8):
                 wor = "enchanting."
             elif (self.aff >= 1.6):
-                word = "captivating."
+                wor = "captivating."
             elif (self.aff >= 1.4):
                 wor = "winsome."
             elif (self.aff >= 1.2):
