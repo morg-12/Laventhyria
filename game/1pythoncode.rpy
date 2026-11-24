@@ -71,6 +71,7 @@ init python:
         isIma = False
         oathBound = False
         oathBreak = False
+        numRuns = 0
         def __init__(self, idNum, gen, name, filepath, folder, isL2D, isGenChangeable, canBib, bass, genChooser, isIma = False, customFallback = "noFall"):
             self.name = name
             self.idNum = idNum
@@ -147,7 +148,7 @@ init python:
             moveRightIn = MoveTransition(16.0/speed, enter = offscreenright)
             moveLeftOut = MoveTransition(16.0/speed, leave = offscreenright)
             moveRightOut = MoveTransition(16.0/speed, leave = offscreenright)
-            if (numRuns%2==0):
+            if (self.numRuns%2==0):
                 self.show("scared",lefpos,moveLeftIn,true)
                 renpy.pause(1/32)
                 self.hide(moveRightOut, true)
@@ -155,7 +156,7 @@ init python:
                 self.show("scared",ripos,moveRightIn,true)
                 renpy.pause(1/32)
                 self.hide(moveLeftOut, true)
-            numRuns += 1
+            self.numRuns += 1
         def affOut(self) -> str:
             self.show("idle",genpos,dis,true)
             wor = "interesting."

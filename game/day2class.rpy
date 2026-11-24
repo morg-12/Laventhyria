@@ -301,7 +301,8 @@ label c2q4:
         show c2rowop5 at ripos
         with dis
         t "We begin with the matrix shown on the left side of the board. [row1]'s leading entry is in [col2], while [row2] and [row3]'s leading entries are in [col1]. As such, we need to swap [row1] with a lower row to make it have the leftmost leading entry."
-        t "Since we also have to scale this row to make the leading entry equal to 1, it's easier to take one in which the leading entry is either 1 or -1, as neither of those would require dividing the row to bring the leading entry to 1. This means that the best option is [row2]. [row3] also has an entry in the first column, so we need to row replace to make its leading entry 0."
+        t "Since we also have to scale this row to make the leading entry equal to 1, it's easier to take one in which the leading entry is either 1 or -1, as neither of those would require dividing the row to bring the leading entry to 1." 
+        t "This means that the best option is [row2]. [row3] also has an entry in the first column, so we need to row replace to make its leading entry 0."
         t "-2, the leading entry of [row3], is twice -1, [row2]'s leading entry. As such, we can subtract 2[row2] from [row3] to make it zero."
         hide c2m15
         with dis 
@@ -323,9 +324,11 @@ label c2q4:
         t "That series of row operations leaves us with the matrix on the left."
         show c2rowop7 at ripos
         with dis
-        t "Since [row1] has an entry in the same [colas the leading entry of [row2], it is necessary to row replace to make this entry 0. The entry is 2, twice [row2]'s leading entry of 1, so we can subtract 2[row2] from [row1]. Since [row3] is a zero row and it's the bottom row, nothing needs to be done involving it."
+        t "Since [row1] has an entry in the same column as the leading entry of [row2], it is necessary to row replace to make this entry 0. The entry is 2, twice [row2]'s leading entry of 1, so we can subtract 2[row2] from [row1]. Since [row3] is a zero row and it's the bottom row, nothing needs to be done involving it."
         hide c2rowop7
         with dis 
+        hide c2m17
+        with dis
         show c2m18 at genpos
         with dis
         t "This results in the matrix shown on the board."
@@ -357,12 +360,12 @@ label c2postq4:
             "Which of the following columns are pivot columns? Select all that apply. When you're done selecting, please raise your hand to call me over so I can check them."
             "[col1]"if not selCols[0]:
                 $ selCols[0] = true
-            "[col2]"if not selcols[1]:
+            "[col2]"if not selCols[1]:
                 $ selCols[1] = true
             "[col3]"if not selCols[2]:
                 $ selCols[2] = true
             "[col4]"if not selCols[3]:
-                $ selcols[3] = true
+                $ selCols[3] = true
             "All Pivot Columns have been selected (Raise your hand)":
                 $ colmNum = 4
         $ colmNum += 1
@@ -385,6 +388,10 @@ label c2postq4:
         else:
             t "Nice work there. Or, well, nice work remembering."
         t "Now, let's go back to basic echelon form for a second."
+    hide c2m15
+    with dissolve
+    hide c2m18
+    with dis 
     show c2me1 at genpos
     with dis
     t "On the board is the basic structure for a matrix in echelon form. While the number of rows and columns may not match this across all echelon form matrices, this can still be a helpful tool in identifying one in the wild."
